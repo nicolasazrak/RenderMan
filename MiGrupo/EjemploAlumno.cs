@@ -20,7 +20,6 @@ namespace AlumnoEjemplos.MiGrupo
     public class EjemploAlumno : TgcExample
     {
 
-        TgcBox box;
         TgcBox piso;
         TgcStaticSound sonidoDisparo;
         TgcStaticSound sonidoRecarga;
@@ -57,14 +56,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            //Crear caja vacia
-            box = new TgcBox();
-            box.setPositionSize(new Vector3(0, 5, 0), new Vector3(10, 10, 10));
-            box.updateValues();
-            box.setTexture(TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\madera.jpg"));
-
             piso = new TgcBox();
-            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(100, 0, 100));
+            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(200, 0, 200));
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
 
@@ -77,7 +70,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
-            camara.setCamera(new Vector3(-30, 10, 0), new Vector3(0, 10, 0));
+            camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
+            camara.MovementSpeed = 150;
 
             enemigosManager = new EnemigosManager();
             enemigosManager.generarEnemigos(1);
@@ -91,8 +85,6 @@ namespace AlumnoEjemplos.MiGrupo
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            //Renderizar caja
-            box.render();
             piso.render();
 
             /*
@@ -107,12 +99,12 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
             {
-                //sonidoRecarga.play();
+                sonidoRecarga.play();
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                //sonidoDisparo.play();
+                sonidoDisparo.play();
             }
 
             enemigosManager.render(elapsedTime);
@@ -122,7 +114,6 @@ namespace AlumnoEjemplos.MiGrupo
 
         public override void close()
         {
-            box.dispose();
             piso.dispose();
             sonidoDisparo.dispose();
             sonidoRecarga.dispose();

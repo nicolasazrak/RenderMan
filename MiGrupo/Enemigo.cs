@@ -67,7 +67,7 @@ namespace AlumnoEjemplos.MiGrupo
             }
 
             //Cargar mesh inicial
-            selectedAnim = animationList[6];
+            selectedAnim = animationList[9];
             changeMesh(meshList[3]);
 
         }
@@ -113,6 +113,8 @@ namespace AlumnoEjemplos.MiGrupo
             //Actualizar animacion
             mesh.updateAnimation();
             mesh.render();
+            mesh.rotateY(1f * elapsedTime);
+            mesh.moveOrientedY(-60f*elapsedTime);
         }
 
 
