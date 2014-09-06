@@ -21,10 +21,11 @@ namespace AlumnoEjemplos.MiGrupo
     {
 
         TgcBox piso;
-        TgcStaticSound sonidoDisparo;
-        TgcStaticSound sonidoRecarga;
+        
         TgcFpsMiCamara camara;
         EnemigosManager enemigosManager;
+        SoundManager soundManager;
+
         /// <summary>
         /// Categoría a la que pertenece el ejemplo.
         /// Influye en donde se va a haber en el árbol de la derecha de la pantalla.
@@ -62,12 +63,6 @@ namespace AlumnoEjemplos.MiGrupo
             piso.setTexture(TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
 
 
-            sonidoDisparo = new TgcStaticSound();
-            sonidoDisparo.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\sonidos\\armas\\50_sniper_shot-Liam-2028603980.wav");
-            sonidoRecarga = new TgcStaticSound();
-            sonidoRecarga.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\sonidos\\armas\\Pump_Shotgun 2x-SoundBible.com-278688366.wav");  
-
-
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
             camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
@@ -76,6 +71,7 @@ namespace AlumnoEjemplos.MiGrupo
             enemigosManager = new EnemigosManager();
             enemigosManager.generarEnemigos(1);
 
+            soundManager = new SoundManager();
 
         }
 
@@ -95,16 +91,16 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 camara.swapMouseLock();
             }
-            
 
+    
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
             {
-                sonidoRecarga.play();
+                soundManager.playSonidoRecarga();
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                sonidoDisparo.play();
+                soundManager.playSonidoDisparo();
             }
 
             enemigosManager.render(elapsedTime);
@@ -115,8 +111,8 @@ namespace AlumnoEjemplos.MiGrupo
         public override void close()
         {
             piso.dispose();
-            sonidoDisparo.dispose();
-            sonidoRecarga.dispose();
+            soundManager.dispose();
+            enemigosManager.dispose();
         }
 
 

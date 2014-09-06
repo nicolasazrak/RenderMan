@@ -118,7 +118,13 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
-
+        public void dispose()
+        {
+            //La malla también hace dispose del attachment
+            mesh.dispose();
+            mesh = null;
+            selectedMesh = null;
+        }
 
 
 

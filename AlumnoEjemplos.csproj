@@ -91,6 +91,7 @@
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
     <Compile Include="MiGrupo\Enemigo.cs" />
     <Compile Include="MiGrupo\EnemigosManager.cs" />
+    <Compile Include="MiGrupo\SoundManager.cs" />
     <Compile Include="MiGrupo\TgcMiFpsCamara.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

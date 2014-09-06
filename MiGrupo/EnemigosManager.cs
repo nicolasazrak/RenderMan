@@ -41,7 +41,13 @@ namespace AlumnoEjemplos.MiGrupo
             }
         }
 
-
+        public void dispose()
+        {
+            foreach (Enemigo enemigo in enemigos)
+            {
+                enemigo.dispose();
+            }
+        }
 
     }
 }
