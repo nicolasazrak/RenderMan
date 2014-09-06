@@ -25,7 +25,7 @@ namespace AlumnoEjemplos.MiGrupo
         TgcStaticSound sonidoDisparo;
         TgcStaticSound sonidoRecarga;
         TgcFpsMiCamara camara;
-        
+        EnemigosManager enemigosManager;
         /// <summary>
         /// Categoría a la que pertenece el ejemplo.
         /// Influye en donde se va a haber en el árbol de la derecha de la pantalla.
@@ -78,7 +78,11 @@ namespace AlumnoEjemplos.MiGrupo
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
             camara.setCamera(new Vector3(-30, 10, 0), new Vector3(0, 10, 0));
-           
+
+            enemigosManager = new EnemigosManager();
+            enemigosManager.generarEnemigos(1);
+
+
         }
 
 
@@ -90,6 +94,10 @@ namespace AlumnoEjemplos.MiGrupo
             //Renderizar caja
             box.render();
             piso.render();
+
+            /*
+             Para que esto no se nos vuelva un quilombo, aca solo capturemos las teclas y enviemosle el mensaje al objeto que corresponda
+             */
 
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.C))
             {
@@ -107,6 +115,7 @@ namespace AlumnoEjemplos.MiGrupo
                 //sonidoDisparo.play();
             }
 
+            enemigosManager.render(elapsedTime);
 
         }
 
