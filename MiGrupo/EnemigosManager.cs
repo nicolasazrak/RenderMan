@@ -9,7 +9,7 @@ namespace AlumnoEjemplos.MiGrupo
     class EnemigosManager
     {
 
-        List<Enemigo> enemigos;
+        public List<Enemigo> enemigos { get; set; }
 
 
         public EnemigosManager()
@@ -49,5 +49,12 @@ namespace AlumnoEjemplos.MiGrupo
             }
         }
 
+
+
+
+        internal void murio(Enemigo enemigoDisparado)
+        {
+            this.enemigos.Remove(enemigoDisparado);
+        }
     }
 }

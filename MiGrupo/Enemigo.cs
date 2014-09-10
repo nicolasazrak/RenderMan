@@ -22,8 +22,8 @@ namespace AlumnoEjemplos.MiGrupo
         bool showAttachment;
         string[] animationsPath;
         String mediaPath;
-
         Vector3 posicionActual;
+        public TgcBoundingBox boundingBox;
 
 
         public Enemigo(Vector3 posicionInicial)
@@ -69,7 +69,7 @@ namespace AlumnoEjemplos.MiGrupo
             //Cargar mesh inicial
             selectedAnim = animationList[9];
             changeMesh(meshList[3]);
-
+            boundingBox = mesh.BoundingBox;
         }
 
         /// <summary>
@@ -128,5 +128,9 @@ namespace AlumnoEjemplos.MiGrupo
 
 
 
+        internal void teDispararon()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
