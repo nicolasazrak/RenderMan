@@ -87,7 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MiGrupo\ArbolesManager.cs" />
+    <Compile Include="MiGrupo\EscenarioManager.cs" />
+    <Compile Include="MiGrupo\ArmaManager.cs" />
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
     <Compile Include="MiGrupo\Enemigo.cs" />
     <Compile Include="MiGrupo\EnemigosManager.cs" />

@@ -20,12 +20,14 @@ namespace AlumnoEjemplos.MiGrupo
     public class EjemploAlumno : TgcExample
     {
 
-        TgcBox piso;
+        
         
         TgcFpsMiCamara camara;
         EnemigosManager enemigosManager;
         SoundManager soundManager;
-        ArbolesManager arbolesManager;
+        EscenarioManager escenarioManager;
+        ArmaManager armaManager;
+
 
         /// <summary>
         /// Categoría a la que pertenece el ejemplo.
@@ -58,12 +60,6 @@ namespace AlumnoEjemplos.MiGrupo
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            piso = new TgcBox();
-            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(200, 0, 200));
-            piso.updateValues();
-            piso.setTexture(TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
-
-
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
             camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
@@ -74,8 +70,10 @@ namespace AlumnoEjemplos.MiGrupo
 
             soundManager = new SoundManager();
 
-            arbolesManager = new ArbolesManager();
-            arbolesManager.generarArboles(1);
+            escenarioManager = new EscenarioManager();
+            escenarioManager.generarArboles(1);
+
+            armaManager = new ArmaManager(enemigosManager, soundManager);
 
         }
 
@@ -84,41 +82,25 @@ namespace AlumnoEjemplos.MiGrupo
         {
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
-
-            piso.render();
-
-            /*
-             Para que esto no se nos vuelva un quilombo, aca solo capturemos las teclas y enviemosle el mensaje al objeto que corresponda
-             */
-
+            
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.C))
             {
                 camara.swapMouseLock();
             }
 
-    
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
-            {
-                soundManager.playSonidoRecarga();
-            }
-
-            if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
-            {
-                soundManager.playSonidoDisparo();
-            }
-
-            enemigosManager.render(elapsedTime);
-            arbolesManager.render();
+            enemigosManager.update(elapsedTime);
+            escenarioManager.update();
+            armaManager.update();
 
         }
 
 
         public override void close()
         {
-            piso.dispose();
             soundManager.dispose();
             enemigosManager.dispose();
-            arbolesManager.dispose();
+            escenarioManager.dispose();
+            armaManager.dispose();
         }
 
 

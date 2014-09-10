@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TgcViewer;
+using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 
 namespace AlumnoEjemplos.MiGrupo
 {
-    class ArbolesManager
+    class EscenarioManager
     {
 
         private List<TgcMesh> arboles;
         private TgcScene scene;
+        TgcBox piso;
 
-        public ArbolesManager()
+
+        public EscenarioManager()
         {
 
             arboles = new List<TgcMesh>();
@@ -22,7 +25,12 @@ namespace AlumnoEjemplos.MiGrupo
             //Cargar modelo de palmera original
             TgcSceneLoader loader = new TgcSceneLoader();
             scene = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\Palmera\\Palmera-TgcScene.xml");
-            
+
+            piso = new TgcBox();
+            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(200, 0, 200));
+            piso.updateValues();
+            piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
+
         }
 
         //<summary>
@@ -37,12 +45,13 @@ namespace AlumnoEjemplos.MiGrupo
         //<summary>
         //Llama al metodo render de cada arbol que haya
         //</summary>
-        public void render()
+        public void update()
         {
             foreach (TgcMesh arbol in arboles)
             {
                 arbol.render();
             }
+            piso.render();
         }
 
 
@@ -56,7 +65,11 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void dispose()
         {
-
+            foreach (TgcMesh arbol in arboles)
+            {
+                arbol.dispose();
+            }
+            piso.dispose();
         }
 
     }

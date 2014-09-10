@@ -33,7 +33,7 @@ namespace AlumnoEjemplos.MiGrupo
         //<summary>
         //Llama al metodo render de cada enemigo que haya
         //</summary>
-        public void render(float elapsedTime)
+        public void update(float elapsedTime)
         {
             foreach (Enemigo enemigo in enemigos)
             {
