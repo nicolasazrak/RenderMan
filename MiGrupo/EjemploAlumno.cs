@@ -25,6 +25,7 @@ namespace AlumnoEjemplos.MiGrupo
         TgcFpsMiCamara camara;
         EnemigosManager enemigosManager;
         SoundManager soundManager;
+        ArbolesManager arbolesManager;
 
         /// <summary>
         /// Categoría a la que pertenece el ejemplo.
@@ -73,6 +74,9 @@ namespace AlumnoEjemplos.MiGrupo
 
             soundManager = new SoundManager();
 
+            arbolesManager = new ArbolesManager();
+            arbolesManager.generarArboles(1);
+
         }
 
 
@@ -104,6 +108,7 @@ namespace AlumnoEjemplos.MiGrupo
             }
 
             enemigosManager.render(elapsedTime);
+            arbolesManager.render();
 
         }
 
@@ -113,6 +118,7 @@ namespace AlumnoEjemplos.MiGrupo
             piso.dispose();
             soundManager.dispose();
             enemigosManager.dispose();
+            arbolesManager.dispose();
         }
 
 
