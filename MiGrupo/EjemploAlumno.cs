@@ -73,7 +73,7 @@ namespace AlumnoEjemplos.MiGrupo
             escenarioManager = new EscenarioManager();
             escenarioManager.generarArboles(1);
 
-            armaManager = new ArmaManager(enemigosManager, soundManager);
+            armaManager = new ArmaManager(enemigosManager, soundManager, camara);
 
         }
 
