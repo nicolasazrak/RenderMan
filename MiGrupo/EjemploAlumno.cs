@@ -88,6 +88,11 @@ namespace AlumnoEjemplos.MiGrupo
                 camara.swapMouseLock();
             }
 
+            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S))
+            {
+                soundManager.sonidoCaminando();
+            }
+
             enemigosManager.update(elapsedTime);
             escenarioManager.update();
             armaManager.update();
