@@ -1,15 +1,21 @@
 ﻿using Microsoft.DirectX;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using TgcViewer;
+using TgcViewer.Utils._2D;
 using TgcViewer.Utils.TgcGeometry;
+using TgcViewer.Utils.TgcSceneLoader;
 
 namespace AlumnoEjemplos.MiGrupo
 {
     class ArmaManager
     {
+
+        static Size screenSize = GuiController.Instance.Panel3d.Size;
+        static string path = GuiController.Instance.AlumnoEjemplosMediaDir;
 
         private EnemigosManager enemigosManager;
         private SoundManager soundManager;

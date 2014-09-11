@@ -27,7 +27,7 @@ namespace AlumnoEjemplos.MiGrupo
         SoundManager soundManager;
         EscenarioManager escenarioManager;
         ArmaManager armaManager;
-
+        public static String nombreGrupo = "RenderMan";
 
         /// <summary>
         /// Categoría a la que pertenece el ejemplo.
@@ -43,7 +43,7 @@ namespace AlumnoEjemplos.MiGrupo
         /// </summary>
         public override string getName()
         {
-            return "Grupo 99";
+            return EjemploAlumno.nombreGrupo;
         }
 
         /// <summary>

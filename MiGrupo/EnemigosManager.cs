@@ -50,11 +50,11 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
-
-
         internal void murio(Enemigo enemigoDisparado)
         {
             this.enemigos.Remove(enemigoDisparado);
         }
+
+
     }
 }
