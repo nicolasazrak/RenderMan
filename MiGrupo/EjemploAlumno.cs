@@ -88,7 +88,7 @@ namespace AlumnoEjemplos.MiGrupo
 
 
                 //Configurar animacion inicial
-                enemigos[t].playAnimation("StandBy", true, 20);
+                enemigos[t].playAnimation("StandBy", true);
                 enemigos[t].Position = new Vector3(-rnd.Next(0, 1500) - 250, 0, -rnd.Next(0, 1500) - 250);
                 enemigos[t].Scale = new Vector3(1f, 1f, 1f);
 
@@ -169,6 +169,8 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 Vector3 dir_escape = enemigo.Position - pos;
                 float dist = dir_escape.Length();
+                dir_escape.Y = 0;
+
                 if (estadoEnemigo[posVector] != 0)
                 {
                 //De estar cerca lo persigue hasta que se le escape
@@ -187,6 +189,11 @@ namespace AlumnoEjemplos.MiGrupo
                 {
                     case 0:
                         enemigo.rotateZ(3.1415f * 0.5f - enemigo.Rotation.Z);
+                        //Subo un poco al muerto asi no queda cortado por el piso al acostarse
+                        Vector3 posicionMuerto = enemigo.Position;
+                        posicionMuerto.Y = 8;
+                        enemigo.Position = posicionMuerto;
+
                         enemigo.playAnimation("StandBy", true);
                         break;
                     case 1:
@@ -195,7 +202,7 @@ namespace AlumnoEjemplos.MiGrupo
                     case 2:
                         
                         //Aca se les dice que hagan el movimiento de correr
-                        enemigo.move(dir_escape * (-0.3f * elapsedTime));
+                        enemigo.move(dir_escape * (-1f * elapsedTime));
                         enemigo.playAnimation("Run", true, 20);
                         break;
                 }
