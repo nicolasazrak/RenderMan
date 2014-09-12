@@ -52,6 +52,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         internal void murio(Enemigo enemigoDisparado)
         {
+            //enemigoDisparado.rotateZ(3.1415f * 0.5f - enemigoDisparado.Rotation.Z);
+            //enemigoDisparado.playAnimation("StandBy", true);
             this.enemigos.Remove(enemigoDisparado);
         }
 
