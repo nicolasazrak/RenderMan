@@ -9,6 +9,7 @@ using TgcViewer.Utils._2D;
 using TgcViewer.Utils.Input;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
+using TgcViewer.Utils.TgcSkeletalAnimation;
 
 namespace AlumnoEjemplos.MiGrupo
 {
@@ -20,7 +21,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         private TgcFpsMiCamara camara;
 
-        private EnemigosManager enemigosManager;
+       //private EnemigosManager enemigosManager;
         private SoundManager soundManager;
         private TgcPickingRay pickingRay; //Encargado de chequear si los disparos dieron en el enemigo
 
@@ -29,7 +30,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara)
         {
-            this.enemigosManager = enemigosManager;
+            //this.enemigosManager = enemigosManager;
             this.soundManager = soundManager;
             this.camara = camara;
 
@@ -60,10 +61,10 @@ namespace AlumnoEjemplos.MiGrupo
                 soundManager.playSonidoRecarga();
             }
 
-            if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
-            {
-                manejarDisparo();
-            }
+            //if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
+            //{
+            //    manejarDisparo();
+            //}
 
 
             GuiController.Instance.Drawer2D.beginDrawSprite();
@@ -85,33 +86,37 @@ namespace AlumnoEjemplos.MiGrupo
             armaMesh.Position = new Vector3(camaraPos.X + 4f, camaraPos.Y - 2f, camaraPos.Z - 1.5f);
         }
 
-        private void manejarDisparo()
+        public int[] manejarDisparo(List<TgcSkeletalMesh> enemigos, int[] estados)
         {
             soundManager.playSonidoDisparo();
             pickingRay.updateRay();
 
             bool selected;
             Vector3 collisionPoint;
-            Enemigo enemigoDisparado = null;
+            TgcSkeletalMesh enemigoDisparado = null;
+            int enemigoMuerto = 0;
 
             //Testear Ray contra el AABB de todos los meshes
-            foreach (Enemigo enemigo in enemigosManager.enemigos)
+            foreach (TgcSkeletalMesh enemigo in enemigos)
             {
-
-                //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
-                selected = TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.boundingBox, out collisionPoint);
+               //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                selected = TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.BoundingBox, out collisionPoint);
                 if (selected)
                 {
                     enemigoDisparado = enemigo;
+                    estados[enemigoMuerto] = 0;
                     break;
                 }
+
+                enemigoMuerto++;
             }
 
-            if (enemigoDisparado != null)
-            {
-                enemigosManager.murio(enemigoDisparado);
-            }
+            //if (enemigoDisparado != null)
+            //{
+            //    enemigosManager.murio(enemigoDisparado);
+            //}
 
+            return estados;
         }
 
         public void dispose()

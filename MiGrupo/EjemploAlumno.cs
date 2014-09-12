@@ -90,7 +90,7 @@ namespace AlumnoEjemplos.MiGrupo
                 //Configurar animacion inicial
                 enemigos[t].playAnimation("StandBy", true, 20);
                 enemigos[t].Position = new Vector3(-rnd.Next(0, 1500) - 250, 0, -rnd.Next(0, 1500) - 250);
-                enemigos[t].Scale = new Vector3(2f, 2f, 2f);
+                enemigos[t].Scale = new Vector3(1f, 1f, 1f);
 
                 estadoEnemigo[t] = 1;
 
@@ -109,12 +109,19 @@ namespace AlumnoEjemplos.MiGrupo
 
         private void girarEnemigos()
         {
+            int posicion = 0;
+
             foreach (TgcSkeletalMesh e in enemigos)
             {
-                Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
-                Vector3 dirMirar = e.Position - pos;
-                dirMirar.Y = 0;
-                e.rotateY((float)Math.Atan2(dirMirar.X, dirMirar.Z) - e.Rotation.Y);
+                if (estadoEnemigo[posicion] != 0)
+                {
+                    Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
+                    Vector3 dirMirar = e.Position - pos;
+                    dirMirar.Y = 0;
+                    e.rotateY((float)Math.Atan2(dirMirar.X, dirMirar.Z) - e.Rotation.Y);
+                }
+
+                posicion++;
             }
         }
 
@@ -131,6 +138,11 @@ namespace AlumnoEjemplos.MiGrupo
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S))
             {
                 soundManager.sonidoCaminando();
+            }
+
+            if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
+            {
+                estadoEnemigo = armaManager.manejarDisparo(enemigos, estadoEnemigo);
             }
 
 
@@ -157,23 +169,28 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 Vector3 dir_escape = enemigo.Position - pos;
                 float dist = dir_escape.Length();
+                if (estadoEnemigo[posVector] != 0)
+                {
                 //De estar cerca lo persigue hasta que se le escape
-                if (Math.Abs(dist) < 300)
-                {
-                    estadoEnemigo[posVector] = 2;
-                }
-                else
-                {
-                    estadoEnemigo[posVector] = 1;
+                    if (Math.Abs(dist) < 300)
+                    {
+                        estadoEnemigo[posVector] = 2;
+                    }
+                    else
+                    {
+                        estadoEnemigo[posVector] = 1;
+                    }
                 }
                 //Que accion voy a tomar en base al estado del enemigo
                 //estadoEnemigo[posVector] = 2;
                 switch (estadoEnemigo[posVector])
                 {
                     case 0:
+                        enemigo.rotateZ(3.1415f * 0.5f - enemigo.Rotation.Z);
+                        enemigo.playAnimation("StandBy", true);
                         break;
                     case 1:
-                        enemigo.playAnimation("StandBy", true, 20);
+                        enemigo.playAnimation("StandBy", true);
                         break;
                     case 2:
                         
