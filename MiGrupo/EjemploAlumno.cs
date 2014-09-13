@@ -28,10 +28,6 @@ namespace AlumnoEjemplos.MiGrupo
         SoundManager soundManager;
         EscenarioManager escenarioManager;
         ArmaManager armaManager;
-        List<TgcSkeletalMesh> enemigos = new List<TgcSkeletalMesh>();
-
-        //0 muerto, 1 quieto, 2 corriendo, ¿3 disparando? --> (se vera despues bien)
-        int[] estadoEnemigo = new int[3];
 
         public static String nombreGrupo = "RenderMan";
 
@@ -71,32 +67,9 @@ namespace AlumnoEjemplos.MiGrupo
             camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
             camara.MovementSpeed = 150;
 
-            //enemigosManager = new EnemigosManager();
-            //enemigosManager.generarEnemigos(1);
+            enemigosManager = new EnemigosManager();
+            enemigosManager.init();
 
-            TgcSkeletalLoader enemigo = new TgcSkeletalLoader();
-            Random rnd = new Random();
-            for (int t = 0; t < 3; ++t)
-            {
-                enemigos.Add(enemigo.loadMeshAndAnimationsFromFile(
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "CombineSoldier-TgcSkeletalMesh.xml",
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
-                    new string[] { 
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
-                }));
-
-
-                //Configurar animacion inicial
-                enemigos[t].playAnimation("StandBy", true);
-                enemigos[t].Position = new Vector3(-rnd.Next(0, 1500) - 250, 0, -rnd.Next(0, 1500) - 250);
-                enemigos[t].Scale = new Vector3(1f, 1f, 1f);
-
-                estadoEnemigo[t] = 1;
-
-            }
-
-            girarEnemigos();
 
             soundManager = new SoundManager();
 
@@ -107,23 +80,6 @@ namespace AlumnoEjemplos.MiGrupo
 
         }
 
-        private void girarEnemigos()
-        {
-            int posicion = 0;
-
-            foreach (TgcSkeletalMesh e in enemigos)
-            {
-                if (estadoEnemigo[posicion] != 0)
-                {
-                    Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
-                    Vector3 dirMirar = e.Position - pos;
-                    dirMirar.Y = 0;
-                    e.rotateY((float)Math.Atan2(dirMirar.X, dirMirar.Z) - e.Rotation.Y);
-                }
-
-                posicion++;
-            }
-        }
 
         public override void render(float elapsedTime)
         {
@@ -142,80 +98,18 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                estadoEnemigo = armaManager.manejarDisparo(enemigos, estadoEnemigo);
+               enemigosManager.manejarDisparo(armaManager);
             }
 
-
-            actualizarEnemigo(elapsedTime);       
-            //renderiza tras todos los calculos
-            foreach (TgcSkeletalMesh enemigo in enemigos)
-                enemigo.render();
-            //enemigosManager.update(elapsedTime);
-            
-            
+            enemigosManager.update(elapsedTime);          
             escenarioManager.update();
             armaManager.update();
 
         }
 
-        public void actualizarEnemigo(float elapsedTime)
+         public override void close()
         {
-            girarEnemigos();
-            
-            int posVector = 0;
-            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
-            
-            foreach (TgcSkeletalMesh enemigo in enemigos)
-            {
-                Vector3 dir_escape = enemigo.Position - pos;
-                float dist = dir_escape.Length();
-                dir_escape.Y = 0;
-
-                if (estadoEnemigo[posVector] != 0)
-                {
-                //De estar cerca lo persigue hasta que se le escape
-                    if (Math.Abs(dist) < 300)
-                    {
-                        estadoEnemigo[posVector] = 2;
-                    }
-                    else
-                    {
-                        estadoEnemigo[posVector] = 1;
-                    }
-                }
-                //Que accion voy a tomar en base al estado del enemigo
-                //estadoEnemigo[posVector] = 2;
-                switch (estadoEnemigo[posVector])
-                {
-                    case 0:
-                        enemigo.rotateZ(3.1415f * 0.5f - enemigo.Rotation.Z);
-                        //Subo un poco al muerto asi no queda cortado por el piso al acostarse
-                        Vector3 posicionMuerto = enemigo.Position;
-                        posicionMuerto.Y = 8;
-                        enemigo.Position = posicionMuerto;
-
-                        enemigo.playAnimation("StandBy", true);
-                        break;
-                    case 1:
-                        enemigo.playAnimation("StandBy", true);
-                        break;
-                    case 2:
-                        
-                        //Aca se les dice que hagan el movimiento de correr
-                        enemigo.move(dir_escape * (-1f * elapsedTime));
-                        enemigo.playAnimation("Run", true, 20);
-                        break;
-                }
-                enemigo.updateAnimation();
-
-                posVector++;
-            }
-        }
-
-        public override void close()
-        {
-            foreach (TgcSkeletalMesh enemigo in enemigos)
-                enemigo.dispose();
+            enemigosManager.dispose();
 
             soundManager.dispose();
             enemigosManager.dispose();

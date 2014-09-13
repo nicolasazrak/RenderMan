@@ -21,7 +21,6 @@ namespace AlumnoEjemplos.MiGrupo
 
         private TgcFpsMiCamara camara;
 
-       //private EnemigosManager enemigosManager;
         private SoundManager soundManager;
         private TgcPickingRay pickingRay; //Encargado de chequear si los disparos dieron en el enemigo
 
@@ -110,11 +109,6 @@ namespace AlumnoEjemplos.MiGrupo
 
                 enemigoMuerto++;
             }
-
-            //if (enemigoDisparado != null)
-            //{
-            //    enemigosManager.murio(enemigoDisparado);
-            //}
 
             return estados;
         }
