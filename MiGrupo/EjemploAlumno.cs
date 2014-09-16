@@ -28,9 +28,12 @@ namespace AlumnoEjemplos.MiGrupo
         SoundManager soundManager;
         EscenarioManager escenarioManager;
         ArmaManager armaManager;
+        Vector3 ultimaPosicion;
 
+        #region datosTP
         public static String nombreGrupo = "RenderMan";
-
+       
+        
         /// <summary>
         /// Categoría a la que pertenece el ejemplo.
         /// Influye en donde se va a haber en el árbol de la derecha de la pantalla.
@@ -55,7 +58,7 @@ namespace AlumnoEjemplos.MiGrupo
         {
             return "MiIdea - Descripcion de la idea";
         }
-
+        #endregion
 
         public override void init()
         {
@@ -66,15 +69,16 @@ namespace AlumnoEjemplos.MiGrupo
             camara.Enable = true;
             camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
             camara.MovementSpeed = 150;
+            ultimaPosicion = new Vector3(-200, 40, 0);
 
             enemigosManager = new EnemigosManager();
-            enemigosManager.init();
+            enemigosManager.init(escenarioManager);
 
 
             soundManager = new SoundManager();
 
             escenarioManager = new EscenarioManager();
-            escenarioManager.generarArboles(1);
+            escenarioManager.generarArboles(20);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara);
 
@@ -91,9 +95,25 @@ namespace AlumnoEjemplos.MiGrupo
                 camara.swapMouseLock();
             }
 
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S))
+            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S)
+                || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
             {
-                soundManager.sonidoCaminando();
+                Vector3 posArma = armaManager.posicionArma();
+                Vector3 ultimaPos = camara.getPosition();
+                Vector3 ultimoLookAt = camara.getLookAt();
+                TgcBoundingBox arma = armaManager.BoundinBox();
+
+                Boolean choque = escenarioManager.verificarColision(arma);
+                if (!choque)
+                {
+                    soundManager.sonidoCaminando();
+                    ultimaPosicion = ultimaPos;
+                }
+                else
+                {
+                    camara.setCamera(ultimaPosicion, ultimoLookAt);
+                    armaManager.actualizarPosArma();
+                }
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
@@ -101,7 +121,7 @@ namespace AlumnoEjemplos.MiGrupo
                enemigosManager.manejarDisparo(armaManager);
             }
 
-            enemigosManager.update(elapsedTime);          
+            enemigosManager.update(elapsedTime, escenarioManager);          
             escenarioManager.update();
             armaManager.update();
 

@@ -72,7 +72,29 @@ namespace AlumnoEjemplos.MiGrupo
 
             actualizarPosicionArma();
             armaMesh.render();
+            
+        }
 
+        public TgcBoundingBox BoundinBox()
+        {
+            return armaMesh.BoundingBox;
+        }
+
+        public Vector3 posicionArma()
+        {
+            Vector3 pos = new Vector3();
+            pos = armaMesh.Position;
+            return pos;
+        }
+
+        public void actualizarPosArma()
+        {
+            //Hay que poner segun cada arma la distancia a la camara.
+            Vector3 camaraPos = camara.getPosition();
+            Vector3 mirandoA = camara.getLookAt();
+            //armaMesh.Rotation = mirandoA;
+            armaMesh.Rotation = new Vector3(0, 3.14159f * 0.5f, 0);
+            armaMesh.Position = new Vector3(camaraPos.X + 4f, camaraPos.Y - 2f, camaraPos.Z - 1.5f);
         }
 
         private void actualizarPosicionArma()
