@@ -21,29 +21,26 @@ namespace AlumnoEjemplos.MiGrupo
         List<Enemigo> enemigos;
 
         private SoundManager soundManager;
-
-        //0 muerto, 1 quieto, 2 corriendo, ¿3 disparando? --> (se vera despues bien)
-        int[] estadoEnemigo = new int[3];
-        //va a tener las posiciones previas para usar en caso de colisiones
+        private EscenarioManager escenarioManager;
 
 
-        public EnemigosManager()
+        public EnemigosManager(EscenarioManager escenario, SoundManager soundManager)
         {
             enemigos = new List<Enemigo>();
+            this.soundManager = soundManager;
+            this.escenarioManager = escenario;
         }
 
-        public void init (EscenarioManager escenario)
-        {
 
-            soundManager = new SoundManager();
-            TgcSkeletalLoader enemigo = new TgcSkeletalLoader();
+        public void generarEnemigos(int cantidad)
+        {
+            
             Random rnd = new Random();
 
-            for (int t = 0; t < 3; ++t)
+            for (int t = 0; t < cantidad; ++t)
             {
-                enemigos.Add(new Enemigo(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250), escenario));
+                enemigos.Add(new Enemigo(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250), this.escenarioManager));
             }
-
 
         }
 

@@ -71,15 +71,14 @@ namespace AlumnoEjemplos.MiGrupo
             camara.MovementSpeed = 150;
             ultimaPosicion = new Vector3(-200, 40, 0);
 
+            soundManager = new SoundManager();
+
             escenarioManager = new EscenarioManager();
             escenarioManager.generarArboles(20);
-            // escenarioManager.generarPasto(100);
+            escenarioManager.generarPasto(100);
 
-            enemigosManager = new EnemigosManager();
-            enemigosManager.init(escenarioManager);
-
-
-            soundManager = new SoundManager();
+            enemigosManager = new EnemigosManager(escenarioManager, soundManager);
+            enemigosManager.generarEnemigos(10);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara);
 

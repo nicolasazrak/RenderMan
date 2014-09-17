@@ -74,12 +74,13 @@ namespace AlumnoEjemplos.MiGrupo
             Random rnd = new Random();
        
             TgcScene scenePasto = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml");
-            TgcMesh pastoMesh = scene.Meshes[0];
+            TgcMesh pastoMesh = scenePasto.Meshes[0];
+            pasto.Add(pastoMesh);
             for (int i = 0; i < cantidad; i++)
             {
-                //TgcMesh instancia = pastoMesh.createMeshInstance("pasto");
-                //instancia.Position = new Vector3(rnd.Next(0, 200), 0, rnd.Next(0, 200));
-                pasto.Add(pastoMesh);
+                TgcMesh instancia = pastoMesh.createMeshInstance("");
+                instancia.Position = new Vector3(rnd.Next(0, 2000), 0, rnd.Next(0, 2000));
+                pasto.Add(instancia);
             }
 
         }
@@ -135,6 +136,12 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 arbol.dispose();
             }
+
+            foreach (TgcMesh pastito in pasto)
+            {
+                pastito.dispose();
+            }
+
             piso.dispose();
         }
 
