@@ -16,6 +16,8 @@ namespace AlumnoEjemplos.MiGrupo
     class ArmaManager
     {
 
+
+
         static Size screenSize = GuiController.Instance.Panel3d.Size;
         static string path = GuiController.Instance.AlumnoEjemplosMediaDir;
 
@@ -29,6 +31,9 @@ namespace AlumnoEjemplos.MiGrupo
 
         private EnemigosManager enemigosManager;
 
+        private Boolean hayZoom = true;
+
+
         public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara)
         {
             //this.enemigosManager = enemigosManager;
@@ -39,13 +44,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             //Crear Sprite
             sprite = new TgcSprite();
-            sprite.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
-
-            //Ubicarlo centrado en la pantalla
-            Size screenSize = GuiController.Instance.Panel3d.Size;
-            Size textureSize = sprite.Texture.Size;
-            sprite.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
-
+            hacerZoom();
+           
             //Cargo el arma
             TgcSceneLoader loader = new TgcSceneLoader();
             TgcScene scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\modelos\\arma\\arma.xml");
@@ -58,6 +58,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void update()
         {
+
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
             {
                 soundManager.playSonidoRecarga();
@@ -68,14 +69,44 @@ namespace AlumnoEjemplos.MiGrupo
                 manejarDisparo();
             }
 
+            if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_RIGHT) == true)
+            {
+                hacerZoom();
+            }
+
 
             GuiController.Instance.Drawer2D.beginDrawSprite();
             sprite.render();
             GuiController.Instance.Drawer2D.endDrawSprite();
 
-            actualizarPosicionArma();
-            armaMesh.render();
+            if (!hayZoom)
+            {
+                actualizarPosicionArma();
+                armaMesh.render();
+            }
             
+        }
+
+        private void hacerZoom()
+        {
+
+            hayZoom = !hayZoom;
+            if (hayZoom)
+            {
+                sprite.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\zoom.png");
+                sprite.Scaling = new Vector2(0.7f, 0.38f);
+            }
+            else
+            {
+                sprite.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
+                sprite.Scaling = new Vector2(1f, 1f);
+            }
+
+            //Ubicarlo centrado en la pantalla
+            Size screenSize = GuiController.Instance.Panel3d.Size;
+            Size textureSize = sprite.Texture.Size;
+            sprite.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
+
         }
 
         public TgcBoundingBox BoundinBox()
