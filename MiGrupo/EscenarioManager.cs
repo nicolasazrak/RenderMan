@@ -13,8 +13,10 @@ namespace AlumnoEjemplos.MiGrupo
     class EscenarioManager
     {
 
+        
         private List<TgcMesh> arboles;
         private List<TgcMesh> pasto;
+        private List<Barril> barriles;
         TgcMesh arbol;
         private TgcScene scene;
         TgcBox piso;
@@ -27,6 +29,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             arboles = new List<TgcMesh>();
             pasto = new List<TgcMesh>();
+            barriles = new List<Barril>();
             loader = new TgcSceneLoader();
 
             piso = new TgcBox();
@@ -35,8 +38,11 @@ namespace AlumnoEjemplos.MiGrupo
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
 
             generarSkyBox();
+           
 
         }
+
+        
 
         private void generarSkyBox()
         {
@@ -116,6 +122,17 @@ namespace AlumnoEjemplos.MiGrupo
 
         }
 
+        public void generarBarriles(int cantidad)
+        {
+            Random rnd = new Random();
+
+            for (int i = 0; i < cantidad; i++)
+            {
+                Barril instancia = new Barril(new Vector3(rnd.Next(-1000, 1000), 0, rnd.Next(-1000, 1000)));
+                barriles.Add(instancia);
+            }
+        }
+
         public Boolean verificarColision (TgcBoundingBox personaje)
         {
             Boolean huboChoque = false;
@@ -149,8 +166,14 @@ namespace AlumnoEjemplos.MiGrupo
                 pastito.render();
             }
 
+            foreach (Barril barril in barriles)
+            {
+                barril.render();
+            }
+
             skyBox.render();
             piso.render();
+
         }
 
 
