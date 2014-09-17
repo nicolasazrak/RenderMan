@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TgcViewer;
+using TgcViewer.Utils.Terrain;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 
@@ -19,6 +20,7 @@ namespace AlumnoEjemplos.MiGrupo
         TgcBox piso;
         TgcSceneLoader loader;
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
+        TgcSkyBox skyBox;
 
         public EscenarioManager()
         {
@@ -32,6 +34,35 @@ namespace AlumnoEjemplos.MiGrupo
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
 
+            generarSkyBox();
+
+        }
+
+        private void generarSkyBox()
+        {
+            string texturesPath = GuiController.Instance.ExamplesMediaDir + "Texturas\\Quake\\SkyBox1\\";
+            //Crear SkyBox 
+            skyBox = new TgcSkyBox();
+            skyBox.Center = new Vector3(0, 0, 0);
+            skyBox.Size = new Vector3(6000, 6000, 6000);
+
+            //Configurar color
+            //skyBox.Color = Color.OrangeRed;
+
+            //Configurar las texturas para cada una de las 6 caras
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Up, texturesPath + "phobos_up.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Down, texturesPath + "phobos_dn.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Left, texturesPath + "phobos_lf.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Right, texturesPath + "phobos_rt.jpg");
+
+            //Hay veces es necesario invertir las texturas Front y Back si se pasa de un sistema RightHanded a uno LeftHanded
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Front, texturesPath + "phobos_bk.jpg");
+            skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Back, texturesPath + "phobos_ft.jpg");
+
+
+
+            //Actualizar todos los valores para crear el SkyBox
+            skyBox.updateValues();
         }
 
         public void generarArboles(int cantidad)
@@ -118,6 +149,7 @@ namespace AlumnoEjemplos.MiGrupo
                 pastito.render();
             }
 
+            skyBox.render();
             piso.render();
         }
 

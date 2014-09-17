@@ -52,8 +52,11 @@ namespace AlumnoEjemplos.MiGrupo
         public void dispose()
         {
             //La malla también hace dispose del attachment
-            mesh.dispose();
-            mesh = null;
+            if (mesh != null)
+            {
+                //mesh.dispose();
+                //No se porque el dispose aca me rompe todo
+            }   
         }
 
 
