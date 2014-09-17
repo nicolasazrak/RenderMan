@@ -33,7 +33,7 @@ namespace AlumnoEjemplos.MiGrupo
             loader = new TgcSceneLoader();
 
             piso = new TgcBox();
-            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(4000, 0, 4000));
+            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(5000, 0, 5000));
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
 
@@ -80,7 +80,8 @@ namespace AlumnoEjemplos.MiGrupo
             for (int i = 0; i < cantidad; i++)
             {
                 TgcMesh instancia = arbol.createMeshInstance("arbol");
-                instancia.Position = new Vector3(rnd.Next(0, 2000), 0, rnd.Next(0, 2000));
+                instancia.Scale = new Vector3(2f, 2f, 2f);
+                instancia.Position = new Vector3(rnd.Next(0, 2500), 0, rnd.Next(0, 2500));
                 arboles.Add(instancia);
             }
             //Genero en 1/4 del escenario los arboles y los copio en los demas cuartos1559326801 estela
@@ -89,15 +90,18 @@ namespace AlumnoEjemplos.MiGrupo
                 TgcMesh instancia = arbol.createMeshInstance("arbol2");
                 Vector3 vecPos = new Vector3(arboles[j].Position.X * (-1), 0, arboles[j].Position.Z);
                 instancia.Position = vecPos;
+                instancia.Scale = new Vector3(1.5f, 1.5f, 1.5f);
                 arboles.Add(instancia);
 
                 TgcMesh instancia2 = arbol.createMeshInstance("arbol3");
                 vecPos = new Vector3(arboles[j].Position.X * (-1), 0, arboles[j].Position.Z * (-1));
                 instancia2.Position = vecPos;
+                instancia2.Scale = new Vector3(2f, 2f, 2f);
                 arboles.Add(instancia2);
 
                 TgcMesh instancia3 = arbol.createMeshInstance("arbol4");
                 vecPos = new Vector3(arboles[j].Position.X, 0, arboles[j].Position.Z * (-1));
+                instancia3.Scale = new Vector3(1.3f, 1.3f, 1.3f);
                 instancia3.Position = vecPos;
                 arboles.Add(instancia3);
             }
@@ -116,7 +120,8 @@ namespace AlumnoEjemplos.MiGrupo
             for (int i = 0; i < cantidad; i++)
             {
                 TgcMesh instancia = pastoMesh.createMeshInstance("");
-                instancia.Position = new Vector3(rnd.Next(0, 2000), 0, rnd.Next(0, 2000));
+                instancia.Position = new Vector3(rnd.Next(-2000, 2000), 0, rnd.Next(-2000, 2000));
+                instancia.Scale = new Vector3(0.5f, 0.5f, 0.5f);
                 pasto.Add(instancia);
             }
 
