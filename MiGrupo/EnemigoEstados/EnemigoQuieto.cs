@@ -20,9 +20,13 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             return true;
         }
 
+        
 
         public override void update(float elapsedTime)
         {
+
+            girar();
+
             enemigo.mesh.playAnimation("StandBy", true);
 
             Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();

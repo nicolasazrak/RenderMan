@@ -43,14 +43,9 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void render(float elapsedTime)
         {
-            
             //Actualizar animacion
             estado.update(elapsedTime);
             mesh.render();
-            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
-            Vector3 dirMirar = mesh.Position - pos;
-            dirMirar.Y = 0;
-            mesh.rotateY((float)Math.Atan2(dirMirar.X, dirMirar.Z) - mesh.Rotation.Y);
         }
 
 

@@ -23,6 +23,14 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public abstract void teDispararon();
 
+        public void girar()
+        {
+            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
+            Vector3 dirMirar = enemigo.mesh.Position - pos;
+            dirMirar.Y = 0;
+            enemigo.mesh.rotateY((float)Math.Atan2(dirMirar.X, dirMirar.Z) - enemigo.mesh.Rotation.Y);
+        }
+
     }
 
 }

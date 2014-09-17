@@ -77,9 +77,9 @@ namespace AlumnoEjemplos.MiGrupo
             TgcMesh pastoMesh = scene.Meshes[0];
             for (int i = 0; i < cantidad; i++)
             {
-                TgcMesh instancia = pastoMesh.createMeshInstance("pasto");
-                instancia.Position = new Vector3(rnd.Next(0, 200), 0, rnd.Next(0, 200));
-                pasto.Add(instancia);
+                //TgcMesh instancia = pastoMesh.createMeshInstance("pasto");
+                //instancia.Position = new Vector3(rnd.Next(0, 200), 0, rnd.Next(0, 200));
+                pasto.Add(pastoMesh);
             }
 
         }
@@ -100,19 +100,23 @@ namespace AlumnoEjemplos.MiGrupo
 
             return huboChoque;
         }
+
         //<summary>
-        //Llama al metodo render de cada arbol que haya
+        //Llama al metodo render de cada arbol y pasto que haya que haya
         //</summary>
         public void update()
         {
+
             foreach (TgcMesh arbol in arboles)
             {
                 arbol.render();
             }
+
             foreach (TgcMesh pastito in pasto)
             {
                 pastito.render();
             }
+
             piso.render();
         }
 

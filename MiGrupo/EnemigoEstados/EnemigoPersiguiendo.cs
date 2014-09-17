@@ -21,6 +21,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         public override void update(float elapsedTime)
         {
 
+            girar(); 
+
             Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
             Vector3 dir_escape = enemigo.mesh.Position - pos;
             float dist = dir_escape.Length();
