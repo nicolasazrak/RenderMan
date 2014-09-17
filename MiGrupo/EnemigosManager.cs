@@ -25,21 +25,20 @@ namespace AlumnoEjemplos.MiGrupo
         //0 muerto, 1 quieto, 2 corriendo, ¿3 disparando? --> (se vera despues bien)
         int[] estadoEnemigo = new int[3];
         //va a tener las posiciones previas para usar en caso de colisiones
-        Vector3[] ultimasPosiciones = new Vector3[3];
 
 
         public EnemigosManager()
         {
             enemigos = new List<TgcSkeletalMesh>();
-
         }
 
         public void init (EscenarioManager escenario)
         {
+
             soundManager = new SoundManager();
             TgcSkeletalLoader enemigo = new TgcSkeletalLoader();
             Random rnd = new Random();
-            Boolean posCorrecta = false;
+
             for (int t = 0; t < 3; ++t)
             {
                 enemigos.Add(enemigo.loadMeshAndAnimationsFromFile(
@@ -50,24 +49,24 @@ namespace AlumnoEjemplos.MiGrupo
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
                 }));
 
-
                 //Configurar animacion inicial
                 enemigos[t].playAnimation("StandBy", true);
 
-                Vector3 pos = new Vector3(-rnd.Next(0, 1500) - 250, 0, -rnd.Next(0, 1500) - 250);
+                Vector3 pos = new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250);
                 enemigos[t].Position = pos;
                 enemigos[t].Scale = new Vector3(1f, 1f, 1f);
 
                 estadoEnemigo[t] = 1;
-                ultimasPosiciones[t] = pos;
 
             }
 
             girarEnemigos();
+
         }
 
         private void girarEnemigos()
         {
+
             int posicion = 0;
 
             foreach (TgcSkeletalMesh e in enemigos)
@@ -82,6 +81,7 @@ namespace AlumnoEjemplos.MiGrupo
 
                 posicion++;
             }
+
         }
 
 
@@ -91,6 +91,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void actualizarEnemigo(float elapsedTime, EscenarioManager e)
         {
+
             girarEnemigos();
 
             int posVector = 0;
@@ -98,6 +99,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             foreach (TgcSkeletalMesh enemigo in enemigos)
             {
+
                 Vector3 dir_escape = enemigo.Position - pos;
                 float dist = dir_escape.Length();
                 dir_escape.Y = 0;
@@ -121,8 +123,9 @@ namespace AlumnoEjemplos.MiGrupo
                 //estadoEnemigo[posVector] = 2;
                 switch (estadoEnemigo[posVector])
                 {
+
                     case 0:
-                        enemigo.rotateZ(3.1415f * 0.5f - enemigo.Rotation.Z);
+                        enemigo.rotateX(3.1415f * 0.5f - enemigo.Rotation.X);
                         //Subo un poco al muerto asi no queda cortado por el piso al acostarse
                         Vector3 posicionMuerto = enemigo.Position;
                         posicionMuerto.Y = 8;
@@ -130,32 +133,35 @@ namespace AlumnoEjemplos.MiGrupo
                         enemigo.playAnimation("StandBy", true);
                         //soundManager.sonidoEnemigoMuerto();
                         break;
+
                     case 1:
+
                         enemigo.playAnimation("StandBy", true);
                         break;
+
                     case 2:
+
                         TgcBoundingBox algo = enemigo.BoundingBox;
                         Vector3 posAnterior = enemigo.Position;
+                        
                         if (!(e.verificarColision(algo)))
                         {
                             //Aca se les dice que hagan el movimiento de correr
                             enemigo.move(dir_escape * (-0.5f * elapsedTime));
                             enemigo.playAnimation("Run", true, 20);
                             soundManager.sonidoCaminandoEnemigo();
-                            ultimasPosiciones[posVector] = posAnterior;
                             break;
                         }
-                        else
-                        {
-                            enemigo.Position = ultimasPosiciones[posVector];
-                        }
+
                         break;
+
                 }
                 
                 enemigo.updateAnimation();
 
                 posVector++;
             }
+
         }
 
         public void manejarDisparo (ArmaManager arma)
@@ -170,7 +176,9 @@ namespace AlumnoEjemplos.MiGrupo
         {
             actualizarEnemigo(elapsedTime, e);
             foreach (TgcSkeletalMesh enemigo in enemigos)
+            {
                 enemigo.render();
+            }
         }
 
         public void dispose()

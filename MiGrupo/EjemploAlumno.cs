@@ -79,6 +79,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             escenarioManager = new EscenarioManager();
             escenarioManager.generarArboles(20);
+           // escenarioManager.generarPasto(100);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara);
 

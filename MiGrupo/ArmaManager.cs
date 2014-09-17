@@ -114,8 +114,9 @@ namespace AlumnoEjemplos.MiGrupo
 
             bool selected;
             Vector3 collisionPoint;
-            TgcSkeletalMesh enemigoDisparado = null;
             int enemigoMuerto = 0;
+
+            //TODO manejar en enemigosManager
 
             //Testear Ray contra el AABB de todos los meshes
             foreach (TgcSkeletalMesh enemigo in enemigos)
@@ -124,7 +125,6 @@ namespace AlumnoEjemplos.MiGrupo
                 selected = TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.BoundingBox, out collisionPoint);
                 if (selected)
                 {
-                    enemigoDisparado = enemigo;
                     estados[enemigoMuerto] = 0;
                     break;
                 }
