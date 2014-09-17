@@ -30,22 +30,27 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             Vector3 posAnterior = enemigo.mesh.Position;
 
             //Falta verificar las colisiones
-            enemigo.mesh.move(dir_escape * (-0.5f * elapsedTime));
-            enemigo.mesh.playAnimation("Run", true, 20);
-
-            /* if (!(e.verificarColision(algo)))
+            
+            if (!(enemigo.escenarioManager.verificarColision(algo)))
             {
                 //Aca se les dice que hagan el movimiento de correr
                 enemigo.mesh.move(dir_escape * (-0.5f * elapsedTime));
                 enemigo.mesh.playAnimation("Run", true, 20);
                 //soundManager.sonidoCaminandoEnemigo();
-            }*/
+            }
+            else
+            {
+                enemigo.mesh.Position = posAnterior;
+            }
+
+            enemigo.mesh.updateAnimation();
+
 
         }
 
         public override void teDispararon()
         {
-
+            enemigo.setEstado(new EnemigoMuerto(enemigo));
         }
 
     }

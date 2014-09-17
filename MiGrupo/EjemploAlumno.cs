@@ -71,15 +71,15 @@ namespace AlumnoEjemplos.MiGrupo
             camara.MovementSpeed = 150;
             ultimaPosicion = new Vector3(-200, 40, 0);
 
+            escenarioManager = new EscenarioManager();
+            escenarioManager.generarArboles(20);
+            // escenarioManager.generarPasto(100);
+
             enemigosManager = new EnemigosManager();
             enemigosManager.init(escenarioManager);
 
 
             soundManager = new SoundManager();
-
-            escenarioManager = new EscenarioManager();
-            escenarioManager.generarArboles(20);
-           // escenarioManager.generarPasto(100);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara);
 
@@ -115,11 +115,6 @@ namespace AlumnoEjemplos.MiGrupo
                     camara.setCamera(ultimaPosicion, ultimoLookAt);
                     armaManager.actualizarPosArma();
                 }
-            }
-
-            if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
-            {
-               enemigosManager.manejarDisparo(armaManager);
             }
 
             enemigosManager.update(elapsedTime, escenarioManager);          

@@ -12,7 +12,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public EnemigoQuieto(Enemigo enemigo) : base(enemigo)
         {
-            enemigo.mesh.playAnimation("StandBy", true);
+           
         }
 
         public override bool debeGirar()
@@ -23,6 +23,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public override void update(float elapsedTime)
         {
+            enemigo.mesh.playAnimation("StandBy", true);
+
             Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
 
             Vector3 dir_escape = enemigo.mesh.Position - pos;
@@ -39,7 +41,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public override void teDispararon()
         {
-            
+            enemigo.setEstado(new EnemigoMuerto(enemigo));
         }
 
 

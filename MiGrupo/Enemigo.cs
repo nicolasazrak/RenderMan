@@ -18,10 +18,12 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcSkeletalMesh mesh;
         public Vector3 position;
         public EnemigoEstado estado{get; set;}
+        public EscenarioManager escenarioManager;
 
-        public Enemigo(Vector3 posicionInicial)
+        public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager)
         {
 
+            this.escenarioManager = escenarioManager;
             estado = new EnemigoQuieto(this);
 
             mesh = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
@@ -33,7 +35,7 @@ namespace AlumnoEjemplos.MiGrupo
             });
 
             Random rnd = new Random();
-            mesh.Position = new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250);
+            mesh.Position = posicionInicial;
             mesh.Scale = new Vector3(1f, 1f, 1f);
 
         }
@@ -45,7 +47,10 @@ namespace AlumnoEjemplos.MiGrupo
             //Actualizar animacion
             estado.update(elapsedTime);
             mesh.render();
-
+            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
+            Vector3 dirMirar = mesh.Position - pos;
+            dirMirar.Y = 0;
+            mesh.rotateY((float)Math.Atan2(dirMirar.X, dirMirar.Z) - mesh.Rotation.Y);
         }
 
 
@@ -67,6 +72,13 @@ namespace AlumnoEjemplos.MiGrupo
         {
             this.estado = estado;
         }
+
+
+        public TgcBoundingBox getBoundingBox()
+        {
+            return mesh.BoundingBox;
+        }
+
 
     }
 }

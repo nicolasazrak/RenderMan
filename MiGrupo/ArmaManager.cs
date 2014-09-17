@@ -27,6 +27,8 @@ namespace AlumnoEjemplos.MiGrupo
         private TgcSprite sprite;
         private TgcMesh armaMesh;
 
+        private EnemigosManager enemigosManager;
+
         public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara)
         {
             //this.enemigosManager = enemigosManager;
@@ -49,7 +51,8 @@ namespace AlumnoEjemplos.MiGrupo
             TgcScene scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\modelos\\arma\\arma.xml");
             armaMesh = scene.Meshes[0];
             armaMesh.Scale = new Vector3(0.005f, 0.005f, 0.005f);
-        
+
+            this.enemigosManager = enemigosManager;
         }
 
 
@@ -60,10 +63,10 @@ namespace AlumnoEjemplos.MiGrupo
                 soundManager.playSonidoRecarga();
             }
 
-            //if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
-            //{
-            //    manejarDisparo();
-            //}
+            if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
+            {
+                manejarDisparo();
+            }
 
 
             GuiController.Instance.Drawer2D.beginDrawSprite();
@@ -107,32 +110,30 @@ namespace AlumnoEjemplos.MiGrupo
             armaMesh.Position = new Vector3(camaraPos.X + 4f, camaraPos.Y - 2f, camaraPos.Z - 1.5f);
         }
 
-        public int[] manejarDisparo(List<TgcSkeletalMesh> enemigos, int[] estados)
+        public void manejarDisparo()
         {
+
             soundManager.playSonidoDisparo();
             pickingRay.updateRay();
 
             bool selected;
             Vector3 collisionPoint;
-            int enemigoMuerto = 0;
 
             //TODO manejar en enemigosManager
 
             //Testear Ray contra el AABB de todos los meshes
-            foreach (TgcSkeletalMesh enemigo in enemigos)
+            foreach (Enemigo enemigo in this.enemigosManager.getEnemigos())
             {
                //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
-                selected = TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.BoundingBox, out collisionPoint);
+                selected = TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.getBoundingBox(), out collisionPoint);
                 if (selected)
                 {
-                    estados[enemigoMuerto] = 0;
+                    enemigo.teDispararon();
                     break;
                 }
 
-                enemigoMuerto++;
             }
 
-            return estados;
         }
 
         public void dispose()
