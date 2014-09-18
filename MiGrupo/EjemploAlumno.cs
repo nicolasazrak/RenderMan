@@ -126,7 +126,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             enemigosManager.update(elapsedTime, escenarioManager, vida);          
             escenarioManager.update();
-            armaManager.update();
+            armaManager.update(elapsedTime);
             vida.render();
 
         }

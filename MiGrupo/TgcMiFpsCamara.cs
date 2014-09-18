@@ -60,6 +60,21 @@ namespace TgcViewer.Utils.Input {
             }
         }
 
+        private bool hayZoom = false;
+        float zoom = 0.3f;
+        public void hacerZoom()
+        {
+            hayZoom = !hayZoom;
+            if (hayZoom)
+            {
+                zoom = 1f;
+            }
+            else
+            {
+                zoom = 0.3f;
+            }
+        }
+
 
         bool enable;
         /// <summary>
@@ -528,16 +543,15 @@ namespace TgcViewer.Utils.Input {
             }
 
             // Reconstruct the view matrix.
+            viewMatrix.M11 = xAxis.X / zoom;
+            viewMatrix.M21 = xAxis.Y / zoom;
+            viewMatrix.M31 = xAxis.Z / zoom;
+            viewMatrix.M41 = -Vector3.Dot(xAxis, eye) / zoom;
 
-            viewMatrix.M11 = xAxis.X;
-            viewMatrix.M21 = xAxis.Y;
-            viewMatrix.M31 = xAxis.Z;
-            viewMatrix.M41 = -Vector3.Dot(xAxis, eye);
-
-            viewMatrix.M12 = yAxis.X;
-            viewMatrix.M22 = yAxis.Y;
-            viewMatrix.M32 = yAxis.Z;
-            viewMatrix.M42 = -Vector3.Dot(yAxis, eye);
+            viewMatrix.M12 = yAxis.X / zoom;
+            viewMatrix.M22 = yAxis.Y / zoom;
+            viewMatrix.M32 = yAxis.Z / zoom;
+            viewMatrix.M42 = -Vector3.Dot(yAxis, eye) / zoom;
 
             viewMatrix.M13 = zAxis.X;
             viewMatrix.M23 = zAxis.Y;

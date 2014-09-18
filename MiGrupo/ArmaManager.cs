@@ -32,7 +32,8 @@ namespace AlumnoEjemplos.MiGrupo
         private EnemigosManager enemigosManager;
 
         private Boolean hayZoom = true;
-
+        private TgcTexture miraZoom  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\zoom.png");
+        private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
 
         public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara)
         {
@@ -44,7 +45,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             //Crear Sprite
             sprite = new TgcSprite();
-            hacerZoom();
+            hacerZoom(0);
            
             //Cargo el arma
             TgcSceneLoader loader = new TgcSceneLoader();
@@ -56,7 +57,7 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
-        public void update()
+        public void update(float elapsedTime)
         {
 
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
@@ -71,7 +72,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_RIGHT) == true)
             {
-                hacerZoom();
+                hacerZoom(elapsedTime);
             }
 
 
@@ -87,20 +88,26 @@ namespace AlumnoEjemplos.MiGrupo
             
         }
 
-        private void hacerZoom()
+
+        private float timeFromZoom = 100;
+        private void hacerZoom(float elapsedTime)
         {
+
+
 
             hayZoom = !hayZoom;
             if (hayZoom)
             {
-                sprite.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\zoom.png");
+                sprite.Texture = miraZoom;
                 sprite.Scaling = new Vector2(0.7f, 0.38f);
             }
             else
             {
-                sprite.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
+                sprite.Texture = miraSimple;
                 sprite.Scaling = new Vector2(1f, 1f);
             }
+
+            this.camara.hacerZoom();
 
             //Ubicarlo centrado en la pantalla
             Size screenSize = GuiController.Instance.Panel3d.Size;
