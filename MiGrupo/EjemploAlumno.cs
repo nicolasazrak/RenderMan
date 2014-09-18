@@ -28,8 +28,10 @@ namespace AlumnoEjemplos.MiGrupo
         SoundManager soundManager;
         EscenarioManager escenarioManager;
         ArmaManager armaManager;
+        Vida vida;
         Vector3 ultimaPosicion;
 
+        //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
         public static String nombreGrupo = "RenderMan";
        
@@ -65,6 +67,11 @@ namespace AlumnoEjemplos.MiGrupo
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
+            //GuiController.Instance.UserVars.addVar("Ancho", tamañoPantalla.Width);
+            //GuiController.Instance.UserVars.addVar("Alto", tamañoPantalla.Height);
+            vida = new Vida();
+            vida.initialize();
+
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
             camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
@@ -75,7 +82,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             escenarioManager = new EscenarioManager();
             escenarioManager.generarArboles(80);
-            escenarioManager.generarPasto(200);
+            escenarioManager.generarPasto(350);
             escenarioManager.generarBarriles(10);
 
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
@@ -117,9 +124,10 @@ namespace AlumnoEjemplos.MiGrupo
                 }
             }
 
-            enemigosManager.update(elapsedTime, escenarioManager);          
+            enemigosManager.update(elapsedTime, escenarioManager, vida);          
             escenarioManager.update();
             armaManager.update();
+            vida.render();
 
         }
 
@@ -131,6 +139,7 @@ namespace AlumnoEjemplos.MiGrupo
             enemigosManager.dispose();
             escenarioManager.dispose();
             armaManager.dispose();
+            vida.dispose();
         }
 
 

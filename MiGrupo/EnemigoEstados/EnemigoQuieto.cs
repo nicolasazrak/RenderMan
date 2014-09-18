@@ -20,9 +20,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             return true;
         }
 
-        
 
-        public override void update(float elapsedTime)
+
+        public override void update(float elapsedTime, Vida vidaPersona)
         {
 
             girar();
@@ -38,6 +38,10 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             if (Math.Abs(dist) < 300)
             {
                 enemigo.setEstado(new EnemigoPersiguiendo(enemigo));
+            }
+            else
+            {
+                enemigo.setPosAnterior(enemigo.mesh.Position);
             }
      
             enemigo.mesh.playAnimation("StandBy", true);

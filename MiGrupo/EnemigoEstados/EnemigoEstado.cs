@@ -19,7 +19,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public abstract Boolean debeGirar();
 
-        public abstract void update(float elapsedTime);
+        public abstract void update(float elapsedTime, Vida vidaPersona);
 
         public abstract void teDispararon();
 

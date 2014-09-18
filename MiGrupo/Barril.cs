@@ -23,6 +23,10 @@ namespace AlumnoEjemplos.MiGrupo
             cilindro.updateValues();
         }
 
+        public TgcBoundingCylinder bounding()
+        {
+            return cilindro.BoundingCylinder;
+        }
 
         public void render()
         {

@@ -99,6 +99,7 @@
     <Compile Include="MiGrupo\EnemigosManager.cs" />
     <Compile Include="MiGrupo\SoundManager.cs" />
     <Compile Include="MiGrupo\TgcMiFpsCamara.cs" />
+    <Compile Include="MiGrupo\Vida.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

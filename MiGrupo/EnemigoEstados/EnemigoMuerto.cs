@@ -16,7 +16,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             return false;
         }
 
-        public override void update(float elapsedTime)
+        public override void update(float elapsedTime, Vida vidaPersona)
         {
             enemigo.mesh.rotateX(3.1415f * 0.5f - enemigo.mesh.Rotation.X);
             //Subo un poco al muerto asi no queda cortado por el piso al acostarse

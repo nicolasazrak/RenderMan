@@ -18,7 +18,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             return true;
         }
 
-        public override void update(float elapsedTime)
+        public override void update(float elapsedTime, Vida vidaPersona)
         {
 
             girar(); 
@@ -32,18 +32,34 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             Vector3 posAnterior = enemigo.mesh.Position;
 
             //Falta verificar las colisiones
-            
-            if (!(enemigo.escenarioManager.verificarColision(algo)))
+            if (Math.Abs(dist) > 300)
             {
-                //Aca se les dice que hagan el movimiento de correr
-                enemigo.mesh.move(dir_escape * (-0.5f * elapsedTime));
-                enemigo.mesh.playAnimation("Run", true, 20);
-                //soundManager.sonidoCaminandoEnemigo();
+                enemigo.mesh.Position = enemigo.getPosAnterior();
+                enemigo.setEstado(new EnemigoQuieto(enemigo));
             }
             else
             {
-                enemigo.mesh.Position = posAnterior;
+                if (!(enemigo.escenarioManager.verificarColision(algo)))
+                {
+                    enemigo.setPosAnterior(enemigo.mesh.Position);
+                    //Aca se les dice que hagan el movimiento de correr
+                    enemigo.mesh.move(dir_escape * (-0.5f * elapsedTime));
+                    enemigo.mesh.playAnimation("Run", true, 20);
+                    //soundManager.sonidoCaminandoEnemigo();
+                    if (Math.Abs(dist) < 60)
+                    {
+                        vidaPersona.restaAtaqueEnemigo();
+                        Random rnd = new Random();
+                        //enemigo.mesh.Position = new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250);
+                        enemigo.setPosicion (new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250));
+                    }
+                }
+                else
+                {
+                    enemigo.mesh.Position = enemigo.getPosAnterior();
+                }
             }
+            
 
             enemigo.mesh.updateAnimation();
 

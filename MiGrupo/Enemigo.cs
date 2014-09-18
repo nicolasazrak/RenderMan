@@ -17,6 +17,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public TgcSkeletalMesh mesh;
         public Vector3 position;
+        public Vector3 posAnterior;
         public EnemigoEstado estado{get; set;}
         public EscenarioManager escenarioManager;
 
@@ -36,18 +37,33 @@ namespace AlumnoEjemplos.MiGrupo
 
             Random rnd = new Random();
             mesh.Position = posicionInicial;
+            
             mesh.Scale = new Vector3(1f, 1f, 1f);
 
         }
 
 
-        public void render(float elapsedTime)
+        public void render(float elapsedTime, Vida vidaPersona)
         {
             //Actualizar animacion
-            estado.update(elapsedTime);
+            estado.update(elapsedTime, vidaPersona);
             mesh.render();
         }
 
+        public void setPosAnterior(Vector3 pos)
+        {
+            posAnterior = pos;
+        }
+
+        public void setPosicion (Vector3 pos)
+        {
+            mesh.Position = pos;
+        }
+
+        public Vector3 getPosAnterior()
+        {
+            return posAnterior;
+        }
 
         public void dispose()
         {

@@ -117,6 +117,7 @@ namespace AlumnoEjemplos.MiGrupo
             TgcScene scenePasto = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml");
             TgcMesh pastoMesh = scenePasto.Meshes[0];
             pasto.Add(pastoMesh);
+
             for (int i = 0; i < cantidad; i++)
             {
                 TgcMesh instancia = pastoMesh.createMeshInstance("");
@@ -151,6 +152,16 @@ namespace AlumnoEjemplos.MiGrupo
                     break;
                 }
             }
+            //Vector3 posicion = personaje.Position;
+            //foreach (Barril barril in barriles)
+            //{
+            //    TgcCollisionUtils.BoxBoxResult result = TgcCollisionUtils.classifyBoxBox(posicion, barril.bounding());
+            //    if (result == TgcCollisionUtils.BoxBoxResult.Adentro || result == TgcCollisionUtils.BoxBoxResult.Atravesando)
+            //    {
+            //        huboChoque = true;
+            //        break;
+            //    }
+            //}
 
             return huboChoque;
         }

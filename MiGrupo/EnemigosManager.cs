@@ -48,11 +48,11 @@ namespace AlumnoEjemplos.MiGrupo
         //<summary>
         //Llama al metodo render de cada enemigo que haya
         //</summary>
-        public void update(float elapsedTime, EscenarioManager e)
+        public void update(float elapsedTime, EscenarioManager e, Vida vidaPersona)
         {
             foreach (Enemigo enemigo in enemigos)
             {
-                enemigo.render(elapsedTime);
+                enemigo.render(elapsedTime, vidaPersona);
             }
         }
 
