@@ -152,15 +152,22 @@ namespace AlumnoEjemplos.MiGrupo
                     break;
                 }
             }
-            //Vector3 posicion = personaje.Position;
-            //foreach (Barril barril in barriles)
-            //{
+            Vector3 posicion = personaje.Position;
+            foreach (Barril barril in barriles)
+            {
+                Vector3 vecDistBarril = barril.centro() - posicion;
+                float distBarril = vecDistBarril.Length();
+                if (Math.Abs(distBarril) < 20)
+                {
+                    huboChoque = true;
+                    break;
+                }
             //    TgcCollisionUtils.BoxBoxResult result = TgcCollisionUtils.classifyBoxBox(posicion, barril.bounding());
             //    if (result == TgcCollisionUtils.BoxBoxResult.Adentro || result == TgcCollisionUtils.BoxBoxResult.Atravesando)
             //    {
             //        huboChoque = true;
             //        break;
-            //    }
+            }
             //}
 
             return huboChoque;

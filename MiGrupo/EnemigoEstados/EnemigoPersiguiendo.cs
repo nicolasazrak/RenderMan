@@ -50,8 +50,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
                     {
                         vidaPersona.restaAtaqueEnemigo();
                         Random rnd = new Random();
-                        //enemigo.mesh.Position = new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250);
-                        enemigo.setPosicion (new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250));
+                       // Vector3 posNueva = elegirNuevaPosicion(dist, enemigo);
+                        //enemigo.setPosicion(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250));
                     }
                 }
                 else
@@ -63,6 +63,20 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
             enemigo.mesh.updateAnimation();
 
+
+        }
+
+        private Vector3 elegirNuevaPosicion (float distancia, Enemigo enemigo)
+        {
+            Vector3 posNueva = new Vector3();
+            Random rnd = new Random();
+
+            while (Math.Abs(distancia) < 300)
+            {
+                posNueva = new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250);
+            }
+
+            return posNueva;
 
         }
 

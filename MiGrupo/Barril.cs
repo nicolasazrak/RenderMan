@@ -28,6 +28,16 @@ namespace AlumnoEjemplos.MiGrupo
             return cilindro.BoundingCylinder;
         }
 
+        public Vector3 centro()
+        {
+            return cilindro.Center;
+        }
+
+        public float radio()
+        {
+            return cilindro.TopRadius;
+        }
+
         public void render()
         {
             cilindro.render();

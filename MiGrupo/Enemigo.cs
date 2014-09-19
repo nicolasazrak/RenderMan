@@ -39,7 +39,7 @@ namespace AlumnoEjemplos.MiGrupo
             mesh.Position = posicionInicial;
             
             mesh.Scale = new Vector3(1f, 1f, 1f);
-
+            mesh.AutoTransformEnable = true;
         }
 
 
