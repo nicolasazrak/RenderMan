@@ -68,10 +68,12 @@ namespace TgcViewer.Utils.Input {
             if (hayZoom)
             {
                 zoom = 1f;
+                this.rotationSpeed = DEFAULT_ROTATION_SPEED;
             }
             else
             {
                 zoom = 0.3f;
+                this.rotationSpeed = DEFAULT_ROTATION_SPEED * 0.2f;
             }
         }
 
@@ -154,7 +156,7 @@ namespace TgcViewer.Utils.Input {
         /// Velocidad de rotacion de la cámara
         /// </summary>
         public float RotationSpeed {
-            get { return rotationSpeed; }
+            get { return rotationSpeed * zoom; }
             set { rotationSpeed = value; }
         }
 
