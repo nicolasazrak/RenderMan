@@ -18,6 +18,8 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcStaticSound sonidoEnemigoAlcanzaPersonaje;
         public Boolean esPasoDerecho;
 
+        private TgcStaticSound sonidoBackground;
+
         public SoundManager()
         {
             sonidoCaminandoIzq = new TgcStaticSound();
@@ -27,6 +29,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoPasoEnemigo = new TgcStaticSound();
             sonidoEnemMuerto = new TgcStaticSound();
             sonidoEnemigoAlcanzaPersonaje = new TgcStaticSound();
+            sonidoBackground = new TgcStaticSound();
 
             sonidoCaminandoIzq.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada maleza izda.wav");
             sonidoCaminandoDer.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada maleza dcha.wav");
@@ -36,6 +39,9 @@ namespace AlumnoEjemplos.MiGrupo
 
             sonidoDisparo.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\armas\\50_sniper_shot-Liam-2028603980.wav");
             sonidoRecarga.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\armas\\Pump_Shotgun 2x-SoundBible.com-278688366.wav");
+
+            //sonidoBackground.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\background.wav");
+            //sonidoBackground.play();
 
             sonidoEnemigoAlcanzaPersonaje.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\puñetazo.wav");
 
