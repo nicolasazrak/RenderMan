@@ -123,6 +123,7 @@ namespace AlumnoEjemplos.MiGrupo
                 TgcMesh instancia = pastoMesh.createMeshInstance("");
                 instancia.Position = new Vector3(rnd.Next(-2000, 2000), 0, rnd.Next(-2000, 2000));
                 instancia.Scale = new Vector3(0.5f, 0.5f, 0.5f);
+                instancia.AlphaBlendEnable = true;
                 pasto.Add(instancia);
             }
 
