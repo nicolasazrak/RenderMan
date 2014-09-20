@@ -34,7 +34,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         private Boolean hayZoom = true;
         private TgcTexture miraZoom  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\zoom.png");
-        private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
+        //private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
         private TgcTexture sniper = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteArma5.png");
 
         public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara, EscenarioManager escenarioManager)
@@ -95,20 +95,19 @@ namespace AlumnoEjemplos.MiGrupo
         private float timeFromZoom = 100;
         private void hacerZoom(float elapsedTime)
         {
-
-
-
+           
             hayZoom = !hayZoom;
             if (hayZoom)
             {
                 sprite.Texture = miraZoom;
-                sprite.Scaling = new Vector2(0.7f, 0.38f);
+                //sprite.Scaling = new Vector2(0.7f, 0.38f);
+                //sprite.Scaling = new Vector2(constanteEscalaAncho, constanteEscalaAlto);
             }
             else
             {
                 sprite.Texture = sniper;
                 //sprite.Texture = miraSimple;
-                sprite.Scaling = new Vector2(1f, 1f);
+                //sprite.Scaling = new Vector2(1f, 1f);
             }
 
             this.camara.hacerZoom();
@@ -116,8 +115,19 @@ namespace AlumnoEjemplos.MiGrupo
             //Ubicarlo centrado en la pantalla
             Size screenSize = GuiController.Instance.Panel3d.Size;
             Size textureSize = sprite.Texture.Size;
-            sprite.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
 
+            sprite.Scaling = new Vector2(ajustarTexturaAPantalla(screenSize.Width,textureSize.Width), ajustarTexturaAPantalla(screenSize.Height,textureSize.Height));
+
+            sprite.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
+        
+        }
+
+        public float ajustarTexturaAPantalla(int pantallaAncho, int texturaAncho)
+        {   
+            //para poder hacer la divicion bien
+            float pantalla = pantallaAncho;
+            float textura = texturaAncho;
+            return (pantalla / textura);
         }
 
         public TgcBoundingBox BoundinBox()
