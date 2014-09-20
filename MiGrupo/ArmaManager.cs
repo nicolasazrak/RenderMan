@@ -30,17 +30,20 @@ namespace AlumnoEjemplos.MiGrupo
         private TgcMesh armaMesh;
 
         private EnemigosManager enemigosManager;
+        private EscenarioManager escenarioManager;
 
         private Boolean hayZoom = true;
         private TgcTexture miraZoom  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\zoom.png");
         private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
         private TgcTexture sniper = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteArma5.png");
 
-        public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara)
+        public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara, EscenarioManager escenarioManager)
         {
             //this.enemigosManager = enemigosManager;
             this.soundManager = soundManager;
             this.camara = camara;
+            this.escenarioManager = escenarioManager;
+            this.enemigosManager = enemigosManager;
 
             pickingRay = new TgcPickingRay();
 
@@ -53,8 +56,7 @@ namespace AlumnoEjemplos.MiGrupo
             TgcScene scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\modelos\\arma\\arma.xml");
             armaMesh = scene.Meshes[0];
             armaMesh.Scale = new Vector3(0.005f, 0.005f, 0.005f);
-
-            this.enemigosManager = enemigosManager;
+    
         }
 
 
@@ -156,23 +158,28 @@ namespace AlumnoEjemplos.MiGrupo
             soundManager.playSonidoDisparo();
             pickingRay.updateRay();
 
-            bool selected;
             Vector3 collisionPoint;
 
-            //TODO manejar en enemigosManager
+            foreach (Barril barril in this.escenarioManager.barriles)
+            {
+                if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.getBoundingBox(), out collisionPoint))
+                {
+                    barril.explota();
+                }
+            }
 
             //Testear Ray contra el AABB de todos los meshes
             foreach (Enemigo enemigo in this.enemigosManager.getEnemigos())
             {
-               //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
-                selected = TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.getBoundingBox(), out collisionPoint);
-                if (selected)
+                //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.getBoundingBox(), out collisionPoint))
                 {
                     enemigo.teDispararon();
                     break;
                 }
-
             }
+
+            
 
         }
 

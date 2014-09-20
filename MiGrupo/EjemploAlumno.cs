@@ -82,13 +82,13 @@ namespace AlumnoEjemplos.MiGrupo
 
             escenarioManager = new EscenarioManager();
             escenarioManager.generarArboles(80);
-            escenarioManager.generarPasto(350);
+            escenarioManager.generarPasto(200);
             escenarioManager.generarBarriles(10);
 
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
             enemigosManager.generarEnemigos(10);
 
-            armaManager = new ArmaManager(enemigosManager, soundManager, camara);
+            armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
 
         }
 
