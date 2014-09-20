@@ -34,6 +34,7 @@ namespace AlumnoEjemplos.MiGrupo
         private Boolean hayZoom = true;
         private TgcTexture miraZoom  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\zoom.png");
         private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
+        private TgcTexture sniper = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteArma5.png");
 
         public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara)
         {
@@ -103,7 +104,8 @@ namespace AlumnoEjemplos.MiGrupo
             }
             else
             {
-                sprite.Texture = miraSimple;
+                sprite.Texture = sniper;
+                //sprite.Texture = miraSimple;
                 sprite.Scaling = new Vector2(1f, 1f);
             }
 
