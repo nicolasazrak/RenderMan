@@ -9,7 +9,10 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
     class EnemigoMuerto : EnemigoEstado
     {
 
-        public EnemigoMuerto(Enemigo enemigo) : base(enemigo) { }
+        public EnemigoMuerto(Enemigo enemigo) : base(enemigo)
+        {
+            ContadorEnemigos.Instance.enemigoAscesinado();
+        }
 
         public override bool debeGirar()
         {

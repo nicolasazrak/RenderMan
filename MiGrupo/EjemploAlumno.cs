@@ -30,7 +30,7 @@ namespace AlumnoEjemplos.MiGrupo
         ArmaManager armaManager;
         Vida vida;
         Vector3 ultimaPosicion;
-
+        ContadorEnemigos contadorEnemigos;
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
         public static String nombreGrupo = "RenderMan";
@@ -88,6 +88,8 @@ namespace AlumnoEjemplos.MiGrupo
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
             enemigosManager.generarEnemigos(10);
 
+            contadorEnemigos = new ContadorEnemigos();
+
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
 
         }
@@ -128,6 +130,7 @@ namespace AlumnoEjemplos.MiGrupo
             escenarioManager.update();
             armaManager.update(elapsedTime);
             vida.render();
+            contadorEnemigos.render();
 
         }
 

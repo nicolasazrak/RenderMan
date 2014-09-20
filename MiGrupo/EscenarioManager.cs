@@ -152,7 +152,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             foreach (TgcBoundingBox colisionable in getColisionables())
             {
-                colisionable.render();
+                //colisionable.render();
                 TgcCollisionUtils.BoxBoxResult result = TgcCollisionUtils.classifyBoxBox(personaje, colisionable);
                 if (result == TgcCollisionUtils.BoxBoxResult.Adentro || result == TgcCollisionUtils.BoxBoxResult.Atravesando)
                 {
