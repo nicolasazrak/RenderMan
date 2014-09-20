@@ -88,7 +88,7 @@ namespace AlumnoEjemplos.MiGrupo
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
             enemigosManager.generarEnemigos(10);
 
-            contadorEnemigos = new ContadorEnemigos();
+            contadorEnemigos = new ContadorEnemigos(10);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
 
