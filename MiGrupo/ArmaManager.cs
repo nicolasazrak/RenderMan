@@ -86,7 +86,7 @@ namespace AlumnoEjemplos.MiGrupo
             if (!hayZoom)
             {
                 actualizarPosicionArma();
-                armaMesh.render();
+                //armaMesh.render();
             }
             
         }
@@ -117,8 +117,9 @@ namespace AlumnoEjemplos.MiGrupo
 
             sprite.Scaling = new Vector2(ajustarTexturaAPantalla(screenSize.Width,textureSize.Width), ajustarTexturaAPantalla(screenSize.Height,textureSize.Height));
 
-            sprite.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
-        
+            //sprite.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
+            sprite.Position = new Vector2(0, 0);
+
         }
 
         public float ajustarTexturaAPantalla(int pantallaParametro, int texturaParametro)
