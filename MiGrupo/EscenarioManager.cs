@@ -16,13 +16,14 @@ namespace AlumnoEjemplos.MiGrupo
         
         private List<TgcMesh> arboles;
         private List<TgcMesh> pasto;
-        private List<Barril> barriles;
+        public List<Barril> barriles;
         TgcMesh arbol;
         private TgcScene scene;
         TgcBox piso;
         TgcSceneLoader loader;
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
         TgcSkyBox skyBox;
+        private List<TgcBoundingBox> colisionables;
 
         public EscenarioManager()
         {
@@ -38,8 +39,9 @@ namespace AlumnoEjemplos.MiGrupo
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
 
             generarSkyBox();
-           
 
+            colisionables = new List<TgcBoundingBox>();
+           
         }
 
         
@@ -80,8 +82,9 @@ namespace AlumnoEjemplos.MiGrupo
             for (int i = 0; i < cantidad; i++)
             {
                 TgcMesh instancia = arbol.createMeshInstance("arbol");
-                instancia.Scale = new Vector3(2f, 2f, 2f);
+                instancia.Scale = new Vector3(3f, 3f, 3f);
                 instancia.Position = new Vector3(rnd.Next(0, 2500), 0, rnd.Next(0, 2500));
+                instancia.AlphaBlendEnable = true;
                 arboles.Add(instancia);
             }
             //Genero en 1/4 del escenario los arboles y los copio en los demas cuartos1559326801 estela
@@ -90,23 +93,26 @@ namespace AlumnoEjemplos.MiGrupo
                 TgcMesh instancia = arbol.createMeshInstance("arbol2");
                 Vector3 vecPos = new Vector3(arboles[j].Position.X * (-1), 0, arboles[j].Position.Z);
                 instancia.Position = vecPos;
-                instancia.Scale = new Vector3(1.5f, 1.5f, 1.5f);
+                instancia.AlphaBlendEnable = true;
+                instancia.Scale = new Vector3(2f, 2f, 2f);
                 arboles.Add(instancia);
 
                 TgcMesh instancia2 = arbol.createMeshInstance("arbol3");
                 vecPos = new Vector3(arboles[j].Position.X * (-1), 0, arboles[j].Position.Z * (-1));
                 instancia2.Position = vecPos;
-                instancia2.Scale = new Vector3(2f, 2f, 2f);
+                instancia2.AlphaBlendEnable = true;
+                instancia2.Scale = new Vector3(3f, 3f, 3f);
                 arboles.Add(instancia2);
 
                 TgcMesh instancia3 = arbol.createMeshInstance("arbol4");
                 vecPos = new Vector3(arboles[j].Position.X, 0, arboles[j].Position.Z * (-1));
-                instancia3.Scale = new Vector3(1.3f, 1.3f, 1.3f);
+                instancia3.Scale = new Vector3(1.5f, 1.5f, 1.5f);
+                instancia3.AlphaBlendEnable = true;
                 instancia3.Position = vecPos;
                 arboles.Add(instancia3);
             }
 //            scene = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\" + tipoArboles[1] + "-TgcScene.xml");
-
+            updateColisionables();
         }
 
         public void generarPasto(int cantidad)
@@ -122,7 +128,7 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 TgcMesh instancia = pastoMesh.createMeshInstance("");
                 instancia.Position = new Vector3(rnd.Next(-2000, 2000), 0, rnd.Next(-2000, 2000));
-                instancia.Scale = new Vector3(0.5f, 0.5f, 0.5f);
+                instancia.Scale = new Vector3(1f, 0.5f, 1f);
                 instancia.AlphaBlendEnable = true;
                 pasto.Add(instancia);
             }
@@ -138,40 +144,23 @@ namespace AlumnoEjemplos.MiGrupo
                 Barril instancia = new Barril(new Vector3(rnd.Next(-1000, 1000), 0, rnd.Next(-1000, 1000)));
                 barriles.Add(instancia);
             }
+            updateColisionables();
         }
 
         public Boolean verificarColision (TgcBoundingBox personaje)
         {
-            Boolean huboChoque = false;
 
-            foreach (TgcMesh a in arboles)
+            foreach (TgcBoundingBox colisionable in getColisionables())
             {
-                TgcCollisionUtils.BoxBoxResult result = TgcCollisionUtils.classifyBoxBox(personaje, a.BoundingBox);
+                colisionable.render();
+                TgcCollisionUtils.BoxBoxResult result = TgcCollisionUtils.classifyBoxBox(personaje, colisionable);
                 if (result == TgcCollisionUtils.BoxBoxResult.Adentro || result == TgcCollisionUtils.BoxBoxResult.Atravesando)
                 {
-                    huboChoque = true;
-                    break;
+                    return true;
                 }
             }
-            Vector3 posicion = personaje.Position;
-            foreach (Barril barril in barriles)
-            {
-                Vector3 vecDistBarril = barril.centro() - posicion;
-                float distBarril = vecDistBarril.Length();
-                if (Math.Abs(distBarril) < 20)
-                {
-                    huboChoque = true;
-                    break;
-                }
-            //    TgcCollisionUtils.BoxBoxResult result = TgcCollisionUtils.classifyBoxBox(posicion, barril.bounding());
-            //    if (result == TgcCollisionUtils.BoxBoxResult.Adentro || result == TgcCollisionUtils.BoxBoxResult.Atravesando)
-            //    {
-            //        huboChoque = true;
-            //        break;
-            }
-            //}
 
-            return huboChoque;
+            return false;
         }
 
         //<summary>
@@ -204,10 +193,19 @@ namespace AlumnoEjemplos.MiGrupo
         //<summary>
         //Devuelve el bounding box de todos los arboles para que se puedan checkear las colisiones contra la camara o los enemigos
         //</summary>
-        public void getColisionables()
+        public List<TgcBoundingBox> getColisionables()
         {
-
+            return colisionables;
         }
+        public void updateColisionables()
+        {
+            colisionables = barriles.Select(barril =>barril.getBoundingBox()).ToList().Concat(arboles.Select(arbol => {
+                TgcBoundingBox bounding = arbol.BoundingBox;
+                bounding.scaleTranslate(arbol.Position, new Vector3(0.3f, 1f, 0.3f));
+                return bounding; 
+            }).ToList()).ToList();
+        }
+
 
         public void dispose()
         {
