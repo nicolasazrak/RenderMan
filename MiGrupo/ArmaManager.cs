@@ -101,7 +101,6 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 sprite.Texture = miraZoom;
                 //sprite.Scaling = new Vector2(0.7f, 0.38f);
-                //sprite.Scaling = new Vector2(constanteEscalaAncho, constanteEscalaAlto);
             }
             else
             {
@@ -122,11 +121,11 @@ namespace AlumnoEjemplos.MiGrupo
         
         }
 
-        public float ajustarTexturaAPantalla(int pantallaAncho, int texturaAncho)
+        public float ajustarTexturaAPantalla(int pantallaParametro, int texturaParametro)
         {   
             //para poder hacer la divicion bien
-            float pantalla = pantallaAncho;
-            float textura = texturaAncho;
+            float pantalla = pantallaParametro;
+            float textura = texturaParametro;
             return (pantalla / textura);
         }
 
