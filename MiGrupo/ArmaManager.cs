@@ -100,13 +100,11 @@ namespace AlumnoEjemplos.MiGrupo
             if (hayZoom)
             {
                 sprite.Texture = miraZoom;
-                //sprite.Scaling = new Vector2(0.7f, 0.38f);
             }
             else
             {
                 sprite.Texture = sniper;
                 //sprite.Texture = miraSimple;
-                //sprite.Scaling = new Vector2(1f, 1f);
             }
 
             this.camara.hacerZoom();
@@ -117,9 +115,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             sprite.Scaling = new Vector2(ajustarTexturaAPantalla(screenSize.Width,textureSize.Width), ajustarTexturaAPantalla(screenSize.Height,textureSize.Height));
 
-            //sprite.Position = new Vector2(FastMath.Max(screenSize.Width / 2 - textureSize.Width / 2, 0), FastMath.Max(screenSize.Height / 2 - textureSize.Height / 2, 0));
             sprite.Position = new Vector2(0, 0);
-
         }
 
         public float ajustarTexturaAPantalla(int pantallaParametro, int texturaParametro)
