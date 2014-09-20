@@ -22,13 +22,22 @@ namespace AlumnoEjemplos.MiGrupo
 
         private SoundManager soundManager;
         private EscenarioManager escenarioManager;
-
+        private TgcSkeletalMesh mesh;
 
         public EnemigosManager(EscenarioManager escenario, SoundManager soundManager)
         {
             enemigos = new List<Enemigo>();
             this.soundManager = soundManager;
             this.escenarioManager = escenario;
+
+            mesh = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "CombineSoldier-TgcSkeletalMesh.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
+                    new string[] { 
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
+            });
+
         }
 
 
@@ -39,7 +48,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             for (int t = 0; t < cantidad; ++t)
             {
-                enemigos.Add(new Enemigo(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250), this.escenarioManager));
+                enemigos.Add(new Enemigo(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250), this.escenarioManager, mesh.createMeshInstance("")));
             }
 
         }

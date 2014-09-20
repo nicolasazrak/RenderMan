@@ -21,19 +21,13 @@ namespace AlumnoEjemplos.MiGrupo
         public EnemigoEstado estado{get; set;}
         public EscenarioManager escenarioManager;
 
-        public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager)
+        public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager, TgcSkeletalMesh mesh)
         {
 
             this.escenarioManager = escenarioManager;
             estado = new EnemigoQuieto(this);
 
-            mesh = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "CombineSoldier-TgcSkeletalMesh.xml",
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
-                    new string[] { 
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
-            });
+            this.mesh = mesh;
 
             Random rnd = new Random();
             mesh.Position = posicionInicial;
