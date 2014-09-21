@@ -23,9 +23,12 @@ namespace AlumnoEjemplos.MiGrupo
         private SoundManager soundManager;
         private EscenarioManager escenarioManager;
         private TgcSkeletalMesh mesh;
+        public static EnemigosManager Instance;
 
         public EnemigosManager(EscenarioManager escenario, SoundManager soundManager)
         {
+
+            EnemigosManager.Instance = this;
             enemigos = new List<Enemigo>();
             this.soundManager = soundManager;
             this.escenarioManager = escenario;

@@ -9,6 +9,7 @@ namespace AlumnoEjemplos.MiGrupo
 {
     class Vida
     {
+
         TgcText2d textoVida;
         private SoundManager sonido;
         int vida;

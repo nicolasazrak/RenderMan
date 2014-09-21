@@ -71,7 +71,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             Vector3 posNueva = new Vector3();
             Random rnd = new Random();
 
-            while (Math.Abs(distancia) < 300)
+            while (Math.Abs(distancia) < Juego.Instance.distanciaParaPerseguir)
             {
                 posNueva = new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250);
             }

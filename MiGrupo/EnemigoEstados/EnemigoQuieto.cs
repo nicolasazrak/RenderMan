@@ -35,7 +35,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             float dist = dir_escape.Length();
             dir_escape.Y = 0;
 
-            if (Math.Abs(dist) < 300)
+            if (Math.Abs(dist) < Juego.Instance.distanciaParaPerseguir)
             {
                 enemigo.setEstado(new EnemigoPersiguiendo(enemigo));
             }

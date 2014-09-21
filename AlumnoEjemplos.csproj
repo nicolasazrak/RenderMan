@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Juego.cs" />
     <Compile Include="MiGrupo\Barril.cs" />
     <Compile Include="MiGrupo\ContadorEnemigos.cs" />
     <Compile Include="MiGrupo\EnemigoEstados\EnemigoEstado.cs" />

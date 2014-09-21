@@ -12,13 +12,11 @@ namespace AlumnoEjemplos.MiGrupo
 
         public static ContadorEnemigos Instance;
         public int enemigosAscecinados = 0;
-        public int enemigosTotal;
         TgcText2d texto;
 
         public ContadorEnemigos(int cantTotal)
         {
             ContadorEnemigos.Instance = this;
-            enemigosTotal = cantTotal;
 
             texto = new TgcText2d();
             texto.Color = Color.Red;
@@ -26,7 +24,7 @@ namespace AlumnoEjemplos.MiGrupo
             texto.Position = new Point(5, 35);
             texto.Size = new Size(350, 100);
             texto.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
-            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + enemigosTotal.ToString();
+            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
         }
 
 
@@ -39,7 +37,7 @@ namespace AlumnoEjemplos.MiGrupo
         public void enemigoAscesinado()
         {
             enemigosAscecinados++;
-            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + enemigosTotal.ToString();
+            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
         }
 
 

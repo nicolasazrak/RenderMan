@@ -11,7 +11,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public EnemigoMuerto(Enemigo enemigo) : base(enemigo)
         {
-            ContadorEnemigos.Instance.enemigoAscesinado();
+            Juego.Instance.enemigoAscesinado();
         }
 
         public override bool debeGirar()

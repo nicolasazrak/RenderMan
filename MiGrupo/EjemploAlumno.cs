@@ -31,6 +31,7 @@ namespace AlumnoEjemplos.MiGrupo
         Vida vida;
         Vector3 ultimaPosicion;
         ContadorEnemigos contadorEnemigos;
+        Juego juego;
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
         public static String nombreGrupo = "RenderMan";
@@ -67,6 +68,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
+            juego = new Juego();
             //GuiController.Instance.UserVars.addVar("Ancho", tamañoPantalla.Width);
             //GuiController.Instance.UserVars.addVar("Alto", tamañoPantalla.Height);
             vida = new Vida();
@@ -91,7 +93,7 @@ namespace AlumnoEjemplos.MiGrupo
             contadorEnemigos = new ContadorEnemigos(10);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
-
+            
         }
 
 

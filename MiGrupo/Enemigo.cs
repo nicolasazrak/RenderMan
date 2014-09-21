@@ -25,7 +25,6 @@ namespace AlumnoEjemplos.MiGrupo
         {
 
             this.escenarioManager = escenarioManager;
-            estado = new EnemigoQuieto(this);
 
             this.mesh = mesh;
 
@@ -34,6 +33,8 @@ namespace AlumnoEjemplos.MiGrupo
             
             mesh.Scale = new Vector3(1f, 1f, 1f);
             mesh.AutoTransformEnable = true;
+
+            this.setEstado(new EnemigoQuieto(this));
         }
 
 
@@ -42,6 +43,7 @@ namespace AlumnoEjemplos.MiGrupo
             //Actualizar animacion
             estado.update(elapsedTime, vidaPersona);
             mesh.render();
+            //mesh.BoundingBox.render();
         }
 
         public void setPosAnterior(Vector3 pos)

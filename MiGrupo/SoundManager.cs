@@ -16,7 +16,7 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcStaticSound sonidoDisparo;
         public TgcStaticSound sonidoRecarga;
         public TgcStaticSound sonidoEnemigoAlcanzaPersonaje;
-        public Boolean esPasoDerecho;
+        private Boolean esPasoDerecho;
 
         private TgcStaticSound sonidoBackground;
 
@@ -31,8 +31,8 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoEnemigoAlcanzaPersonaje = new TgcStaticSound();
             sonidoBackground = new TgcStaticSound();
 
-            sonidoCaminandoIzq.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada maleza izda.wav");
-            sonidoCaminandoDer.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada maleza dcha.wav");
+            sonidoCaminandoIzq.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba izda.wav");
+            sonidoCaminandoDer.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
 
             sonidoPasoEnemigo.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
             sonidoEnemMuerto.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\golpe seco.wav");
