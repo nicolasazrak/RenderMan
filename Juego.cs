@@ -20,6 +20,7 @@ namespace AlumnoEjemplos
         public int distanciaParaPerseguir = 300;
         public int cantidadEnemigosActuales = 10;
         public int totalEnemigos = 10;
+        public int cantidadBalas = 40;
 
         public void enemigoAscesinado()
         {

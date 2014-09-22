@@ -17,7 +17,6 @@ namespace AlumnoEjemplos.MiGrupo
     {
 
 
-
         static Size screenSize = GuiController.Instance.Panel3d.Size;
         static string path = GuiController.Instance.AlumnoEjemplosMediaDir;
 
@@ -66,6 +65,7 @@ namespace AlumnoEjemplos.MiGrupo
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
             {
                 soundManager.playSonidoRecarga();
+                ContadorBalas.Instance.recagar();
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
@@ -160,31 +160,39 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void manejarDisparo()
         {
-
-            soundManager.playSonidoDisparo();
-            pickingRay.updateRay();
-
-            Vector3 collisionPoint;
-
-            foreach (Barril barril in this.escenarioManager.barriles)
+            if (ContadorBalas.Instance.puedoDisparar())
             {
-                if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.getBoundingBox(), out collisionPoint))
-                {
-                    barril.explota();
-                }
-            }
+                soundManager.playSonidoDisparo();
+                pickingRay.updateRay();
 
-            //Testear Ray contra el AABB de todos los meshes
-            foreach (Enemigo enemigo in this.enemigosManager.getEnemigos())
-            {
-                //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
-                if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.getBoundingBox(), out collisionPoint))
+                Vector3 collisionPoint;
+
+                foreach (Barril barril in this.escenarioManager.barriles)
                 {
-                    enemigo.teDispararon();
-                    break;
+                    if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.getBoundingBox(), out collisionPoint))
+                    {
+                        barril.explota();
+                    }
                 }
+
+                //Testear Ray contra el AABB de todos los meshes
+                foreach (Enemigo enemigo in this.enemigosManager.getEnemigos())
+                {
+                    //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                    if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.getBoundingBox(), out collisionPoint))
+                    {
+                        enemigo.teDispararon();
+                        break;
+                    }
+                }
+
+
+                ContadorBalas.Instance.huboDisparo();
             }
-     
+            else
+            {
+                //Encontrar sonido que represente la falta de balas en el arma
+            }
 
         }
 

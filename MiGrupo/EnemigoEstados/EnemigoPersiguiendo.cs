@@ -32,7 +32,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             Vector3 posAnterior = enemigo.mesh.Position;
 
             //Falta verificar las colisiones
-            if (Math.Abs(dist) > 300)
+            if (Math.Abs(dist) > Juego.Instance.distanciaParaPerseguir)
             {
                 enemigo.mesh.Position = enemigo.getPosAnterior();
                 enemigo.setEstado(new EnemigoQuieto(enemigo));
