@@ -19,7 +19,14 @@ namespace AlumnoEjemplos.MiGrupo
         public List<Barril> barriles;
         TgcMesh arbol;
         private TgcScene scene;
+
         TgcBox piso;
+        int pisoSize;
+        int casillasPorEje;
+        public Vector3[] divisionesPiso;
+        public int ultimaPosicionUtilizada;
+        Random _random;
+
         TgcSceneLoader loader;
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
         TgcSkyBox skyBox;
@@ -34,7 +41,12 @@ namespace AlumnoEjemplos.MiGrupo
             loader = new TgcSceneLoader();
 
             piso = new TgcBox();
-            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(5000, 0, 5000));
+            pisoSize = 4000;
+            casillasPorEje = 50;
+            divisionesPiso = new Vector3[2500];
+            _random = new Random();
+
+            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize, 0, pisoSize));
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
 
@@ -73,79 +85,81 @@ namespace AlumnoEjemplos.MiGrupo
             skyBox.updateValues();
         }
 
-        public void generarArboles(int cantidad)
+        public void generarBosque(int cantidadArboles, int cantidadPasto, int cantidadBarriles)
         {
-            Random rnd = new Random();
-       
-            scene = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\"+ tipoArboles[0] +"-TgcScene.xml");
+            scene = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\" + tipoArboles[0] + "-TgcScene.xml");
             arbol = scene.Meshes[0];
-            for (int i = 0; i < cantidad; i++)
+            for (int i = 0; i < cantidadArboles; i++)
             {
                 TgcMesh instancia = arbol.createMeshInstance("arbol");
                 instancia.Scale = new Vector3(3f, 3f, 3f);
-                instancia.Position = new Vector3(rnd.Next(0, 2500), 0, rnd.Next(0, 2500));
+                instancia.Position = this.divisionesPiso[i];
                 instancia.AlphaBlendEnable = true;
                 arboles.Add(instancia);
             }
-            //Genero en 1/4 del escenario los arboles y los copio en los demas cuartos1559326801 estela
-            for (int j = 0; j < cantidad; j++)
-            {
-                TgcMesh instancia = arbol.createMeshInstance("arbol2");
-                Vector3 vecPos = new Vector3(arboles[j].Position.X * (-1), 0, arboles[j].Position.Z);
-                instancia.Position = vecPos;
-                instancia.AlphaBlendEnable = true;
-                instancia.Scale = new Vector3(2f, 2f, 2f);
-                arboles.Add(instancia);
 
-                TgcMesh instancia2 = arbol.createMeshInstance("arbol3");
-                vecPos = new Vector3(arboles[j].Position.X * (-1), 0, arboles[j].Position.Z * (-1));
-                instancia2.Position = vecPos;
-                instancia2.AlphaBlendEnable = true;
-                instancia2.Scale = new Vector3(3f, 3f, 3f);
-                arboles.Add(instancia2);
-
-                TgcMesh instancia3 = arbol.createMeshInstance("arbol4");
-                vecPos = new Vector3(arboles[j].Position.X, 0, arboles[j].Position.Z * (-1));
-                instancia3.Scale = new Vector3(1.5f, 1.5f, 1.5f);
-                instancia3.AlphaBlendEnable = true;
-                instancia3.Position = vecPos;
-                arboles.Add(instancia3);
-            }
-//            scene = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\" + tipoArboles[1] + "-TgcScene.xml");
-            updateColisionables();
-        }
-
-        public void generarPasto(int cantidad)
-        {
-
-            Random rnd = new Random();
-       
             TgcScene scenePasto = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml");
             TgcMesh pastoMesh = scenePasto.Meshes[0];
             pasto.Add(pastoMesh);
 
-            for (int i = 0; i < cantidad; i++)
+
+            for (int i = 0; i < cantidadPasto; i++)
             {
                 TgcMesh instancia = pastoMesh.createMeshInstance("");
-                instancia.Position = new Vector3(rnd.Next(-2000, 2000), 0, rnd.Next(-2000, 2000));
+                instancia.Position = this.divisionesPiso[cantidadArboles + i];
                 instancia.Scale = new Vector3(1f, 0.5f, 1f);
                 instancia.AlphaBlendEnable = true;
                 pasto.Add(instancia);
             }
 
-        }
-
-        public void generarBarriles(int cantidad)
-        {
-            Random rnd = new Random();
-
-            for (int i = 0; i < cantidad; i++)
+            for (int i = 0; i < cantidadBarriles; i++)
             {
-                Barril instancia = new Barril(new Vector3(rnd.Next(-1000, 1000), 0, rnd.Next(-1000, 1000)));
+                Barril instancia = new Barril(this.divisionesPiso[cantidadArboles + cantidadPasto + i]);
                 barriles.Add(instancia);
             }
             updateColisionables();
+
+            ultimaPosicionUtilizada = cantidadArboles + cantidadBarriles + cantidadPasto;
+
         }
+
+
+        public void generarPosiciones()
+        {
+            int i, j, q = 0;
+            int salto = (pisoSize) / casillasPorEje;
+            int x, z = 0;
+            for (i = 0; i < casillasPorEje; i++)
+            {
+                for (j = 0; j < casillasPorEje; j++)
+                {
+                    x = -2000 + (salto * i);
+                    z = -2000 + (salto * j);
+                    divisionesPiso[q] = new Vector3(x + (salto / 2), 0, z + (salto / 2));
+                    q++;
+                }
+            }
+
+            this.desordenarPiso();
+
+        }
+
+        public void desordenarPiso()
+        {
+            var random = this._random;
+            for (int i = divisionesPiso.Length; i > 1; i--)
+            {
+                // Pick random element to swap.
+                int j = random.Next(i); // 0 <= j <= i-1
+                // Swap.
+                Vector3 tmp = divisionesPiso[j];
+                divisionesPiso[j] = divisionesPiso[i - 1];
+                divisionesPiso[i - 1] = tmp;
+            }
+        }
+
+
+
 
         public Boolean verificarColision (TgcBoundingBox personaje)
         {

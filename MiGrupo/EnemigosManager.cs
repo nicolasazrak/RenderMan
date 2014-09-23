@@ -47,11 +47,11 @@ namespace AlumnoEjemplos.MiGrupo
         public void generarEnemigos(int cantidad)
         {
             
-            Random rnd = new Random();
 
             for (int t = 0; t < cantidad; ++t)
             {
-                enemigos.Add(new Enemigo(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250), this.escenarioManager, mesh.createMeshInstance("")));
+                
+                enemigos.Add(new Enemigo(this.escenarioManager.divisionesPiso[this.escenarioManager.ultimaPosicionUtilizada + t] , this.escenarioManager, mesh.createMeshInstance("")));
             }
 
         }

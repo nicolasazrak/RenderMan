@@ -84,12 +84,14 @@ namespace AlumnoEjemplos.MiGrupo
             soundManager = new SoundManager();
 
             escenarioManager = new EscenarioManager();
-            escenarioManager.generarArboles(80);
+            escenarioManager.generarPosiciones();
+           escenarioManager.generarBosque(500, 200, 20);
+           /* escenarioManager.generarArboles(80);
             escenarioManager.generarPasto(200);
             escenarioManager.generarBarriles(10);
-
+            */
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
-            enemigosManager.generarEnemigos(10);
+            enemigosManager.generarEnemigos( 10);
 
             contadorEnemigos = new ContadorEnemigos(10);
             
