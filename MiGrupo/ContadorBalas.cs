@@ -72,6 +72,12 @@ namespace AlumnoEjemplos.MiGrupo
             balasRestantes = juego.cantidadBalas;
             cargadoresRestantes--;
             texto.Text = "Balas Restantes: " + balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
+            textoCargador.Text = "Cargadores Restantes: " + cargadoresRestantes.ToString();
+        }
+
+        public void obtenerMuniciones()
+        {
+            cargadoresRestantes = juego.cantidadDeCargadores;
             textoCargador.Text = "Cargadores Restantes: " + cargadoresRestantes;
         }
 

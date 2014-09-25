@@ -13,7 +13,9 @@ namespace AlumnoEjemplos.MiGrupo
     class EscenarioManager
     {
 
-        
+        SoundManager sonido;
+        TimeSpan tiempoInicial;
+
         private List<TgcMesh> arboles;
         private List<TgcMesh> pasto;
         private List<TgcMesh> barriles;
@@ -36,7 +38,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public EscenarioManager()
         {
-
+            sonido = new SoundManager();
             arboles = new List<TgcMesh>();
             pasto = new List<TgcMesh>();
             barriles = new List<TgcMesh>();
@@ -57,16 +59,9 @@ namespace AlumnoEjemplos.MiGrupo
 
             colisionables = new List<TgcBoundingBox>();
 
-            TgcScene sceneMuniciones = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Armas\\CajaMuniciones\\CajaMuniciones-TgcScene.xml");
-            TgcMesh municionMesh = sceneMuniciones.Meshes[0];
-            municion = municionMesh.createMeshInstance("");
-            municion.Scale = new Vector3(0.5f, 0.5f, 0.5f);
-            municion.Position = new Vector3(100, 0, 0);
-            municion.AlphaBlendEnable = true;
 
         }
 
-        
 
         private void generarSkyBox()
         {
@@ -137,8 +132,19 @@ namespace AlumnoEjemplos.MiGrupo
 
             ultimaPosicionUtilizada = cantidadArboles + cantidadBarriles + cantidadPasto;
 
+            iniciarMunicion();
         }
 
+        private void iniciarMunicion()
+        {
+            TgcScene sceneMuniciones = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Armas\\CajaMuniciones\\CajaMuniciones-TgcScene.xml");
+            TgcMesh municionMesh = sceneMuniciones.Meshes[0];
+            municion = municionMesh.createMeshInstance("");
+            municion.Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            municion.Position = new Vector3(100, 0, 0);
+            municion.AlphaBlendEnable = true;
+            tiempoInicial = DateTime.Now.TimeOfDay;
+        }
 
         public void generarPosiciones()
         {
@@ -217,9 +223,24 @@ namespace AlumnoEjemplos.MiGrupo
             skyBox.render();
             piso.render();
             municion.render();
+
+
+            recargoArma();
         }
 
+        private void recargoArma()
+        {
+            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
+            Vector3 dirDistancia = municion.Position - pos;
+            float dist = dirDistancia.Length();
 
+            if (Math.Abs(dist) < 80 && Juego.Instance.esperaCorrecta(tiempoInicial, -1, 5, 1))
+            {
+                tiempoInicial = DateTime.Now.TimeOfDay;
+                ContadorBalas.Instance.obtenerMuniciones();
+                sonido.playSonidoMunicion();
+            }
+        }
         //<summary>
         //Devuelve el bounding box de todos los arboles para que se puedan checkear las colisiones contra la camara o los enemigos
         //</summary>

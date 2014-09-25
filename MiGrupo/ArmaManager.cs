@@ -91,7 +91,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_RIGHT) == true)
             {
-                if (Juego.Instance.esperaCorrecta(tiempoZoom, -1, 1, 1))
+                if (Juego.Instance.esperaCorrecta(tiempoZoom, 500, 1, 1))
                 {
                     tiempoZoom = DateTime.Now.TimeOfDay;
                     hacerZoom(elapsedTime);

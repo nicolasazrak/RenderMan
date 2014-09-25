@@ -25,14 +25,14 @@ namespace AlumnoEjemplos.MiGrupo
             textoVida.Size = new Size(350, 100);
             textoVida.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
             vida = 100;
-            textoVida.Text = vida.ToString();
+            textoVida.Text = "Vida: " + vida.ToString();
 
         }
 
         public void restaAtaqueEnemigo()
         {
             vida = vida - 10;
-            textoVida.Text = vida.ToString();
+            textoVida.Text = "Vida: " + vida.ToString();
             sonido.playSonidoJugadorAlcanzado();
         }
 
