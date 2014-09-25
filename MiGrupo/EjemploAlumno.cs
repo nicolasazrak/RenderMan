@@ -85,7 +85,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             escenarioManager = new EscenarioManager();
             escenarioManager.generarPosiciones();
-           escenarioManager.generarBosque(500, 200, 20);
+           escenarioManager.generarBosque(0, 200, 20);
            /* escenarioManager.generarArboles(80);
             escenarioManager.generarPasto(200);
             escenarioManager.generarBarriles(10);

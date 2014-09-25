@@ -30,25 +30,28 @@ namespace AlumnoEjemplos
             if (enemigosAscesinados == 10)
             {
                 distanciaParaPerseguir = 300;
-                cantidadEnemigosActuales = 10;
+                cantidadEnemigosActuales = 15;
                 totalEnemigos += cantidadEnemigosActuales;
                 EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
+                ContadorEnemigos.Instance.reiniciarContador();
             }
 
-            if (enemigosAscesinados == 20)
+            if (enemigosAscesinados == 25)
             {
                 distanciaParaPerseguir = 500;
                 cantidadEnemigosActuales = 25;
                 totalEnemigos += cantidadEnemigosActuales;
                 EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
+                ContadorEnemigos.Instance.reiniciarContador();
             }
 
-            if (enemigosAscesinados == 45)
+            if (enemigosAscesinados == 50)
             {
                 distanciaParaPerseguir = 1000;
                 cantidadEnemigosActuales = 50;
                 totalEnemigos += cantidadEnemigosActuales;
                 EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
+                ContadorEnemigos.Instance.reiniciarContador();
             }
 
             

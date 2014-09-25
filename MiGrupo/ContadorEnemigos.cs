@@ -40,6 +40,10 @@ namespace AlumnoEjemplos.MiGrupo
             texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
         }
 
+        public void reiniciarContador()
+        {
+            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
+        }
 
     }
 }

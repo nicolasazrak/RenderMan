@@ -15,7 +15,8 @@ namespace AlumnoEjemplos.MiGrupo
 {
     class ArmaManager
     {
-
+        TimeSpan tiempoDisparo;
+        TimeSpan tiempoEsperaDisparo; 
 
         static Size screenSize = GuiController.Instance.Panel3d.Size;
         static string path = GuiController.Instance.AlumnoEjemplosMediaDir;
@@ -55,6 +56,8 @@ namespace AlumnoEjemplos.MiGrupo
             TgcScene scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\modelos\\arma\\arma.xml");
             armaMesh = scene.Meshes[0];
             armaMesh.Scale = new Vector3(0.005f, 0.005f, 0.005f);
+
+            tiempoDisparo = DateTime.Now.TimeOfDay;
     
         }
 
@@ -70,7 +73,14 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                manejarDisparo();
+                tiempoEsperaDisparo = DateTime.Now.TimeOfDay;
+                TimeSpan resultado = tiempoEsperaDisparo - tiempoDisparo;
+                if (resultado.Seconds >= 1 || resultado.Minutes > 1)
+                {
+                    tiempoDisparo = DateTime.Now.TimeOfDay;
+                    manejarDisparo();
+                }
+
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_RIGHT) == true)
