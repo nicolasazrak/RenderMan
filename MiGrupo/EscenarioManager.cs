@@ -120,7 +120,7 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 TgcMesh instancia = barrilMesh.createMeshInstance("");
                 instancia.Position = this.divisionesPiso[cantidadArboles + cantidadPasto + i];
-                instancia.Scale = new Vector3(0.69f, 0.75f, 0.69f);
+                instancia.Scale = new Vector3(0.5f, 0.6f, 0.5f);
                 instancia.AlphaBlendEnable = true;
                 barriles.Add(instancia);
             }
