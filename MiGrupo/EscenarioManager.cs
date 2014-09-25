@@ -16,7 +16,7 @@ namespace AlumnoEjemplos.MiGrupo
         
         private List<TgcMesh> arboles;
         private List<TgcMesh> pasto;
-        public List<Barril> barriles;
+        private List<TgcMesh> barriles;
         TgcMesh arbol;
         private TgcScene scene;
 
@@ -37,7 +37,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             arboles = new List<TgcMesh>();
             pasto = new List<TgcMesh>();
-            barriles = new List<Barril>();
+            barriles = new List<TgcMesh>();
             loader = new TgcSceneLoader();
 
             piso = new TgcBox();
@@ -49,6 +49,7 @@ namespace AlumnoEjemplos.MiGrupo
             piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize, 0, pisoSize));
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
+            
 
             generarSkyBox();
 
@@ -112,9 +113,15 @@ namespace AlumnoEjemplos.MiGrupo
                 pasto.Add(instancia);
             }
 
+            TgcScene sceneBarril = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Objetos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
+            TgcMesh barrilMesh = sceneBarril.Meshes[0];
+            //barriles.Add(barrilMesh);
             for (int i = 0; i < cantidadBarriles; i++)
             {
-                Barril instancia = new Barril(this.divisionesPiso[cantidadArboles + cantidadPasto + i]);
+                TgcMesh instancia = barrilMesh.createMeshInstance("");
+                instancia.Position = this.divisionesPiso[cantidadArboles + cantidadPasto + i];
+                instancia.Scale = new Vector3(0.69f, 0.75f, 0.69f);
+                instancia.AlphaBlendEnable = true;
                 barriles.Add(instancia);
             }
             updateColisionables();
@@ -193,7 +200,7 @@ namespace AlumnoEjemplos.MiGrupo
                 pastito.render();
             }
 
-            foreach (Barril barril in barriles)
+            foreach (TgcMesh barril in barriles)
             {
                 barril.render();
             }
@@ -207,17 +214,29 @@ namespace AlumnoEjemplos.MiGrupo
         //<summary>
         //Devuelve el bounding box de todos los arboles para que se puedan checkear las colisiones contra la camara o los enemigos
         //</summary>
+
+        public List<TgcMesh> getBarriles()
+        {
+            return barriles;
+        }
         public List<TgcBoundingBox> getColisionables()
         {
             return colisionables;
         }
         public void updateColisionables()
         {
-            colisionables = barriles.Select(barril =>barril.getBoundingBox()).ToList().Concat(arboles.Select(arbol => {
+            //colisionables = barriles.Select(barril =>barril.getBoundingBox()).ToList().Concat(arboles.Select(arbol => {
+            //    TgcBoundingBox bounding = arbol.BoundingBox;
+            //    bounding.scaleTranslate(arbol.Position, new Vector3(0.3f, 1f, 0.3f));
+            //    return bounding; 
+            //}).ToList()).ToList();
+            colisionables = barriles.Select(barril => barril.BoundingBox).ToList().Concat(arboles.Select(arbol =>
+            {
                 TgcBoundingBox bounding = arbol.BoundingBox;
                 bounding.scaleTranslate(arbol.Position, new Vector3(0.3f, 1f, 0.3f));
-                return bounding; 
+                return bounding;
             }).ToList()).ToList();
+
         }
 
 
@@ -231,6 +250,11 @@ namespace AlumnoEjemplos.MiGrupo
             foreach (TgcMesh pastito in pasto)
             {
                 pastito.dispose();
+            }
+
+            foreach (TgcMesh barril in barriles)
+            {
+                barril.dispose();
             }
 
             piso.dispose();

@@ -177,11 +177,11 @@ namespace AlumnoEjemplos.MiGrupo
 
                 Vector3 collisionPoint;
 
-                foreach (Barril barril in this.escenarioManager.barriles)
+                foreach (TgcMesh barril in this.escenarioManager.getBarriles())
                 {
-                    if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.getBoundingBox(), out collisionPoint))
+                    if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.BoundingBox, out collisionPoint))
                     {
-                        barril.explota();
+                        //barril.explota();
                     }
                 }
 
