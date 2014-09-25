@@ -16,7 +16,8 @@ namespace AlumnoEjemplos.MiGrupo
     class ArmaManager
     {
         TimeSpan tiempoDisparo;
-        TimeSpan tiempoEsperaDisparo; 
+        TimeSpan tiempoRecarga;
+        TimeSpan tiempoZoom;
 
         static Size screenSize = GuiController.Instance.Panel3d.Size;
         static string path = GuiController.Instance.AlumnoEjemplosMediaDir;
@@ -58,6 +59,8 @@ namespace AlumnoEjemplos.MiGrupo
             armaMesh.Scale = new Vector3(0.005f, 0.005f, 0.005f);
 
             tiempoDisparo = DateTime.Now.TimeOfDay;
+            tiempoRecarga = DateTime.Now.TimeOfDay;
+            tiempoZoom = DateTime.Now.TimeOfDay;
     
         }
 
@@ -67,15 +70,18 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
             {
-                soundManager.playSonidoRecarga();
-                ContadorBalas.Instance.recagar();
+                if (Juego.Instance.esperaCorrecta(tiempoRecarga, -1, 4, 1) && ContadorBalas.Instance.puedoRecargar())
+                {
+                    tiempoRecarga = DateTime.Now.TimeOfDay;
+                    soundManager.playSonidoRecarga();
+                    ContadorBalas.Instance.recagar();
+                }
+
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                tiempoEsperaDisparo = DateTime.Now.TimeOfDay;
-                TimeSpan resultado = tiempoEsperaDisparo - tiempoDisparo;
-                if (resultado.Seconds >= 1 || resultado.Minutes > 1)
+                if (Juego.Instance.esperaCorrecta(tiempoDisparo, -1, 1, 1))
                 {
                     tiempoDisparo = DateTime.Now.TimeOfDay;
                     manejarDisparo();
@@ -85,7 +91,11 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_RIGHT) == true)
             {
-                hacerZoom(elapsedTime);
+                if (Juego.Instance.esperaCorrecta(tiempoZoom, -1, 1, 1))
+                {
+                    tiempoZoom = DateTime.Now.TimeOfDay;
+                    hacerZoom(elapsedTime);
+                }
             }
 
 

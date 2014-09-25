@@ -22,7 +22,8 @@ namespace AlumnoEjemplos
         public int totalEnemigos = 10;
         public int cantidadBalas = 10;
         public int esperaDañoMilisegundos = 500;
-       
+        public int cantidadDeCargadores = 3;
+
 
         public void enemigoAscesinado()
         {
@@ -60,6 +61,20 @@ namespace AlumnoEjemplos
 
             
 
+        }
+
+        public Boolean esperaCorrecta (TimeSpan tiempoInicial, int mili, int seg, int min)
+        {
+            TimeSpan tiempoEspera = DateTime.Now.TimeOfDay;
+            TimeSpan resultado = tiempoEspera - tiempoInicial;
+            if (mili > 0)
+            {
+                return (resultado.Milliseconds > mili || resultado.Seconds >= seg || resultado.Minutes > min);
+            }
+            else
+            {
+                return (resultado.Seconds >= seg || resultado.Minutes > min);
+            }
         }
 
     }

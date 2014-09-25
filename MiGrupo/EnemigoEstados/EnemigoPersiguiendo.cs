@@ -52,7 +52,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
                     //soundManager.sonidoCaminandoEnemigo();
 
                     //Verificar que no lo golpee tan rapido
-                    if (Math.Abs(dist) < 60 && puedeGolpear())
+                    int milisegundosEspera =  Juego.Instance.esperaDañoMilisegundos;
+                    if (Math.Abs(dist) < 60 && Juego.Instance.esperaCorrecta(tiempoDaño, -1, 1, milisegundosEspera))
                     {
                         tiempoDaño = DateTime.Now.TimeOfDay;
                         vidaPersona.restaAtaqueEnemigo();
@@ -71,13 +72,6 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             enemigo.mesh.updateAnimation();
 
 
-        }
-
-        private Boolean puedeGolpear()
-        {
-            tiempoEsperaGolpe = DateTime.Now.TimeOfDay;
-            TimeSpan resultado = tiempoEsperaGolpe - tiempoDaño;
-            return (resultado.Seconds >= 1 || resultado.Minutes > 1 || resultado.Milliseconds > Juego.Instance.esperaDañoMilisegundos);
         }
 
         private Vector3 elegirNuevaPosicion (float distancia, Enemigo enemigo)

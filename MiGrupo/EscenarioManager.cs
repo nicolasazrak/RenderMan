@@ -18,6 +18,8 @@ namespace AlumnoEjemplos.MiGrupo
         private List<TgcMesh> pasto;
         private List<TgcMesh> barriles;
         TgcMesh arbol;
+        TgcMesh municion;
+
         private TgcScene scene;
 
         TgcBox piso;
@@ -54,7 +56,14 @@ namespace AlumnoEjemplos.MiGrupo
             generarSkyBox();
 
             colisionables = new List<TgcBoundingBox>();
-           
+
+            TgcScene sceneMuniciones = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Armas\\CajaMuniciones\\CajaMuniciones-TgcScene.xml");
+            TgcMesh municionMesh = sceneMuniciones.Meshes[0];
+            municion = municionMesh.createMeshInstance("");
+            municion.Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            municion.Position = new Vector3(100, 0, 0);
+            municion.AlphaBlendEnable = true;
+
         }
 
         
@@ -207,7 +216,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             skyBox.render();
             piso.render();
-
+            municion.render();
         }
 
 

@@ -12,8 +12,10 @@ namespace AlumnoEjemplos.MiGrupo
 
         public static ContadorBalas Instance;
         public int balasRestantes = 0;
+        public int cargadoresRestantes = 0;
         Juego juego;
         TgcText2d texto;
+        TgcText2d textoCargador;
 
         public ContadorBalas(int cantTotal)
         {
@@ -29,12 +31,23 @@ namespace AlumnoEjemplos.MiGrupo
             texto.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
             balasRestantes = cantTotal;
             texto.Text = "Balas Restantes: " + balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
+
+            textoCargador = new TgcText2d();
+            textoCargador.Color = Color.Red;
+            textoCargador.Align = TgcText2d.TextAlign.LEFT;
+            textoCargador.Position = new Point(5, 75);
+            textoCargador.Size = new Size(350, 100);
+            textoCargador.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
+            textoCargador.Text = "Cargadores Restantes: " + Juego.Instance.cantidadDeCargadores;
+
+            cargadoresRestantes = juego.cantidadDeCargadores;
         }
 
 
         public void render()
         {
             texto.render();
+            textoCargador.render();
         }
 
 
@@ -49,10 +62,17 @@ namespace AlumnoEjemplos.MiGrupo
             return balasRestantes > 0;
         }
 
+        public Boolean puedoRecargar()
+        {
+            return cargadoresRestantes > 0;
+        }
+
         public void recagar()
         {
             balasRestantes = juego.cantidadBalas;
+            cargadoresRestantes--;
             texto.Text = "Balas Restantes: " + balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
+            textoCargador.Text = "Cargadores Restantes: " + cargadoresRestantes;
         }
 
     }
