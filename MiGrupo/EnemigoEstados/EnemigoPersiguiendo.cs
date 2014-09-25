@@ -10,8 +10,12 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 {
     class EnemigoPersiguiendo : EnemigoEstado
     {
+        TimeSpan tiempoDaño;
+        TimeSpan tiempoEsperaGolpe;
 
-        public EnemigoPersiguiendo(Enemigo enemigo) : base(enemigo) { }
+        public EnemigoPersiguiendo(Enemigo enemigo) : base(enemigo) { 
+            tiempoDaño = DateTime.Now.TimeOfDay;
+        }
 
         public override bool debeGirar()
         {
@@ -46,10 +50,13 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
                     enemigo.mesh.move(dir_escape * (-0.5f * elapsedTime));
                     enemigo.mesh.playAnimation("Run", true, 20);
                     //soundManager.sonidoCaminandoEnemigo();
-                    if (Math.Abs(dist) < 60)
+
+                    //Verificar que no lo golpee tan rapido
+                    if (Math.Abs(dist) < 60 && puedeGolpear())
                     {
+                        tiempoDaño = DateTime.Now.TimeOfDay;
                         vidaPersona.restaAtaqueEnemigo();
-                        Random rnd = new Random();
+                        //Random rnd = new Random();
                        // Vector3 posNueva = elegirNuevaPosicion(dist, enemigo);
                         //enemigo.setPosicion(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250));
                     }
@@ -64,6 +71,13 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             enemigo.mesh.updateAnimation();
 
 
+        }
+
+        private Boolean puedeGolpear()
+        {
+            tiempoEsperaGolpe = DateTime.Now.TimeOfDay;
+            TimeSpan resultado = tiempoEsperaGolpe - tiempoDaño;
+            return (resultado.Seconds >= 1 || resultado.Minutes > 1 || resultado.Milliseconds > Juego.Instance.esperaDañoMilisegundos);
         }
 
         private Vector3 elegirNuevaPosicion (float distancia, Enemigo enemigo)

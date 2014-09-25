@@ -21,6 +21,8 @@ namespace AlumnoEjemplos
         public int cantidadEnemigosActuales = 10;
         public int totalEnemigos = 10;
         public int cantidadBalas = 40;
+        public int esperaDañoMilisegundos = 500;
+       
 
         public void enemigoAscesinado()
         {
@@ -34,6 +36,7 @@ namespace AlumnoEjemplos
                 totalEnemigos += cantidadEnemigosActuales;
                 EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                 ContadorEnemigos.Instance.reiniciarContador();
+                esperaDañoMilisegundos = 400;
             }
 
             if (enemigosAscesinados == 25)
@@ -43,6 +46,7 @@ namespace AlumnoEjemplos
                 totalEnemigos += cantidadEnemigosActuales;
                 EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                 ContadorEnemigos.Instance.reiniciarContador();
+                esperaDañoMilisegundos = 300;
             }
 
             if (enemigosAscesinados == 50)
@@ -57,5 +61,6 @@ namespace AlumnoEjemplos
             
 
         }
+
     }
 }
