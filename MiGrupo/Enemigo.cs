@@ -90,6 +90,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public TgcBoundingBox getBoundingBox()
         {
+            mesh.updateBoundingBox();
             return mesh.BoundingBox;
         }
 

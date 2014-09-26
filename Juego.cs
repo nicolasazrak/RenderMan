@@ -17,7 +17,7 @@ namespace AlumnoEjemplos
         }
 
         private int enemigosAscesinados;
-        public int distanciaParaPerseguir = 300;
+        public int distanciaParaPerseguir = 600;
         public int cantidadEnemigosActuales = 10;
         public int totalEnemigos = 10;
         public int cantidadBalas = 10;
@@ -32,7 +32,7 @@ namespace AlumnoEjemplos
 
             if (enemigosAscesinados == 10)
             {
-                distanciaParaPerseguir = 300;
+                distanciaParaPerseguir = 700;
                 cantidadEnemigosActuales = 15;
                 totalEnemigos += cantidadEnemigosActuales;
                 EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
@@ -42,7 +42,7 @@ namespace AlumnoEjemplos
 
             if (enemigosAscesinados == 25)
             {
-                distanciaParaPerseguir = 500;
+                distanciaParaPerseguir = 900;
                 cantidadEnemigosActuales = 25;
                 totalEnemigos += cantidadEnemigosActuales;
                 EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
