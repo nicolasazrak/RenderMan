@@ -52,6 +52,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             enemigo.setEstado(new EnemigoMuerto(enemigo));
         }
 
-
+        public override void explotoBarril()
+        {
+            enemigo.setEstado(new EnemigoMuerto(enemigo));
+        }
     }
 }

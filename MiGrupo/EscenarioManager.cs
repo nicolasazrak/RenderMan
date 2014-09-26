@@ -12,6 +12,7 @@ namespace AlumnoEjemplos.MiGrupo
 {
     class EscenarioManager
     {
+        public static EscenarioManager Instance;
 
         SoundManager sonido;
         TimeSpan tiempoInicial;
@@ -38,6 +39,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         public EscenarioManager()
         {
+            EscenarioManager.Instance = this;
+
             sonido = new SoundManager();
             arboles = new List<TgcMesh>();
             pasto = new List<TgcMesh>();
@@ -181,6 +184,25 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
+        public void explotaBarril(TgcMesh barrilExplotado)
+        {
+            Vector3 posBarril = barrilExplotado.Position;
+            int radio = Juego.Instance.radioExplosion;
+
+
+            foreach (Enemigo enemigo in EnemigosManager.Instance.getEnemigos())
+            {
+                Vector3 dir = enemigo.mesh.Position - posBarril;
+                float dist = dir.Length();
+                if (Math.Abs(dist) < radio)
+                {
+                    enemigo.explotoBarril();
+                }
+
+            }
+
+            barriles.Remove(barrilExplotado);
+        }
 
 
         public Boolean verificarColision (TgcBoundingBox personaje)

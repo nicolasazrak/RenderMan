@@ -34,6 +34,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         {
 
         }
+        public override void explotoBarril()
+        {
 
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace AlumnoEjemplos
         public int cantidadBalas = 10;
         public int esperaDañoMilisegundos = 500;
         public int cantidadDeCargadores = 3;
-
+        public int radioExplosion = 100;
 
         public void enemigoAscesinado()
         {

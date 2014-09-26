@@ -22,6 +22,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         public abstract void update(float elapsedTime, Vida vidaPersona);
 
         public abstract void teDispararon();
+        public abstract void explotoBarril();
+
 
         public void girar()
         {

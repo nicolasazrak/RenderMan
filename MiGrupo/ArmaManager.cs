@@ -187,13 +187,15 @@ namespace AlumnoEjemplos.MiGrupo
 
                 Vector3 collisionPoint;
 
-                foreach (TgcMesh barril in this.escenarioManager.getBarriles())
+                foreach (TgcMesh barril in EscenarioManager.Instance.getBarriles())
                 {
                     if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.BoundingBox, out collisionPoint))
                     {
-                        //barril.explota();
+                        EscenarioManager.Instance.explotaBarril(barril);
+                        break;
                     }
                 }
+
 
                 //Testear Ray contra el AABB de todos los meshes
                 foreach (Enemigo enemigo in this.enemigosManager.getEnemigos())

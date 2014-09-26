@@ -71,6 +71,10 @@ namespace AlumnoEjemplos.MiGrupo
             }   
         }
 
+        public void explotoBarril()
+        {
+            estado.explotoBarril();
+        }
 
 
         public void teDispararon()
