@@ -48,16 +48,18 @@ namespace AlumnoEjemplos.MiGrupo
             loader = new TgcSceneLoader();
 
             piso = new TgcBox();
+            piso.UVTiling = new Vector2(100, 100);
             pisoSize = 4000;
             casillasPorEje = 50;
             divisionesPiso = new Vector3[2500];
             _random = new Random();
 
             piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize, 0, pisoSize));
-            piso.updateValues();
-            piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
             
+            piso.updateValues();
 
+            piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\mog.jpg"));
+            
             generarSkyBox();
 
             colisionables = new List<TgcBoundingBox>();
