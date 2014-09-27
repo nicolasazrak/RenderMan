@@ -58,7 +58,7 @@ namespace AlumnoEjemplos.MiGrupo
             
             piso.updateValues();
 
-            piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\mog.jpg"));
+            piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\moss_rock60_512.jpg"));
             
             generarSkyBox();
 
