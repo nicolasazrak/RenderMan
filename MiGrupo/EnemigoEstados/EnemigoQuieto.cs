@@ -12,7 +12,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public EnemigoQuieto(Enemigo enemigo) : base(enemigo)
         {
-           
+            enemigo.mesh.updateBoundingBox();
         }
 
         public override bool debeGirar()
@@ -44,7 +44,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
                 enemigo.setPosAnterior(enemigo.mesh.Position);
             }
      
-            enemigo.mesh.playAnimation("StandBy", true);
+            enemigo.mesh.updateAnimation();
+            enemigo.mesh.updateBoundingBox();
         }
 
         public override void teDispararon()

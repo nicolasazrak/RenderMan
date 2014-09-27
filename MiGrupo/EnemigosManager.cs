@@ -46,11 +46,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void generarEnemigos(int cantidad)
         {
-            
-
             for (int t = 0; t < cantidad; ++t)
             {
-                
                 enemigos.Add(new Enemigo(this.escenarioManager.divisionesPiso[this.escenarioManager.ultimaPosicionUtilizada + t] , this.escenarioManager, mesh.createMeshInstance("")));
             }
 
