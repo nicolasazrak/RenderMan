@@ -13,26 +13,29 @@ namespace AlumnoEjemplos.MiGrupo
         TgcText2d textoVida;
         private SoundManager sonido;
         int vida;
+        Indicadores indicadorVida;
 
         public void initialize()
         {
             sonido = new SoundManager();
+            indicadorVida = new Indicadores();
 
             textoVida = new TgcText2d();
             textoVida.Color = Color.Red;
             textoVida.Align = TgcText2d.TextAlign.LEFT;
-            textoVida.Position = new Point(5, 15);
+            int tamañoTexturaX = (int)indicadorVida.getPosicionXSpriteVida();
+            textoVida.Position = new Point(tamañoTexturaX + 35, 25);
             textoVida.Size = new Size(350, 100);
             textoVida.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
             vida = 100;
-            textoVida.Text = "Vida: " + vida.ToString();
+            textoVida.Text = "%" + vida.ToString();
 
         }
 
         public void restaAtaqueEnemigo()
         {
             vida = vida - 10;
-            textoVida.Text = "Vida: " + vida.ToString();
+            textoVida.Text = "%" + vida.ToString();
             sonido.playSonidoJugadorAlcanzado();
         }
 

@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.DirectX;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using TgcViewer;
 using TgcViewer.Utils._2D;
+using TgcViewer.Utils.TgcSceneLoader;
 
 namespace AlumnoEjemplos.MiGrupo
 {
@@ -16,33 +19,40 @@ namespace AlumnoEjemplos.MiGrupo
         Juego juego;
         TgcText2d texto;
         TgcText2d textoCargador;
+        Indicadores indicadorBala;
+        Indicadores indicadorCargador;
 
         public ContadorBalas(int cantTotal)
         {
+            Size screenSize = GuiController.Instance.Panel3d.Size;
             juego = new Juego();
+
+            indicadorBala = new Indicadores();
+            indicadorCargador = new Indicadores();
 
             ContadorBalas.Instance = this;
 
             texto = new TgcText2d();
             texto.Color = Color.Red;
             texto.Align = TgcText2d.TextAlign.LEFT;
-            texto.Position = new Point(5, 55);
-            texto.Size = new Size(350, 100);
+            int tamañoTexturaBala = (int)indicadorBala.getPosicionXSpriteBala();
+            texto.Position = new Point(tamañoTexturaBala + 25, screenSize.Height - 32);
+            texto.Size = new Size(350, 500);
             texto.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
             balasRestantes = cantTotal;
-            texto.Text = "Balas Restantes: " + balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
+            texto.Text =  balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
 
             textoCargador = new TgcText2d();
             textoCargador.Color = Color.Red;
             textoCargador.Align = TgcText2d.TextAlign.LEFT;
-            textoCargador.Position = new Point(5, 75);
+            int tamañoTexturaCargador = (int)indicadorBala.getPosicionXSpriteCargador();
+            textoCargador.Position = new Point(tamañoTexturaCargador + 190, screenSize.Height - 32);
             textoCargador.Size = new Size(350, 100);
             textoCargador.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
-            textoCargador.Text = "Cargadores Restantes: " + Juego.Instance.cantidadDeCargadores;
+            textoCargador.Text = Juego.Instance.cantidadDeCargadores.ToString();
 
             cargadoresRestantes = juego.cantidadDeCargadores;
         }
-
 
         public void render()
         {
@@ -54,7 +64,7 @@ namespace AlumnoEjemplos.MiGrupo
         public void huboDisparo()
         {
             balasRestantes--;
-            texto.Text = "Balas Restantes: " + balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
+            texto.Text = balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
         }
 
         public Boolean puedoDisparar()
@@ -71,15 +81,18 @@ namespace AlumnoEjemplos.MiGrupo
         {
             balasRestantes = juego.cantidadBalas;
             cargadoresRestantes--;
-            texto.Text = "Balas Restantes: " + balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
-            textoCargador.Text = "Cargadores Restantes: " + cargadoresRestantes.ToString();
+            texto.Text = balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
+            textoCargador.Text = cargadoresRestantes.ToString();
         }
 
         public void obtenerMuniciones()
         {
             cargadoresRestantes = juego.cantidadDeCargadores;
-            textoCargador.Text = "Cargadores Restantes: " + cargadoresRestantes;
+            textoCargador.Text = cargadoresRestantes.ToString();
         }
 
+        public void dispose()
+        {
+        }
     }
 }

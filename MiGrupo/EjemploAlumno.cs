@@ -33,6 +33,7 @@ namespace AlumnoEjemplos.MiGrupo
         ContadorEnemigos contadorEnemigos;
         ContadorBalas contadorBalas;
         Juego juego;
+        Indicadores indicadores;
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
         public static String nombreGrupo = "RenderMan";
@@ -98,7 +99,8 @@ namespace AlumnoEjemplos.MiGrupo
             contadorBalas = new ContadorBalas(juego.cantidadBalas);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
-            
+
+            indicadores = new Indicadores();       
         }
 
 
@@ -140,17 +142,28 @@ namespace AlumnoEjemplos.MiGrupo
             contadorEnemigos.render();
             contadorBalas.render();
 
+            //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
+            GuiController.Instance.Drawer2D.beginDrawSprite();
+           
+            armaManager.spriteRender();
+
+            if (!(armaManager.getHayZoom()))
+            {
+                indicadores.spriteRender();
+            }
+            GuiController.Instance.Drawer2D.endDrawSprite();
+            //------------------------------------------------------------
         }
 
          public override void close()
         {
             enemigosManager.dispose();
-
             soundManager.dispose();
             enemigosManager.dispose();
             escenarioManager.dispose();
             armaManager.dispose();
             vida.dispose();
+            indicadores.dispose();
         }
 
 

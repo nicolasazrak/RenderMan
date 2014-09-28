@@ -98,11 +98,6 @@ namespace AlumnoEjemplos.MiGrupo
                 }
             }
 
-
-            GuiController.Instance.Drawer2D.beginDrawSprite();
-            sprite.render();
-            GuiController.Instance.Drawer2D.endDrawSprite();
-
             if (!hayZoom)
             {
                 actualizarPosicionArma();
@@ -111,6 +106,15 @@ namespace AlumnoEjemplos.MiGrupo
             
         }
 
+        public void spriteRender()
+        {
+            sprite.render();
+        }
+
+        public bool getHayZoom()
+        {
+            return hayZoom;
+        }
 
         private float timeFromZoom = 100;
         private void hacerZoom(float elapsedTime)
@@ -221,6 +225,7 @@ namespace AlumnoEjemplos.MiGrupo
         public void dispose()
         {
             armaMesh.dispose();
+            sprite.dispose();
         }
 
 

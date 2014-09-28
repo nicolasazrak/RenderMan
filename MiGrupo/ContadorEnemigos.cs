@@ -3,30 +3,36 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using TgcViewer;
 using TgcViewer.Utils._2D;
 
 namespace AlumnoEjemplos.MiGrupo
 {
     class ContadorEnemigos
     {
-
+        Indicadores indicadorEnemigo;
         public static ContadorEnemigos Instance;
         public int enemigosAscecinados = 0;
         TgcText2d texto;
 
         public ContadorEnemigos(int cantTotal)
         {
+            indicadorEnemigo = new Indicadores();
+
             ContadorEnemigos.Instance = this;
+
+            Size screenSize = GuiController.Instance.Panel3d.Size;
 
             texto = new TgcText2d();
             texto.Color = Color.Red;
             texto.Align = TgcText2d.TextAlign.LEFT;
-            texto.Position = new Point(5, 35);
+            //texto.Position = new Point(screenSize.Width - 75, 35);
+            int tamañoTexturaX = (int)indicadorEnemigo.getPosicionXSpriteEnemigo();
+            texto.Position = new Point(screenSize.Width - 105 + tamañoTexturaX, 35);
             texto.Size = new Size(350, 100);
             texto.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
-            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
+            texto.Text = enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
         }
-
 
         public void render()
         {
@@ -37,12 +43,12 @@ namespace AlumnoEjemplos.MiGrupo
         public void enemigoAscesinado()
         {
             enemigosAscecinados++;
-            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
+            texto.Text = enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
         }
 
         public void reiniciarContador()
         {
-            texto.Text = "Enemigos matados: " + enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
+            texto.Text = enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
         }
 
     }
