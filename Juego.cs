@@ -30,33 +30,30 @@ namespace AlumnoEjemplos
             ContadorEnemigos.Instance.enemigoAscesinado();
             enemigosAscesinados++;
 
-            if (enemigosAscesinados == 10)
-            {
-                distanciaParaPerseguir = 700;
-                cantidadEnemigosActuales = 15;
-                totalEnemigos += cantidadEnemigosActuales;
-                EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
-                ContadorEnemigos.Instance.reiniciarContador();
-                esperaDañoMilisegundos = 400;
-            }
-
-            if (enemigosAscesinados == 25)
-            {
-                distanciaParaPerseguir = 900;
-                cantidadEnemigosActuales = 25;
-                totalEnemigos += cantidadEnemigosActuales;
-                EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
-                ContadorEnemigos.Instance.reiniciarContador();
-                esperaDañoMilisegundos = 300;
-            }
-
-            if (enemigosAscesinados == 50)
-            {
-                distanciaParaPerseguir = 1000;
-                cantidadEnemigosActuales = 50;
-                totalEnemigos += cantidadEnemigosActuales;
-                EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
-                ContadorEnemigos.Instance.reiniciarContador();
+            switch (enemigosAscesinados) {
+                case 10:
+                    distanciaParaPerseguir = 700;
+                    cantidadEnemigosActuales = 15;
+                    totalEnemigos += cantidadEnemigosActuales;
+                    EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
+                    ContadorEnemigos.Instance.reiniciarContador();
+                    esperaDañoMilisegundos = 400;
+                    break;
+                case 25:
+                    distanciaParaPerseguir = 900;
+                    cantidadEnemigosActuales = 25;
+                    totalEnemigos += cantidadEnemigosActuales;
+                    EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
+                    ContadorEnemigos.Instance.reiniciarContador();
+                    esperaDañoMilisegundos = 300;
+                    break;
+                case 50:
+                    distanciaParaPerseguir = 1000;
+                    cantidadEnemigosActuales = 50;
+                    totalEnemigos += cantidadEnemigosActuales;
+                    EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
+                    ContadorEnemigos.Instance.reiniciarContador();
+                    break;
             }
 
             
