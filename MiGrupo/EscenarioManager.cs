@@ -22,6 +22,7 @@ namespace AlumnoEjemplos.MiGrupo
         private List<TgcMesh> barriles;
         TgcMesh arbol;
         TgcMesh municion;
+        TgcMesh caja;
 
         private TgcScene scene;
 
@@ -37,6 +38,8 @@ namespace AlumnoEjemplos.MiGrupo
         TgcSkyBox skyBox;
         private List<TgcBoundingBox> colisionables;
 
+        
+
         public EscenarioManager()
         {
             EscenarioManager.Instance = this;
@@ -46,6 +49,7 @@ namespace AlumnoEjemplos.MiGrupo
             pasto = new List<TgcMesh>();
             barriles = new List<TgcMesh>();
             loader = new TgcSceneLoader();
+            
 
             piso = new TgcBox();
             piso.UVTiling = new Vector2(100, 100);
@@ -137,9 +141,25 @@ namespace AlumnoEjemplos.MiGrupo
 
             ultimaPosicionUtilizada = cantidadArboles + cantidadBarriles + cantidadPasto;
 
+            crearCajaVida();
+
+
             iniciarMunicion();
         }
 
+        private void crearCajaVida()
+        {
+            TgcScene cajaLoad = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "meshCruzRoja-TgcScene.xml");
+            TgcMesh cajaMesh = cajaLoad.Meshes[0];
+            caja = cajaMesh.createMeshInstance("");
+            caja.Position = new Vector3(101, 1, 1);
+            caja.Scale = new Vector3(1,1,1);
+            caja.AlphaBlendEnable = true;
+            tiempoInicial = DateTime.Now.TimeOfDay;
+            
+        }
+
+        
         private void iniciarMunicion()
         {
             TgcScene sceneMuniciones = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Armas\\CajaMuniciones\\CajaMuniciones-TgcScene.xml");
@@ -226,7 +246,7 @@ namespace AlumnoEjemplos.MiGrupo
         //<summary>
         //Llama al metodo render de cada arbol y pasto que haya que haya
         //</summary>
-        public void update()
+        public void update(float elapsedTime)
         {
 
             foreach (TgcMesh arbol in arboles)
@@ -247,8 +267,8 @@ namespace AlumnoEjemplos.MiGrupo
             skyBox.render();
             piso.render();
             municion.render();
-
-
+            caja.rotateY(1.0f * elapsedTime);
+            caja.render();
             recargoArma();
         }
 
@@ -311,6 +331,7 @@ namespace AlumnoEjemplos.MiGrupo
                 barril.dispose();
             }
 
+            caja.dispose();
             piso.dispose();
         }
 

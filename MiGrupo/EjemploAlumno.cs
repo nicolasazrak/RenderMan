@@ -12,6 +12,8 @@ using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils.TgcSkeletalAnimation;
+using TgcViewer.Utils._2D;
+
 
 namespace AlumnoEjemplos.MiGrupo
 {
@@ -20,9 +22,7 @@ namespace AlumnoEjemplos.MiGrupo
     /// </summary>
     public class EjemploAlumno : TgcExample
     {
-
-        
-        
+               
         TgcFpsMiCamara camara;
         EnemigosManager enemigosManager;
         SoundManager soundManager;
@@ -34,6 +34,7 @@ namespace AlumnoEjemplos.MiGrupo
         ContadorBalas contadorBalas;
         Juego juego;
         Indicadores indicadores;
+
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
         public static String nombreGrupo = "RenderMan";
@@ -74,7 +75,7 @@ namespace AlumnoEjemplos.MiGrupo
             //GuiController.Instance.UserVars.addVar("Ancho", tamañoPantalla.Width);
             //GuiController.Instance.UserVars.addVar("Alto", tamañoPantalla.Height);
             vida = new Vida();
-            vida.initialize();
+            vida.initialize(this);
 
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
@@ -100,10 +101,11 @@ namespace AlumnoEjemplos.MiGrupo
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
 
-            indicadores = new Indicadores();       
-        }
+            indicadores = new Indicadores();
 
+       }
 
+        
         public override void render(float elapsedTime)
         {
 
@@ -136,7 +138,7 @@ namespace AlumnoEjemplos.MiGrupo
             }
 
             enemigosManager.update(elapsedTime, escenarioManager, vida);          
-            escenarioManager.update();
+            escenarioManager.update(elapsedTime);
             armaManager.update(elapsedTime);
             vida.render();
             contadorEnemigos.render();

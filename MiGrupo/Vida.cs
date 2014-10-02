@@ -5,18 +5,20 @@ using System.Linq;
 using System.Text;
 using TgcViewer.Utils._2D;
 
+
 namespace AlumnoEjemplos.MiGrupo
 {
     class Vida
     {
-
         TgcText2d textoVida;
         private SoundManager sonido;
         int vida;
         Indicadores indicadorVida;
+        EjemploAlumno menu;
 
-        public void initialize()
+        public void initialize(EjemploAlumno unMenu)
         {
+            menu = unMenu;
             sonido = new SoundManager();
             indicadorVida = new Indicadores();
 
