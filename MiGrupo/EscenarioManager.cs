@@ -37,11 +37,13 @@ namespace AlumnoEjemplos.MiGrupo
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
         TgcSkyBox skyBox;
         private List<TgcBoundingBox> colisionables;
-
+        
+        Vida vida;
         
 
-        public EscenarioManager()
+        public EscenarioManager(Vida unaVida)
         {
+            vida = unaVida;
             EscenarioManager.Instance = this;
 
             sonido = new SoundManager();
@@ -141,24 +143,31 @@ namespace AlumnoEjemplos.MiGrupo
 
             ultimaPosicionUtilizada = cantidadArboles + cantidadBarriles + cantidadPasto;
 
-            crearCajaVida();
+            crearCajaVida(101,5,1);
 
 
             iniciarMunicion();
         }
 
-        private void crearCajaVida()
+        private void crearCajaVida(float x, float y, float z)
         {
             TgcScene cajaLoad = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "meshCruzRoja-TgcScene.xml");
             TgcMesh cajaMesh = cajaLoad.Meshes[0];
             caja = cajaMesh.createMeshInstance("");
-            caja.Position = new Vector3(101, 1, 1);
-            caja.Scale = new Vector3(1,1,1);
+            caja.Position = new Vector3(x,y,z);
+            caja.Scale = new Vector3(1.5f,1.5f,1.5f);
             caja.AlphaBlendEnable = true;
             tiempoInicial = DateTime.Now.TimeOfDay;
             
         }
 
+        private void cambiarCajaVida() {
+            caja = null;
+            var random = this._random;
+            float x = random.Next(2000);
+            float z = random.Next(2000);
+            this.crearCajaVida(x,5,z);
+        }
         
         private void iniciarMunicion()
         {
@@ -249,27 +258,30 @@ namespace AlumnoEjemplos.MiGrupo
         public void update(float elapsedTime)
         {
 
-            foreach (TgcMesh arbol in arboles)
-            {
-                arbol.render();
-            }
-
-            foreach (TgcMesh pastito in pasto)
-            {
-                pastito.render();
-            }
-
-            foreach (TgcMesh barril in barriles)
-            {
-                barril.render();
-            }
+            foreach (TgcMesh arbol in arboles) arbol.render();
+            foreach (TgcMesh pastito in pasto) pastito.render();
+            foreach (TgcMesh barril in barriles) barril.render();
 
             skyBox.render();
             piso.render();
             municion.render();
-            caja.rotateY(1.0f * elapsedTime);
-            caja.render();
+
+            renderCaja(elapsedTime);
             recargoArma();
+        }
+
+        private void renderCaja(float elapsedTime)
+        {
+            caja.render();
+            caja.rotateY(1.0f * elapsedTime);
+            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
+            Vector3 dir_escape = caja.Position - pos;
+            float dist = dir_escape.Length();
+            if (Math.Abs(dist) < 60) {
+                vida.subirVida();
+                cambiarCajaVida();
+            }
+            caja.render();
         }
 
         private void recargoArma()

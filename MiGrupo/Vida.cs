@@ -41,6 +41,11 @@ namespace AlumnoEjemplos.MiGrupo
             sonido.playSonidoJugadorAlcanzado();
         }
 
+        public void subirVida() {
+            vida += 5;
+            textoVida.Text = "%" + vida.ToString();
+        }
+
         public void render()
         {
             textoVida.render();
