@@ -77,7 +77,7 @@ namespace AlumnoEjemplos.MiGrupo
             return cargadoresRestantes > 0;
         }
 
-        public void recagar()
+        public void recargar()
         {
             balasRestantes = juego.cantidadBalas;
             cargadoresRestantes--;
@@ -87,6 +87,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void obtenerMuniciones()
         {
+            juego.cantidadDeCargadores++;
             cargadoresRestantes = juego.cantidadDeCargadores;
             textoCargador.Text = cargadoresRestantes.ToString();
         }

@@ -39,11 +39,13 @@ namespace AlumnoEjemplos.MiGrupo
         private List<TgcBoundingBox> colisionables;
         
         Vida vida;
+        ContadorBalas contadorMuniciones;
         
 
-        public EscenarioManager(Vida unaVida)
+        public EscenarioManager(Vida unaVida, ContadorBalas cb)
         {
             vida = unaVida;
+            contadorMuniciones = cb;
             EscenarioManager.Instance = this;
 
             sonido = new SoundManager();
@@ -143,39 +145,34 @@ namespace AlumnoEjemplos.MiGrupo
 
             ultimaPosicionUtilizada = cantidadArboles + cantidadBarriles + cantidadPasto;
 
-            crearCajaVida(101,5,1);
-
-
-            iniciarMunicion();
+            generarNuevaCajaVida();
+            iniciarMunicion(115,8,4);
         }
 
-        private void crearCajaVida(float x, float y, float z)
-        {
-            TgcScene cajaLoad = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "meshCruzRoja-TgcScene.xml");
-            TgcMesh cajaMesh = cajaLoad.Meshes[0];
-            caja = cajaMesh.createMeshInstance("");
-            caja.Position = new Vector3(x,y,z);
-            caja.Scale = new Vector3(1.5f,1.5f,1.5f);
-            caja.AlphaBlendEnable = true;
-            tiempoInicial = DateTime.Now.TimeOfDay;
-            
-        }
-
-        private void cambiarCajaVida() {
+        private void generarNuevaCajaVida() {
+           //Libera la caja actual y genera nuevas posiciones 
             caja = null;
             var random = this._random;
             float x = random.Next(2000);
             float z = random.Next(2000);
-            this.crearCajaVida(x,5,z);
+            
+           //Genera la caja nueva
+            TgcScene cajaLoad = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "meshCruzRoja-TgcScene.xml");
+            TgcMesh cajaMesh = cajaLoad.Meshes[0];
+            caja = cajaMesh.createMeshInstance("");
+            caja.Position = new Vector3(x, 5, z);
+            caja.Scale = new Vector3(1.5f, 1.5f, 1.5f);
+            caja.AlphaBlendEnable = true;
+            tiempoInicial = DateTime.Now.TimeOfDay;
         }
         
-        private void iniciarMunicion()
+        private void iniciarMunicion(float x, float y, float z)
         {
             TgcScene sceneMuniciones = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Armas\\CajaMuniciones\\CajaMuniciones-TgcScene.xml");
             TgcMesh municionMesh = sceneMuniciones.Meshes[0];
             municion = municionMesh.createMeshInstance("");
-            municion.Scale = new Vector3(0.5f, 0.5f, 0.5f);
-            municion.Position = new Vector3(100, 0, 0);
+            municion.Scale = new Vector3(1,1,1);
+            municion.Position = new Vector3(x,y,z);
             municion.AlphaBlendEnable = true;
             tiempoInicial = DateTime.Now.TimeOfDay;
         }
@@ -264,38 +261,54 @@ namespace AlumnoEjemplos.MiGrupo
 
             skyBox.render();
             piso.render();
-            municion.render();
+            renderMunicion(elapsedTime);
 
-            renderCaja(elapsedTime);
+            renderCajaVida(elapsedTime);
             recargoArma();
         }
 
-        private void renderCaja(float elapsedTime)
+        private void renderMunicion(float elapsedTime)
         {
-            caja.render();
+            municion.rotateY(1.0f * elapsedTime);
+            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
+            Vector3 dirDistancia = municion.Position - pos;
+            float dist = dirDistancia.Length();
+            if (Math.Abs(dist) < 60 /*&& Juego.Instance.esperaCorrecta(tiempoInicial, -1, 5, 1)*/)
+            {
+                recargoArma();
+                cambiarMunicion();
+            }
+            
+            municion.render();
+
+        }
+
+        private void cambiarMunicion() {
+            sonido.playSonidoMunicion();
+            municion = null;
+            var random = this._random;
+            float x = random.Next(2000);
+            float z = random.Next(2000);
+            this.iniciarMunicion(x, 8, z);
+        }
+
+        private void renderCajaVida(float elapsedTime)
+        {
             caja.rotateY(1.0f * elapsedTime);
             Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
             Vector3 dir_escape = caja.Position - pos;
             float dist = dir_escape.Length();
             if (Math.Abs(dist) < 60) {
                 vida.subirVida();
-                cambiarCajaVida();
+                generarNuevaCajaVida();
             }
             caja.render();
         }
 
         private void recargoArma()
         {
-            Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
-            Vector3 dirDistancia = municion.Position - pos;
-            float dist = dirDistancia.Length();
-
-            if (Math.Abs(dist) < 80 && Juego.Instance.esperaCorrecta(tiempoInicial, -1, 5, 1))
-            {
                 tiempoInicial = DateTime.Now.TimeOfDay;
-                ContadorBalas.Instance.obtenerMuniciones();
-                sonido.playSonidoMunicion();
-            }
+                contadorMuniciones.obtenerMuniciones();
         }
         //<summary>
         //Devuelve el bounding box de todos los arboles para que se puedan checkear las colisiones contra la camara o los enemigos

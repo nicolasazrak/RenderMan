@@ -84,8 +84,9 @@ namespace AlumnoEjemplos.MiGrupo
             ultimaPosicion = new Vector3(-200, 40, 0);
 
             soundManager = new SoundManager();
+            contadorBalas = new ContadorBalas(juego.cantidadBalas);
 
-            escenarioManager = new EscenarioManager(vida);
+            escenarioManager = new EscenarioManager(vida, contadorBalas);
             escenarioManager.generarPosiciones();
            escenarioManager.generarBosque(500, 200, 20);
            /* escenarioManager.generarArboles(80);
@@ -97,7 +98,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             contadorEnemigos = new ContadorEnemigos(10);
             
-            contadorBalas = new ContadorBalas(juego.cantidadBalas);
+            
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
 

@@ -74,7 +74,7 @@ namespace AlumnoEjemplos.MiGrupo
                 {
                     tiempoRecarga = DateTime.Now.TimeOfDay;
                     soundManager.playSonidoRecarga();
-                    ContadorBalas.Instance.recagar();
+                    ContadorBalas.Instance.recargar();
                 }
 
             }
