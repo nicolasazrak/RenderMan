@@ -39,13 +39,13 @@ namespace AlumnoEjemplos.MiGrupo
         private List<TgcBoundingBox> colisionables;
         
         Vida vida;
-        ContadorBalas contadorMuniciones;
+        
         
 
-        public EscenarioManager(Vida unaVida, ContadorBalas cb)
+        public EscenarioManager(Vida unaVida)
         {
             vida = unaVida;
-            contadorMuniciones = cb;
+            
             EscenarioManager.Instance = this;
 
             sonido = new SoundManager();
@@ -264,7 +264,7 @@ namespace AlumnoEjemplos.MiGrupo
             renderMunicion(elapsedTime);
 
             renderCajaVida(elapsedTime);
-            recargoArma();
+            //recargoArma();
         }
 
         private void renderMunicion(float elapsedTime)
@@ -273,9 +273,9 @@ namespace AlumnoEjemplos.MiGrupo
             Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
             Vector3 dirDistancia = municion.Position - pos;
             float dist = dirDistancia.Length();
-            if (Math.Abs(dist) < 60 /*&& Juego.Instance.esperaCorrecta(tiempoInicial, -1, 5, 1)*/)
+            if (Math.Abs(dist) < 60 )
             {
-                recargoArma();
+                ContadorBalas.Instance.obtenerMuniciones();
                 cambiarMunicion();
             }
             
@@ -307,8 +307,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         private void recargoArma()
         {
-                tiempoInicial = DateTime.Now.TimeOfDay;
-                contadorMuniciones.obtenerMuniciones();
+            //tiempoInicial = DateTime.Now.TimeOfDay;
+            ContadorBalas.Instance.obtenerMuniciones();
         }
         //<summary>
         //Devuelve el bounding box de todos los arboles para que se puedan checkear las colisiones contra la camara o los enemigos

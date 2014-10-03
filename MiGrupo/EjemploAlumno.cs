@@ -86,7 +86,7 @@ namespace AlumnoEjemplos.MiGrupo
             soundManager = new SoundManager();
             contadorBalas = new ContadorBalas(juego.cantidadBalas);
 
-            escenarioManager = new EscenarioManager(vida, contadorBalas);
+            escenarioManager = new EscenarioManager(vida);
             escenarioManager.generarPosiciones();
            escenarioManager.generarBosque(500, 200, 20);
            /* escenarioManager.generarArboles(80);

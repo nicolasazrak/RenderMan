@@ -87,7 +87,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void obtenerMuniciones()
         {
-            juego.cantidadDeCargadores++;
+            //juego.cantidadDeCargadores++;
             cargadoresRestantes = juego.cantidadDeCargadores;
             textoCargador.Text = cargadoresRestantes.ToString();
         }
