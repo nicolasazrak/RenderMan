@@ -87,7 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Juego.cs" />
+    <Compile Include="MiGrupo\Juego.cs" />
     <Compile Include="MiGrupo\Barril.cs" />
     <Compile Include="MiGrupo\ContadorBalas.cs" />
     <Compile Include="MiGrupo\ContadorEnemigos.cs" />
@@ -101,6 +101,9 @@
     <Compile Include="MiGrupo\Enemigo.cs" />
     <Compile Include="MiGrupo\EnemigosManager.cs" />
     <Compile Include="MiGrupo\Indicadores.cs" />
+    <Compile Include="MiGrupo\Octree\Octree.cs" />
+    <Compile Include="MiGrupo\Octree\OctreeBuilder.cs" />
+    <Compile Include="MiGrupo\Octree\OctreeNode.cs" />
     <Compile Include="MiGrupo\SoundManager.cs" />
     <Compile Include="MiGrupo\TgcMiFpsCamara.cs" />
     <Compile Include="MiGrupo\Vida.cs" />

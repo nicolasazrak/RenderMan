@@ -41,8 +41,8 @@ namespace AlumnoEjemplos.MiGrupo
         private List<TgcBoundingBox> colisionables;
         
         Vida vida;
-        
-        
+
+        public TgcBoundingBox limites;
 
         public EscenarioManager(Vida unaVida)
         {
@@ -57,24 +57,23 @@ namespace AlumnoEjemplos.MiGrupo
             barriles = new List<TgcMesh>();
             barrilesCilindros = new List<TgcBoundingCylinder>();
             loader = new TgcSceneLoader();
-            
 
-            piso = new TgcBox();
-            piso.UVTiling = new Vector2(100, 100);
-            pisoSize = 4000;
             casillasPorEje = 50;
             divisionesPiso = new Vector3[2500];
             _random = new Random();
 
+            piso = new TgcBox();
+            piso.UVTiling = new Vector2(100, 100);
+            pisoSize = 4000;
             piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize, 0, pisoSize));
-            
             piso.updateValues();
-
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\moss_rock60_512.jpg"));
             
             generarSkyBox();
 
             colisionables = new List<TgcBoundingBox>();
+
+            limites = new TgcBoundingBox(new Vector3(-4000, 0, -4000), new Vector3(4000, 5000, 4000));
 
 
         }
@@ -100,8 +99,6 @@ namespace AlumnoEjemplos.MiGrupo
             //Hay veces es necesario invertir las texturas Front y Back si se pasa de un sistema RightHanded a uno LeftHanded
             skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Front, texturesPath + "phobos_bk.jpg");
             skyBox.setFaceTexture(TgcSkyBox.SkyFaces.Back, texturesPath + "phobos_ft.jpg");
-
-
 
             //Actualizar todos los valores para crear el SkyBox
             skyBox.updateValues();
@@ -264,9 +261,9 @@ namespace AlumnoEjemplos.MiGrupo
         public void update(float elapsedTime)
         {
 
-            foreach (TgcMesh arbol in arboles) arbol.render();
+            /*foreach (TgcMesh arbol in arboles) arbol.render();
             foreach (TgcMesh pastito in pasto) pastito.render();
-            foreach (TgcMesh barril in barriles) barril.render();
+            foreach (TgcMesh barril in barriles) barril.render();*/
 
             skyBox.render();
             piso.render();
@@ -276,13 +273,19 @@ namespace AlumnoEjemplos.MiGrupo
             //recargoArma();
         }
 
+        public List<TgcMesh> getOptimizables()
+        {
+            return arboles.Concat(pasto).ToList().Concat(barriles).ToList();
+        }
+
         private void renderMunicion(float elapsedTime)
         {
+
             municion.rotateY(1.0f * elapsedTime);
             Vector3 pos = GuiController.Instance.CurrentCamera.getPosition();
             Vector3 dirDistancia = municion.Position - pos;
             float dist = dirDistancia.Length();
-            if (Math.Abs(dist) < 60 )
+            if (Math.Abs(dist) < 60)
             {
                 ContadorBalas.Instance.obtenerMuniciones();
                 cambiarMunicion();

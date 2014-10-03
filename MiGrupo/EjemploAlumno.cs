@@ -13,6 +13,7 @@ using TgcViewer.Utils.Input;
 using TgcViewer.Utils.Sound;
 using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer.Utils._2D;
+using Examples.Optimizacion.Octree;
 
 
 namespace AlumnoEjemplos.MiGrupo
@@ -34,6 +35,8 @@ namespace AlumnoEjemplos.MiGrupo
         ContadorBalas contadorBalas;
         Juego juego;
         Indicadores indicadores;
+        Octree octree;
+        
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
@@ -88,17 +91,16 @@ namespace AlumnoEjemplos.MiGrupo
 
             escenarioManager = new EscenarioManager(vida);
             escenarioManager.generarPosiciones();
-           escenarioManager.generarBosque(500, 200, 20);
-           /* escenarioManager.generarArboles(80);
-            escenarioManager.generarPasto(200);
-            escenarioManager.generarBarriles(10);
-            */
+            escenarioManager.generarBosque(500, 200, 20);
+
+            octree = new Octree();
+            octree.create(escenarioManager.getOptimizables(), escenarioManager.limites);
+            octree.createDebugOctreeMeshes();
+
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
-            enemigosManager.generarEnemigos( 10);
+            enemigosManager.generarEnemigos(10);
 
             contadorEnemigos = new ContadorEnemigos(10);
-            
-            
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
 
@@ -144,6 +146,7 @@ namespace AlumnoEjemplos.MiGrupo
             vida.render();
             contadorEnemigos.render();
             contadorBalas.render();
+            octree.render(GuiController.Instance.Frustum, false);
 
             //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
             GuiController.Instance.Drawer2D.beginDrawSprite();
