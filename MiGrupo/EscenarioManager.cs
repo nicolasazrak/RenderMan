@@ -18,8 +18,10 @@ namespace AlumnoEjemplos.MiGrupo
         TimeSpan tiempoInicial;
 
         private List<TgcMesh> arboles;
+        private List<TgcBoundingCylinder> arbolesCilindros;
         private List<TgcMesh> pasto;
         private List<TgcMesh> barriles;
+        private List<TgcBoundingCylinder> barrilesCilindros;
         TgcMesh arbol;
         TgcMesh municion;
         TgcMesh caja;
@@ -50,8 +52,10 @@ namespace AlumnoEjemplos.MiGrupo
 
             sonido = new SoundManager();
             arboles = new List<TgcMesh>();
+            arbolesCilindros = new List<TgcBoundingCylinder>();
             pasto = new List<TgcMesh>();
             barriles = new List<TgcMesh>();
+            barrilesCilindros = new List<TgcBoundingCylinder>();
             loader = new TgcSceneLoader();
             
 
@@ -110,10 +114,12 @@ namespace AlumnoEjemplos.MiGrupo
             for (int i = 0; i < cantidadArboles; i++)
             {
                 TgcMesh instancia = arbol.createMeshInstance("arbol");
+                TgcBoundingCylinder instanciaCilindro = new TgcBoundingCylinder(this.divisionesPiso[i], 10, 200);
                 instancia.Scale = new Vector3(3f, 3f, 3f);
                 instancia.Position = this.divisionesPiso[i];
                 instancia.AlphaBlendEnable = true;
                 arboles.Add(instancia);
+                arbolesCilindros.Add(instanciaCilindro);
             }
 
             TgcScene scenePasto = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml");
@@ -128,6 +134,7 @@ namespace AlumnoEjemplos.MiGrupo
                 instancia.Scale = new Vector3(1f, 0.5f, 1f);
                 instancia.AlphaBlendEnable = true;
                 pasto.Add(instancia);
+
             }
 
             TgcScene sceneBarril = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Objetos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
@@ -136,10 +143,12 @@ namespace AlumnoEjemplos.MiGrupo
             for (int i = 0; i < cantidadBarriles; i++)
             {
                 TgcMesh instancia = barrilMesh.createMeshInstance("");
+                TgcBoundingCylinder instanciaCilindro = new TgcBoundingCylinder(this.divisionesPiso[cantidadArboles + cantidadPasto + i], 10, 150);
                 instancia.Position = this.divisionesPiso[cantidadArboles + cantidadPasto + i];
                 instancia.Scale = new Vector3(0.5f, 0.6f, 0.5f);
                 instancia.AlphaBlendEnable = true;
                 barriles.Add(instancia);
+                barrilesCilindros.Add(instanciaCilindro);
             }
             updateColisionables();
 
@@ -358,6 +367,14 @@ namespace AlumnoEjemplos.MiGrupo
 
             caja.dispose();
             piso.dispose();
+        }
+
+        public List<TgcBoundingCylinder> colisionAdistancia(float distancia, TgcBoundingSphere esfera)
+        {
+            TgcBoundingSphere esferaA = new TgcBoundingSphere(esfera.Center, distancia);
+            List<TgcBoundingCylinder> cilindros;
+            cilindros = arbolesCilindros.Concat(barrilesCilindros).ToList();
+            return cilindros.Where(cilindro => TgcCollisionUtils.testSphereCylinder(esferaA, cilindro)).ToList();
         }
 
     }

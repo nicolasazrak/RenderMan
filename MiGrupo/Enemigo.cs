@@ -18,6 +18,10 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcSkeletalMesh mesh;
         public Vector3 position;
         public Vector3 posAnterior;
+
+        public Vector3 velocidad;
+        public TgcBoundingSphere enemigoEsfera;
+
         public EnemigoEstado estado{get; set;}
         public EscenarioManager escenarioManager;
 
@@ -27,6 +31,8 @@ namespace AlumnoEjemplos.MiGrupo
             this.escenarioManager = escenarioManager;
 
             this.mesh = mesh;
+
+            enemigoEsfera = new TgcBoundingSphere(new Vector3(posicionInicial.X, 30, posicionInicial.Z), 10);
 
             Random rnd = new Random();
             mesh.Position = posicionInicial;
