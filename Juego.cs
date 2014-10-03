@@ -24,6 +24,7 @@ namespace AlumnoEjemplos
         public int esperaDañoMilisegundos = 500;
         public int cantidadDeCargadores = 3;
         public int radioExplosion = 100;
+        public int recuperoVida = 5;
 
         public void enemigoAscesinado()
         {
@@ -38,6 +39,7 @@ namespace AlumnoEjemplos
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                     ContadorEnemigos.Instance.reiniciarContador();
                     esperaDañoMilisegundos = 400;
+                    recuperoVida = 10;
                     break;
                 case 25:
                     distanciaParaPerseguir = 900;
@@ -46,6 +48,7 @@ namespace AlumnoEjemplos
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                     ContadorEnemigos.Instance.reiniciarContador();
                     esperaDañoMilisegundos = 300;
+                    recuperoVida = 20;
                     break;
                 case 50:
                     distanciaParaPerseguir = 1000;
@@ -53,6 +56,7 @@ namespace AlumnoEjemplos
                     totalEnemigos += cantidadEnemigosActuales;
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                     ContadorEnemigos.Instance.reiniciarContador();
+                    recuperoVida = 25;
                     break;
             }
 

@@ -42,7 +42,15 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
         public void subirVida() {
-            vida += 5;
+            if (vida + Juego.Instance.recuperoVida <= 100)
+            {
+                vida += Juego.Instance.recuperoVida;
+            }
+            else
+            {
+                vida = 100;
+            }
+            
             textoVida.Text = "%" + vida.ToString();
         }
 
