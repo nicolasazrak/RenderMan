@@ -44,6 +44,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         public TgcBoundingBox limites;
 
+        public float tamanio = 10000, tamanioSkyBox = 5000;
+
         public EscenarioManager(Vida unaVida)
         {
             vida = unaVida;
@@ -64,7 +66,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             piso = new TgcBox();
             piso.UVTiling = new Vector2(100, 100);
-            pisoSize = 4000;
+            pisoSize = (int) tamanio;
             piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize, 0, pisoSize));
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\moss_rock60_512.jpg"));
@@ -73,7 +75,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             colisionables = new List<TgcBoundingBox>();
 
-            limites = new TgcBoundingBox(new Vector3(-4000, 0, -4000), new Vector3(4000, 5000, 4000));
+            limites = new TgcBoundingBox(new Vector3(-tamanio, 0, -tamanio), new Vector3(tamanio, 5000, tamanio));
 
 
         }
@@ -85,7 +87,7 @@ namespace AlumnoEjemplos.MiGrupo
             //Crear SkyBox 
             skyBox = new TgcSkyBox();
             skyBox.Center = new Vector3(0, 0, 0);
-            skyBox.Size = new Vector3(6000, 6000, 6000);
+            skyBox.Size = new Vector3(tamanioSkyBox, tamanioSkyBox, tamanioSkyBox);
 
             //Configurar color
             //skyBox.Color = Color.OrangeRed;
@@ -128,10 +130,9 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 TgcMesh instancia = pastoMesh.createMeshInstance("");
                 instancia.Position = this.divisionesPiso[cantidadArboles + i];
-                instancia.Scale = new Vector3(1f, 0.5f, 1f);
+                instancia.Scale = new Vector3(2f, 2f, 2f);
                 instancia.AlphaBlendEnable = true;
                 pasto.Add(instancia);
-
             }
 
             TgcScene sceneBarril = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Objetos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
@@ -192,8 +193,8 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 for (j = 0; j < casillasPorEje; j++)
                 {
-                    x = -2000 + (salto * i);
-                    z = -2000 + (salto * j);
+                    x = -(int)(this.tamanio/2) + (salto * i);
+                    z = -(int)(this.tamanio / 2) + (salto * j);
                     divisionesPiso[q] = new Vector3(x + (salto / 2), 0, z + (salto / 2));
                     q++;
                 }
@@ -270,6 +271,9 @@ namespace AlumnoEjemplos.MiGrupo
             renderMunicion(elapsedTime);
 
             renderCajaVida(elapsedTime);
+
+            skyBox.Center = GuiController.Instance.CurrentCamera.getPosition();
+            skyBox.updateValues();
             //recargoArma();
         }
 

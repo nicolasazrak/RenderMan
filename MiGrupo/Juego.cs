@@ -17,7 +17,7 @@ namespace AlumnoEjemplos
         }
 
         private int enemigosAscesinados;
-        public int distanciaParaPerseguir = 600;
+        public int distanciaParaPerseguir = 2000;
         public int cantidadEnemigosActuales = 10;
         public int totalEnemigos = 10;
         public int cantidadBalas = 10;
@@ -33,7 +33,7 @@ namespace AlumnoEjemplos
 
             switch (enemigosAscesinados) {
                 case 10:
-                    distanciaParaPerseguir = 700;
+                    distanciaParaPerseguir = 3000;
                     cantidadEnemigosActuales = 15;
                     totalEnemigos += cantidadEnemigosActuales;
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
@@ -42,7 +42,7 @@ namespace AlumnoEjemplos
                     recuperoVida = 10;
                     break;
                 case 25:
-                    distanciaParaPerseguir = 900;
+                    distanciaParaPerseguir = 5000;
                     cantidadEnemigosActuales = 25;
                     totalEnemigos += cantidadEnemigosActuales;
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
@@ -51,7 +51,7 @@ namespace AlumnoEjemplos
                     recuperoVida = 20;
                     break;
                 case 50:
-                    distanciaParaPerseguir = 1000;
+                    distanciaParaPerseguir = 9000;
                     cantidadEnemigosActuales = 50;
                     totalEnemigos += cantidadEnemigosActuales;
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
