@@ -65,9 +65,9 @@ namespace AlumnoEjemplos.MiGrupo
             _random = new Random();
 
             piso = new TgcBox();
-            piso.UVTiling = new Vector2(100, 100);
+            piso.UVTiling = new Vector2(300, 300);
             pisoSize = (int) tamanio;
-            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize, 0, pisoSize));
+            piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize*4, 0, pisoSize*4));
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\moss_rock60_512.jpg"));
             

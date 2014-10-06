@@ -106,6 +106,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             indicadores = new Indicadores();
 
+            GuiController.Instance.Modifiers.addFloat("zoom", 2f, 5f, 3f);
+
        }
 
         
@@ -118,6 +120,7 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 camara.swapMouseLock();
             }
+
 
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S)
                 || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))

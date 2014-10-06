@@ -72,8 +72,8 @@ namespace TgcViewer.Utils.Input {
             }
             else
             {
-                zoom = 0.3f;
-                this.rotationSpeed = DEFAULT_ROTATION_SPEED * 0.2f;
+                zoom = 1 / (float)GuiController.Instance.Modifiers["zoom"];
+                this.rotationSpeed = DEFAULT_ROTATION_SPEED * (1 / (float)GuiController.Instance.Modifiers["zoom"]);
             }
         }
 
