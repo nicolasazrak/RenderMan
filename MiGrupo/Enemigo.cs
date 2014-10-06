@@ -25,12 +25,18 @@ namespace AlumnoEjemplos.MiGrupo
         public EnemigoEstado estado{get; set;}
         public EscenarioManager escenarioManager;
 
+        public TgcCylinder sangre;
+
         public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager, TgcSkeletalMesh mesh)
         {
 
             this.escenarioManager = escenarioManager;
 
             this.mesh = mesh;
+
+            sangre = new TgcCylinder(posicionInicial, 0, 20, 0);
+            sangre.Color = Color.Red;
+            sangre.updateValues();
 
             enemigoEsfera = new TgcBoundingSphere(new Vector3(posicionInicial.X, 30, posicionInicial.Z), 10);
 
@@ -49,6 +55,7 @@ namespace AlumnoEjemplos.MiGrupo
             //Actualizar animacion
             estado.update(elapsedTime, vidaPersona);
             mesh.render();
+            
             //mesh.BoundingBox.render();
         }
 

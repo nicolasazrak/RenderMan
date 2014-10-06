@@ -21,13 +21,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public override void update(float elapsedTime, Vida vidaPersona)
         {
-            enemigo.mesh.rotateX(3.1415f * 0.5f - enemigo.mesh.Rotation.X);
-            //Subo un poco al muerto asi no queda cortado por el piso al acostarse
-            Vector3 posicionMuerto = enemigo.mesh.Position;
-            posicionMuerto.Y = 8;
-            enemigo.mesh.Position = posicionMuerto;
-            enemigo.mesh.playAnimation("StandBy", true);
-            //soundManager.sonidoEnemigoMuerto();
+            enemigo.sangre.render();
         }
 
         public override void teDispararon()

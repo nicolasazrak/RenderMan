@@ -122,11 +122,11 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public override void teDispararon()
         {
-            enemigo.setEstado(new EnemigoMuerto(enemigo));
+            enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
         public override void explotoBarril()
         {
-            enemigo.setEstado(new EnemigoMuerto(enemigo));
+            enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
 
     }
