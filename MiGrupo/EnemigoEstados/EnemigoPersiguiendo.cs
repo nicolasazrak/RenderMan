@@ -72,10 +72,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
                 //Verificar que no lo golpee tan rapido
                 int milisegundosEspera = Juego.Instance.esperaDañoMilisegundos;
-                if (Math.Abs(dist) < 60 && Juego.Instance.esperaCorrecta(tiempoDaño, -1, 1, milisegundosEspera))
+                if (Math.Abs(dist) < 100 && Juego.Instance.esperaCorrecta(tiempoDaño, -1, 1, milisegundosEspera))
                 {
-                    tiempoDaño = DateTime.Now.TimeOfDay;
-                    vidaPersona.restaAtaqueEnemigo();
+                    enemigo.setEstado(new EnemigoGolpeando(enemigo));
                     //Random rnd = new Random();
                     // Vector3 posNueva = elegirNuevaPosicion(dist, enemigo);
                     //enemigo.setPosicion(new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250));
