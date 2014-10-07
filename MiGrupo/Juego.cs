@@ -10,6 +10,7 @@ namespace AlumnoEjemplos
     {
 
         public static Juego Instance;
+        EnemigosManager eManager;
 
         public Juego()
         {
@@ -17,14 +18,15 @@ namespace AlumnoEjemplos
         }
 
         private int enemigosAscesinados;
-        public int distanciaParaPerseguir = 2000;
+        public int distanciaParaPerseguir = 1500;
         public int cantidadEnemigosActuales = 10;
-        public int totalEnemigos = 10;
+        public int totalEnemigos = 1;
         public int cantidadBalas = 10;
         public int esperaDañoMilisegundos = 500;
         public int cantidadDeCargadores = 3;
         public int radioExplosion = 100;
         public int recuperoVida = 5;
+        
 
         public void enemigoAscesinado()
         {
@@ -33,27 +35,30 @@ namespace AlumnoEjemplos
 
             switch (enemigosAscesinados) {
                 case 10:
-                    distanciaParaPerseguir = 3000;
+                    distanciaParaPerseguir = 2000;
                     cantidadEnemigosActuales = 15;
                     totalEnemigos += cantidadEnemigosActuales;
-                    EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                     ContadorEnemigos.Instance.reiniciarContador();
                     esperaDañoMilisegundos = 400;
                     recuperoVida = 10;
+                    EnemigosManager.Instance.pasarNivel();
+                    EnemigosManager.Instance.generarEnemigos(15);
                     break;
                 case 25:
-                    distanciaParaPerseguir = 5000;
+                    distanciaParaPerseguir = 2500;
                     cantidadEnemigosActuales = 25;
                     totalEnemigos += cantidadEnemigosActuales;
+                    EnemigosManager.Instance.pasarNivel();
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                     ContadorEnemigos.Instance.reiniciarContador();
                     esperaDañoMilisegundos = 300;
                     recuperoVida = 20;
                     break;
                 case 50:
-                    distanciaParaPerseguir = 9000;
+                    distanciaParaPerseguir = 3500;
                     cantidadEnemigosActuales = 50;
                     totalEnemigos += cantidadEnemigosActuales;
+                    EnemigosManager.Instance.pasarNivel();
                     EnemigosManager.Instance.generarEnemigos(cantidadEnemigosActuales);
                     ContadorEnemigos.Instance.reiniciarContador();
                     recuperoVida = 25;
@@ -76,6 +81,11 @@ namespace AlumnoEjemplos
             {
                 return (resultado.Seconds >= seg || resultado.Minutes > min);
             }
+        }
+
+        public void manejoEnemigos(EnemigosManager enemigo)
+        {
+            eManager = enemigo;
         }
 
     }

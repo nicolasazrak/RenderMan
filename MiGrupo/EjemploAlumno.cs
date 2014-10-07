@@ -98,7 +98,9 @@ namespace AlumnoEjemplos.MiGrupo
             octree.createDebugOctreeMeshes();
 
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
-            enemigosManager.generarEnemigos(10);
+            enemigosManager.generarEnemigos(juego.totalEnemigos);
+
+            juego.manejoEnemigos(enemigosManager);
 
             contadorEnemigos = new ContadorEnemigos(10);
 

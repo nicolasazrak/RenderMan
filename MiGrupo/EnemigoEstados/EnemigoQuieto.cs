@@ -37,6 +37,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
             if (Math.Abs(dist) < Juego.Instance.distanciaParaPerseguir)
             {
+                SoundManager sonido = new SoundManager();
+                sonido.playSonidoAviso();
                 enemigo.setEstado(new EnemigoPersiguiendo(enemigo));
             }
             else

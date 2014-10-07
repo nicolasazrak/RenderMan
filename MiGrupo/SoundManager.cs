@@ -16,6 +16,7 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcStaticSound sonidoDisparo;
         public TgcStaticSound sonidoRecarga;
         public TgcStaticSound sonidoEnemigoAlcanzaPersonaje;
+        public TgcStaticSound sonidoAviso;
         private Boolean esPasoDerecho;
 
         private TgcStaticSound sonidoBackground;
@@ -31,6 +32,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoEnemigoAlcanzaPersonaje = new TgcStaticSound();
             sonidoBackground = new TgcStaticSound();
             sonidoMunicion = new TgcStaticSound();
+            sonidoAviso = new TgcStaticSound();
 
             sonidoCaminandoIzq.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba izda.wav");
             sonidoCaminandoDer.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
@@ -46,6 +48,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             sonidoEnemigoAlcanzaPersonaje.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\puñetazo.wav");
             sonidoMunicion.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\tic.wav");
+            sonidoAviso.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\sirena, continuo.wav");
+            
 
             esPasoDerecho = true;
         }
@@ -92,6 +96,11 @@ namespace AlumnoEjemplos.MiGrupo
         {
             sonidoMunicion.play();
         }
+
+        public void playSonidoAviso()
+        {
+            sonidoAviso.play();
+        }
         
 
         public void dispose()
@@ -104,6 +113,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoRecarga.dispose();
             sonidoEnemigoAlcanzaPersonaje.dispose();
             sonidoMunicion.dispose();
+            sonidoAviso.dispose();
         }
 
 

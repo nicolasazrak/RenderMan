@@ -65,8 +65,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             {
                 enemigo.setPosAnterior(enemigo.mesh.Position);
                 //Aca se les dice que hagan el movimiento de correr
-                enemigo.mesh.move(dir_escape * (-0.5f * elapsedTime));
-                enemigo.enemigoEsfera.moveCenter(dir_escape * (-0.5f * elapsedTime));
+                enemigo.mesh.move(dir_escape * (-0.4f * elapsedTime));
+                enemigo.enemigoEsfera.moveCenter(dir_escape * (-0.4f * elapsedTime));
                 enemigo.mesh.playAnimation("Run", true, 20);
                 //soundManager.sonidoCaminandoEnemigo();
 
@@ -126,6 +126,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         }
         public override void explotoBarril()
         {
+    
             enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
 

@@ -15,7 +15,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public EnemigoMuriendo(Enemigo enemigo) : base(enemigo)
         {
-            Juego.Instance.enemigoAscesinado();
+            //Juego.Instance.enemigoAscesinado();
             enemigo.mesh.rotateX(3.1415f * 0.5f - enemigo.mesh.Rotation.X);
             //Subo un poco al muerto asi no queda cortado por el piso al acostarse
             Vector3 posicionMuerto = enemigo.mesh.Position;
@@ -35,7 +35,6 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         public override void update(float elapsedTime, Vida vidaPersona)
         {
-
             tiempoMuerto += elapsedTime;
 
             enemigo.sangre = new TgcCylinder(enemigo.sangre.Position, 0, 20 * tiempoMuerto / 3, 0);
@@ -45,6 +44,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             if (tiempoMuerto > 3)
             {
                 enemigo.setEstado(new EnemigoMuerto(enemigo));
+                
             }
 
         }

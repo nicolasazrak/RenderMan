@@ -25,6 +25,8 @@ namespace AlumnoEjemplos.MiGrupo
         private TgcSkeletalMesh mesh;
         public static EnemigosManager Instance;
 
+        Boolean pasoNivel;
+
         public EnemigosManager(EscenarioManager escenario, SoundManager soundManager)
         {
 
@@ -41,11 +43,14 @@ namespace AlumnoEjemplos.MiGrupo
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
             });
 
+            pasoNivel = false;
         }
 
 
         public void generarEnemigos(int cantidad)
         {
+            enemigos.Clear();
+
             for (int t = 0; t < cantidad; ++t)
             {
                 enemigos.Add(new Enemigo(this.escenarioManager.divisionesPiso[this.escenarioManager.ultimaPosicionUtilizada + t] , this.escenarioManager, mesh.createMeshInstance("")));
@@ -53,7 +58,10 @@ namespace AlumnoEjemplos.MiGrupo
 
         }
 
-
+        public void pasarNivel()
+        {
+            pasoNivel = true;
+        }
         //<summary>
         //Llama al metodo render de cada enemigo que haya
         //</summary>
@@ -62,7 +70,9 @@ namespace AlumnoEjemplos.MiGrupo
             foreach (Enemigo enemigo in enemigos)
             {
                 enemigo.render(elapsedTime, vidaPersona);
+                if (pasoNivel) break;
             }
+            pasoNivel = false;
         }
 
         public void dispose()
