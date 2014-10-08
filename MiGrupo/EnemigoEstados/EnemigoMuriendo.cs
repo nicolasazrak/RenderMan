@@ -44,7 +44,6 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             if (tiempoMuerto > 3)
             {
                 enemigo.setEstado(new EnemigoMuerto(enemigo));
-                
             }
 
         }

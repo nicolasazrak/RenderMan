@@ -9,55 +9,77 @@ using TgcViewer.Utils.TgcSceneLoader;
 
 namespace AlumnoEjemplos.MiGrupo
 {
-    class Barril
+    public class Barril
     {
 
-        TgcCylinder cilindro;
-        Vector3 position;
-        TgcBoundingBox boundingBox;
-        bool explotado = false;
+        public bool explotado = false;
+        public TgcMesh mesh;
+        public TgcBoundingCylinder cilindro;
+        public TgcBoundingBox BoundigBox;
 
-        /* Ojo con esta clase que probablemente tenga estados cuando tengamos que hacerle el humo */
+        private static TgcMesh originalMesh;
+
+        public static TgcMesh getMesh()
+        {
+            if (originalMesh == null)
+            {
+                TgcScene sceneBarril = EscenarioManager.Instance.loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Objetos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
+                TgcMesh barrilMesh = sceneBarril.Meshes[0];
+                originalMesh = barrilMesh;
+            }
+            return originalMesh.createMeshInstance("barril");
+        }
+
         public Barril(Vector3 position)
         {
-            cilindro = new TgcCylinder(position, 12, 25);
-            this.position = position;
-            cilindro.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "\\Texturas\\pasto.jpg"));
-            cilindro.updateValues();
-            boundingBox = new TgcBoundingBox(new Vector3(12 + position.X, 0, 12 + position.Z), new Vector3(-12 + position.X, 25, -12 + position.Z));
+            this.mesh = Barril.getMesh();
+            this.mesh.Position = position;
+            this.mesh.Scale = new Vector3(0.5f, 0.6f, 0.5f);
+            this.mesh.AlphaBlendEnable = true;
+            cilindro = new TgcBoundingCylinder(position, 10, 150);
+            this.mesh.updateBoundingBox();
+            BoundigBox = this.mesh.BoundingBox;
         }
 
-        public TgcBoundingBox getBoundingBox()
-        {
-            return boundingBox;
-        }
 
-        public Vector3 centro()
+        public Vector3 getPosition()
         {
-            return cilindro.Center;
-        }
-
-        public float radio()
-        {
-            return cilindro.TopRadius;
+            return mesh.Position;
         }
 
         public void render()
         {
             if (!explotado)
-                cilindro.render();
+                mesh.render();
         }
 
 
         public void dispose()
         {
-
+            mesh.dispose();
         }
 
         public void explota()
         {
-            this.cilindro = null;
+
+            explotado = true;
+
+            int radio = Juego.Instance.radioExplosion;
+
+            foreach (Enemigo enemigo in EnemigosManager.Instance.getEnemigos())
+            {
+                Vector3 dir = enemigo.mesh.Position - mesh.Position;
+                float dist = dir.Length();
+                if (Math.Abs(dist) < radio)
+                {
+                    enemigo.explotoBarril(mesh.Position);
+                }
+            }
+
+            EscenarioManager.Instance.colisionables.Remove(cilindro);
+
         }
+
 
     }
 }

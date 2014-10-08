@@ -19,9 +19,9 @@ namespace AlumnoEjemplos.MiGrupo
 
         private List<TgcMesh> arboles;
         private List<TgcMesh> pasto;
-        private List<TgcMesh> barriles;
+        private List<Barril> barriles;
 
-        private List<TgcBoundingCylinder> colisionables;
+        public List<TgcBoundingCylinder> colisionables;
 
         TgcMesh arbol;
         TgcMesh municion;
@@ -36,7 +36,7 @@ namespace AlumnoEjemplos.MiGrupo
         public int ultimaPosicionUtilizada;
         Random _random;
 
-        TgcSceneLoader loader;
+        public TgcSceneLoader loader;
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
         TgcSkyBox skyBox;
         
@@ -56,7 +56,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonido = new SoundManager();
             arboles = new List<TgcMesh>();
             pasto = new List<TgcMesh>();
-            barriles = new List<TgcMesh>();
+            barriles = new List<Barril>();
             loader = new TgcSceneLoader();
 
             casillasPorEje = 50;
@@ -119,8 +119,6 @@ namespace AlumnoEjemplos.MiGrupo
             iniciarMunicion(115,8,4);
         }
 
-
-
         private void generarArboles(int cantidadArboles)
         {
             scene = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\" + tipoArboles[0] + "-TgcScene.xml");
@@ -156,18 +154,13 @@ namespace AlumnoEjemplos.MiGrupo
 
         private void generarBarriles(int cantidadPasto, int cantidadArboles, int cantidadBarriles)
         {
-            TgcScene sceneBarril = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Objetos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
-            TgcMesh barrilMesh = sceneBarril.Meshes[0];
+            
             
             for (int i = 0; i < cantidadBarriles; i++)
             {
-                TgcMesh instancia = barrilMesh.createMeshInstance("");
-                TgcBoundingCylinder instanciaCilindro = new TgcBoundingCylinder(this.divisionesPiso[cantidadArboles + cantidadPasto + i], 10, 150);
-                instancia.Position = this.divisionesPiso[cantidadArboles + cantidadPasto + i];
-                instancia.Scale = new Vector3(0.5f, 0.6f, 0.5f);
-                instancia.AlphaBlendEnable = true;
-                barriles.Add(instancia);
-                colisionables.Add(instanciaCilindro);
+                Barril barril = new Barril(this.divisionesPiso[cantidadArboles + cantidadPasto + i]);
+                barriles.Add(barril);
+                colisionables.Add(barril.cilindro);
             }
         }
 
@@ -238,26 +231,6 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
-        public void explotaBarril(TgcMesh barrilExplotado)
-        {
-            Vector3 posBarril = barrilExplotado.Position;
-            int radio = Juego.Instance.radioExplosion;
-
-            foreach (Enemigo enemigo in EnemigosManager.Instance.getEnemigos())
-            {
-                Vector3 dir = enemigo.mesh.Position - posBarril;
-                float dist = dir.Length();
-                if (Math.Abs(dist) < radio)
-                {
-                    enemigo.explotoBarril(posBarril);
-                }
-
-            }
-
-            barriles.Remove(barrilExplotado);
-        }
-
-
 
         public void update(float elapsedTime)
         {
@@ -267,7 +240,7 @@ namespace AlumnoEjemplos.MiGrupo
             foreach (TgcMesh pastito in pasto) pastito.render();
             */
 
-            foreach (TgcMesh barril in barriles) barril.render();
+            foreach (Barril barril in barriles) barril.render();
 
             //foreach (TgcBoundingCylinder s in colisionables) s.render();
 
@@ -328,7 +301,7 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
-        public List<TgcMesh> getBarriles()
+        public List<Barril> getBarriles()
         {
             return barriles;
         }
@@ -346,7 +319,7 @@ namespace AlumnoEjemplos.MiGrupo
                 pastito.dispose();
             }
 
-            foreach (TgcMesh barril in barriles)
+            foreach (Barril barril in barriles)
             {
                 barril.dispose();
             }

@@ -69,7 +69,6 @@ namespace AlumnoEjemplos.MiGrupo
                     soundManager.playSonidoRecarga();
                     ContadorBalas.Instance.recargar();
                 }
-
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
@@ -79,7 +78,6 @@ namespace AlumnoEjemplos.MiGrupo
                     tiempoDisparo = DateTime.Now.TimeOfDay;
                     manejarDisparo();
                 }
-
             }
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_RIGHT) == true)
@@ -149,11 +147,11 @@ namespace AlumnoEjemplos.MiGrupo
 
                 Vector3 collisionPoint;
 
-                foreach (TgcMesh barril in EscenarioManager.Instance.getBarriles())
+                foreach (Barril barril in EscenarioManager.Instance.getBarriles())
                 {
-                    if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.BoundingBox, out collisionPoint))
+                    if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, barril.BoundigBox, out collisionPoint))
                     {
-                        EscenarioManager.Instance.explotaBarril(barril);
+                        barril.explota();
                         break;
                     }
                 }
@@ -172,6 +170,7 @@ namespace AlumnoEjemplos.MiGrupo
 
 
                 ContadorBalas.Instance.huboDisparo();
+
             }
             else
             {
