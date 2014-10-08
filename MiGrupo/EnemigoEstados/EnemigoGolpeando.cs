@@ -63,9 +63,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         {
             enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
-        public override void explotoBarril()
-        {
 
+        public override void explotoBarril(Vector3 posicion)
+        {
             enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
 

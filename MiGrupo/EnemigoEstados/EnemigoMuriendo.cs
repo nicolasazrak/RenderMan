@@ -53,7 +53,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         {
 
         }
-        public override void explotoBarril()
+        public override void explotoBarril(Vector3 posicion)
         {
 
         }

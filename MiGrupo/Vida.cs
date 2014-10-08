@@ -8,7 +8,7 @@ using TgcViewer.Utils._2D;
 
 namespace AlumnoEjemplos.MiGrupo
 {
-    class Vida
+    public class Vida
     {
         TgcText2d textoVida;
         private SoundManager sonido;

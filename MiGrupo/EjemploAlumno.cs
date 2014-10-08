@@ -110,6 +110,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             GuiController.Instance.Modifiers.addFloat("zoom", 2f, 5f, 3f);
 
+            camara.setEscenarioManger(escenarioManager);
+
        }
 
         
@@ -127,22 +129,19 @@ namespace AlumnoEjemplos.MiGrupo
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S)
                 || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
             {
-                Vector3 posArma = armaManager.posicionArma();
+                
                 Vector3 ultimaPos = camara.getPosition();
                 Vector3 ultimoLookAt = camara.getLookAt();
-                TgcBoundingBox arma = armaManager.BoundinBox();
 
+                TgcBoundingSphere arma = new TgcBoundingSphere(ultimaPos, 20f);
+                
                 Boolean choque = escenarioManager.verificarColision(arma);
                 if (!choque)
                 {
                     soundManager.sonidoCaminando();
                     ultimaPosicion = ultimaPos;
                 }
-                else
-                {
-                    camara.setCamera(ultimaPosicion, ultimoLookAt);
-                    armaManager.actualizarPosArma();
-                }
+
             }
 
             enemigosManager.update(elapsedTime, escenarioManager, vida);          

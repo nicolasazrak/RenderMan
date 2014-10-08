@@ -28,7 +28,6 @@ namespace AlumnoEjemplos.MiGrupo
         private TgcPickingRay pickingRay; //Encargado de chequear si los disparos dieron en el enemigo
 
         private TgcSprite sprite;
-        private TgcMesh armaMesh;
 
         private EnemigosManager enemigosManager;
         private EscenarioManager escenarioManager;
@@ -52,12 +51,6 @@ namespace AlumnoEjemplos.MiGrupo
             sprite = new TgcSprite();
             hacerZoom(0);
            
-            //Cargo el arma
-            TgcSceneLoader loader = new TgcSceneLoader();
-            TgcScene scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\modelos\\arma\\arma.xml");
-            armaMesh = scene.Meshes[0];
-            armaMesh.Scale = new Vector3(0.005f, 0.005f, 0.005f);
-
             tiempoDisparo = DateTime.Now.TimeOfDay;
             tiempoRecarga = DateTime.Now.TimeOfDay;
             tiempoZoom = DateTime.Now.TimeOfDay;
@@ -98,12 +91,7 @@ namespace AlumnoEjemplos.MiGrupo
                 }
             }
 
-            if (!hayZoom)
-            {
-                actualizarPosicionArma();
-                //armaMesh.render();
-            }
-            
+
         }
 
         public void spriteRender()
@@ -150,37 +138,7 @@ namespace AlumnoEjemplos.MiGrupo
             return (pantalla / textura);
         }
 
-        public TgcBoundingBox BoundinBox()
-        {
-            return armaMesh.BoundingBox;
-        }
 
-        public Vector3 posicionArma()
-        {
-            Vector3 pos = new Vector3();
-            pos = armaMesh.Position;
-            return pos;
-        }
-
-        public void actualizarPosArma()
-        {
-            //Hay que poner segun cada arma la distancia a la camara.
-            Vector3 camaraPos = camara.getPosition();
-            Vector3 mirandoA = camara.getLookAt();
-            //armaMesh.Rotation = mirandoA;
-            armaMesh.Rotation = new Vector3(0, 3.14159f * 0.5f, 0);
-            armaMesh.Position = new Vector3(camaraPos.X + 4f, camaraPos.Y - 2f, camaraPos.Z - 1.5f);
-        }
-
-        private void actualizarPosicionArma()
-        {
-            //Hay que poner segun cada arma la distancia a la camara.
-            Vector3 camaraPos = camara.getPosition();
-            Vector3 mirandoA = camara.getLookAt();
-            //armaMesh.Rotation = mirandoA;
-            armaMesh.Rotation = new Vector3(0, 3.14159f * 0.5f, 0);
-            armaMesh.Position = new Vector3(camaraPos.X + 4f, camaraPos.Y - 2f, camaraPos.Z - 1.5f);
-        }
 
         public void manejarDisparo()
         {
@@ -224,7 +182,6 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void dispose()
         {
-            armaMesh.dispose();
             sprite.dispose();
         }
 

@@ -84,9 +84,9 @@ namespace AlumnoEjemplos.MiGrupo
             }   
         }
 
-        public void explotoBarril()
+        public void explotoBarril(Vector3 posicion)
         {
-            estado.explotoBarril();
+            estado.explotoBarril(posicion);
         }
 
 

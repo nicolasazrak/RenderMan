@@ -10,7 +10,7 @@ using TgcViewer.Utils.TgcSceneLoader;
 
 namespace AlumnoEjemplos.MiGrupo
 {
-    class EscenarioManager
+    public class EscenarioManager
     {
         public static EscenarioManager Instance;
 
@@ -18,10 +18,11 @@ namespace AlumnoEjemplos.MiGrupo
         TimeSpan tiempoInicial;
 
         private List<TgcMesh> arboles;
-        private List<TgcBoundingCylinder> arbolesCilindros;
         private List<TgcMesh> pasto;
         private List<TgcMesh> barriles;
-        private List<TgcBoundingCylinder> barrilesCilindros;
+
+        private List<TgcBoundingCylinder> colisionables;
+
         TgcMesh arbol;
         TgcMesh municion;
         TgcMesh caja;
@@ -38,7 +39,7 @@ namespace AlumnoEjemplos.MiGrupo
         TgcSceneLoader loader;
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
         TgcSkyBox skyBox;
-        private List<TgcBoundingBox> colisionables;
+        
         
         Vida vida;
 
@@ -54,10 +55,8 @@ namespace AlumnoEjemplos.MiGrupo
 
             sonido = new SoundManager();
             arboles = new List<TgcMesh>();
-            arbolesCilindros = new List<TgcBoundingCylinder>();
             pasto = new List<TgcMesh>();
             barriles = new List<TgcMesh>();
-            barrilesCilindros = new List<TgcBoundingCylinder>();
             loader = new TgcSceneLoader();
 
             casillasPorEje = 50;
@@ -73,7 +72,7 @@ namespace AlumnoEjemplos.MiGrupo
             
             generarSkyBox();
 
-            colisionables = new List<TgcBoundingBox>();
+            colisionables = new List<TgcBoundingCylinder>();
 
             limites = new TgcBoundingBox(new Vector3(-tamanio, 0, -tamanio), new Vector3(tamanio, 5000, tamanio));
 
@@ -108,23 +107,42 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void generarBosque(int cantidadArboles, int cantidadPasto, int cantidadBarriles)
         {
+
+
+            generarArboles(cantidadArboles);
+            generarPasto(cantidadPasto, cantidadArboles);
+            generarBarriles(cantidadPasto, cantidadArboles, cantidadBarriles);
+
+            ultimaPosicionUtilizada = cantidadArboles + cantidadBarriles + cantidadPasto;
+
+            generarNuevaCajaVida();
+            iniciarMunicion(115,8,4);
+        }
+
+
+
+        private void generarArboles(int cantidadArboles)
+        {
             scene = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\" + tipoArboles[0] + "-TgcScene.xml");
             arbol = scene.Meshes[0];
+
             for (int i = 0; i < cantidadArboles; i++)
             {
                 TgcMesh instancia = arbol.createMeshInstance("arbol");
-                TgcBoundingCylinder instanciaCilindro = new TgcBoundingCylinder(this.divisionesPiso[i], 10, 200);
+                TgcBoundingCylinder instanciaCilindro = new TgcBoundingCylinder(this.divisionesPiso[i], 15, 100);
                 instancia.Scale = new Vector3(3f, 3f, 3f);
                 instancia.Position = this.divisionesPiso[i];
                 instancia.AlphaBlendEnable = true;
                 arboles.Add(instancia);
-                arbolesCilindros.Add(instanciaCilindro);
+                colisionables.Add(instanciaCilindro);
             }
+        }
 
+        private void generarPasto(int cantidadPasto, int cantidadArboles)
+        {
             TgcScene scenePasto = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Vegetacion\\Pasto\\Pasto-TgcScene.xml");
             TgcMesh pastoMesh = scenePasto.Meshes[0];
             pasto.Add(pastoMesh);
-
 
             for (int i = 0; i < cantidadPasto; i++)
             {
@@ -134,10 +152,13 @@ namespace AlumnoEjemplos.MiGrupo
                 instancia.AlphaBlendEnable = true;
                 pasto.Add(instancia);
             }
+        }
 
+        private void generarBarriles(int cantidadPasto, int cantidadArboles, int cantidadBarriles)
+        {
             TgcScene sceneBarril = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Objetos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
             TgcMesh barrilMesh = sceneBarril.Meshes[0];
-            //barriles.Add(barrilMesh);
+            
             for (int i = 0; i < cantidadBarriles; i++)
             {
                 TgcMesh instancia = barrilMesh.createMeshInstance("");
@@ -146,15 +167,13 @@ namespace AlumnoEjemplos.MiGrupo
                 instancia.Scale = new Vector3(0.5f, 0.6f, 0.5f);
                 instancia.AlphaBlendEnable = true;
                 barriles.Add(instancia);
-                barrilesCilindros.Add(instanciaCilindro);
+                colisionables.Add(instanciaCilindro);
             }
-            updateColisionables();
-
-            ultimaPosicionUtilizada = cantidadArboles + cantidadBarriles + cantidadPasto;
-
-            generarNuevaCajaVida();
-            iniciarMunicion(115,8,4);
         }
+
+
+
+
 
         private void generarNuevaCajaVida() {
            //Libera la caja actual y genera nuevas posiciones 
@@ -224,14 +243,13 @@ namespace AlumnoEjemplos.MiGrupo
             Vector3 posBarril = barrilExplotado.Position;
             int radio = Juego.Instance.radioExplosion;
 
-
             foreach (Enemigo enemigo in EnemigosManager.Instance.getEnemigos())
             {
                 Vector3 dir = enemigo.mesh.Position - posBarril;
                 float dist = dir.Length();
                 if (Math.Abs(dist) < radio)
                 {
-                    enemigo.explotoBarril();
+                    enemigo.explotoBarril(posBarril);
                 }
 
             }
@@ -240,46 +258,34 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
-        public Boolean verificarColision (TgcBoundingBox personaje)
-        {
 
-            foreach (TgcBoundingBox colisionable in getColisionables())
-            {
-                //colisionable.render();
-                TgcCollisionUtils.BoxBoxResult result = TgcCollisionUtils.classifyBoxBox(personaje, colisionable);
-                if (result == TgcCollisionUtils.BoxBoxResult.Adentro || result == TgcCollisionUtils.BoxBoxResult.Atravesando)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        //<summary>
-        //Llama al metodo render de cada arbol y pasto que haya que haya
-        //</summary>
         public void update(float elapsedTime)
         {
 
+            /* Esto ahora lo hace el octree */
             /*foreach (TgcMesh arbol in arboles) arbol.render();
             foreach (TgcMesh pastito in pasto) pastito.render();
-            foreach (TgcMesh barril in barriles) barril.render();*/
+            */
+
+            foreach (TgcMesh barril in barriles) barril.render();
+
+            //foreach (TgcBoundingCylinder s in colisionables) s.render();
 
             skyBox.render();
             piso.render();
+            
             renderMunicion(elapsedTime);
-
             renderCajaVida(elapsedTime);
 
             skyBox.Center = GuiController.Instance.CurrentCamera.getPosition();
             skyBox.updateValues();
-            //recargoArma();
+
         }
 
+        /* Par pasarselo al octree */
         public List<TgcMesh> getOptimizables()
         {
-            return arboles.Concat(pasto).ToList().Concat(barriles).ToList();
+            return arboles.Concat(pasto).ToList();
         }
 
         private void renderMunicion(float elapsedTime)
@@ -321,37 +327,10 @@ namespace AlumnoEjemplos.MiGrupo
             caja.render();
         }
 
-        private void recargoArma()
-        {
-            //tiempoInicial = DateTime.Now.TimeOfDay;
-            ContadorBalas.Instance.obtenerMuniciones();
-        }
-        //<summary>
-        //Devuelve el bounding box de todos los arboles para que se puedan checkear las colisiones contra la camara o los enemigos
-        //</summary>
 
         public List<TgcMesh> getBarriles()
         {
             return barriles;
-        }
-        public List<TgcBoundingBox> getColisionables()
-        {
-            return colisionables;
-        }
-        public void updateColisionables()
-        {
-            //colisionables = barriles.Select(barril =>barril.getBoundingBox()).ToList().Concat(arboles.Select(arbol => {
-            //    TgcBoundingBox bounding = arbol.BoundingBox;
-            //    bounding.scaleTranslate(arbol.Position, new Vector3(0.3f, 1f, 0.3f));
-            //    return bounding; 
-            //}).ToList()).ToList();
-            colisionables = barriles.Select(barril => barril.BoundingBox).ToList().Concat(arboles.Select(arbol =>
-            {
-                TgcBoundingBox bounding = arbol.BoundingBox;
-                bounding.scaleTranslate(arbol.Position, new Vector3(0.3f, 1f, 0.3f));
-                return bounding;
-            }).ToList()).ToList();
-
         }
 
 
@@ -376,13 +355,19 @@ namespace AlumnoEjemplos.MiGrupo
             piso.dispose();
         }
 
-        public List<TgcBoundingCylinder> colisionAdistancia(float distancia, TgcBoundingSphere esfera)
+
+        /* Usado para calcular el movimiento del enemigo (creo) */
+        public List<TgcBoundingCylinder> colisionAdistancia(TgcBoundingSphere esfera)
         {
-            TgcBoundingSphere esferaA = new TgcBoundingSphere(esfera.Center, distancia);
-            List<TgcBoundingCylinder> cilindros;
-            cilindros = arbolesCilindros.Concat(barrilesCilindros).ToList();
-            return cilindros.Where(cilindro => TgcCollisionUtils.testSphereCylinder(esferaA, cilindro)).ToList();
+            return colisionables.Where(cilindro => TgcCollisionUtils.testSphereCylinder(esfera, cilindro)).ToList();
         }
+
+
+        public Boolean verificarColision(TgcBoundingSphere personaje)
+        {
+            return colisionAdistancia(personaje).Count != 0;
+        }
+
 
     }
 }

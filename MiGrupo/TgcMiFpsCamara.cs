@@ -6,6 +6,8 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX.DirectInput;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Drawing;
+using AlumnoEjemplos.MiGrupo;
+using TgcViewer.Utils.TgcGeometry;
 
 namespace TgcViewer.Utils.Input {
     /// <summary>
@@ -392,8 +394,19 @@ namespace TgcViewer.Utils.Input {
             }
         }
 
+        private EscenarioManager escencarioManger;
+        public void setEscenarioManger(EscenarioManager escencarioManger)
+        {
+            this.escencarioManger = escencarioManger;
+        }
+
         private void setPosition(Vector3 pos) {
-            eye = pos;
+            if (escencarioManger != null && escencarioManger.verificarColision(new TgcBoundingSphere(pos, 10)))
+            {
+            }else{
+                eye = pos;
+            }
+            
             reconstructViewMatrix(false);
         }
 

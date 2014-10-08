@@ -22,7 +22,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         public abstract void update(float elapsedTime, Vida vidaPersona);
 
         public abstract void teDispararon();
-        public abstract void explotoBarril();
+
+        /* La posicion se pasa para que cuando explote como el enemigo salga volando (aparece un poco mas lejos)*/
+        public abstract void explotoBarril(Vector3 posicion);
 
 
         public void girar()

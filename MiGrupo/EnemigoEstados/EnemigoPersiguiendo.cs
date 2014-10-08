@@ -35,9 +35,10 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             TgcBoundingBox algo = enemigo.mesh.BoundingBox;
             Vector3 posAnterior = enemigo.mesh.Position;
 
-            List<TgcBoundingCylinder> cilindrosCercanos = enemigo.escenarioManager.colisionAdistancia(20, enemigo.enemigoEsfera);
+            List<TgcBoundingCylinder> cilindrosCercanos = enemigo.escenarioManager.colisionAdistancia(enemigo.enemigoEsfera);
             if (cilindrosCercanos.Count != 0)
             {
+
                 TgcBoundingCylinder cilindroMasCercano = this.detectarMasCercano(cilindrosCercanos);
 
                 Vector3 puntoMasCercano = TgcCollisionUtils.closestPointCylinder(enemigo.enemigoEsfera.Center, cilindroMasCercano);
@@ -87,6 +88,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
 
         }
 
+        /* Se le pasa una lista de cilindros colisionables, y devuelve el mas cercano */
+        /* Usado para ver por donde esquivar al arbol y barril */
         public TgcBoundingCylinder detectarMasCercano(List<TgcBoundingCylinder> cilindros)
         {
             float distMinimo = 0;
@@ -123,9 +126,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         {
             enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
-        public override void explotoBarril()
+        public override void explotoBarril(Vector3 posicion)
         {
-    
             enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
 
