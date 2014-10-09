@@ -178,6 +178,13 @@ namespace AlumnoEjemplos.MiGrupo
             else
             {
                 finalJuego.render();
+                if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.Y))
+                {
+                    gameOver = false;
+                    //FALTA QUE FUNCIONE EL VOLVER A EMPEZAR
+                    //this.init();
+                }
+
             }
         }
 
