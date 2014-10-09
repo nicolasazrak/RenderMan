@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="MiGrupo\EnemigoEstados\EnemigoGolpeando.cs" />
     <Compile Include="MiGrupo\EnemigoEstados\EnemigoMuriendo.cs" />
+    <Compile Include="MiGrupo\GameOver.cs" />
     <Compile Include="MiGrupo\Juego.cs" />
     <Compile Include="MiGrupo\Barril.cs" />
     <Compile Include="MiGrupo\ContadorBalas.cs" />

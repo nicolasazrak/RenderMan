@@ -36,7 +36,10 @@ namespace AlumnoEjemplos.MiGrupo
         Juego juego;
         Indicadores indicadores;
         Octree octree;
-        
+        Boolean gameOver;
+        public static EjemploAlumno Instance;
+        GameOver finalJuego;
+
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
@@ -112,57 +115,75 @@ namespace AlumnoEjemplos.MiGrupo
 
             camara.setEscenarioManger(escenarioManager);
 
+            gameOver = false;
+
+            EjemploAlumno.Instance = this;
+
+            finalJuego = new GameOver();
        }
 
         
         public override void render(float elapsedTime)
         {
-
-            Device d3dDevice = GuiController.Instance.D3dDevice;
-            
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.C))
+            if (!gameOver)
             {
-                camara.swapMouseLock();
-            }
 
+                Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S)
-                || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
-            {
-                
-                Vector3 ultimaPos = camara.getPosition();
-                Vector3 ultimoLookAt = camara.getLookAt();
-
-                TgcBoundingSphere arma = new TgcBoundingSphere(ultimaPos, 20f);
-                
-                Boolean choque = escenarioManager.verificarColision(arma);
-                if (!choque)
+                if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.C))
                 {
-                    soundManager.sonidoCaminando();
-                    ultimaPosicion = ultimaPos;
+                    camara.swapMouseLock();
                 }
 
+
+                if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S)
+                    || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
+                {
+
+                    Vector3 ultimaPos = camara.getPosition();
+                    Vector3 ultimoLookAt = camara.getLookAt();
+
+                    TgcBoundingSphere arma = new TgcBoundingSphere(ultimaPos, 20f);
+
+                    Boolean choque = escenarioManager.verificarColision(arma);
+                    if (!choque)
+                    {
+                        soundManager.sonidoCaminando();
+                        ultimaPosicion = ultimaPos;
+                    }
+
+                }
+
+                enemigosManager.update(elapsedTime, escenarioManager, vida);
+                escenarioManager.update(elapsedTime);
+                armaManager.update(elapsedTime);
+                vida.render();
+                contadorEnemigos.render();
+                contadorBalas.render();
+                octree.render(GuiController.Instance.Frustum, false);
+
+                //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
+                GuiController.Instance.Drawer2D.beginDrawSprite();
+
+                armaManager.spriteRender();
+
+                if (!(armaManager.getHayZoom()))
+                {
+                    indicadores.spriteRender();
+                }
+                GuiController.Instance.Drawer2D.endDrawSprite();
+                //------------------------------------------------------------
+
             }
-
-            enemigosManager.update(elapsedTime, escenarioManager, vida);          
-            escenarioManager.update(elapsedTime);
-            armaManager.update(elapsedTime);
-            vida.render();
-            contadorEnemigos.render();
-            contadorBalas.render();
-            octree.render(GuiController.Instance.Frustum, false);
-
-            //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
-            GuiController.Instance.Drawer2D.beginDrawSprite();
-           
-            armaManager.spriteRender();
-
-            if (!(armaManager.getHayZoom()))
+            else
             {
-                indicadores.spriteRender();
+                finalJuego.render();
             }
-            GuiController.Instance.Drawer2D.endDrawSprite();
-            //------------------------------------------------------------
+        }
+
+        public void murioPersonaje()
+        {
+            gameOver = true;
         }
 
          public override void close()
@@ -174,6 +195,7 @@ namespace AlumnoEjemplos.MiGrupo
             armaManager.dispose();
             vida.dispose();
             indicadores.dispose();
+            finalJuego.dispose();
         }
 
 
