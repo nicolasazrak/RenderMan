@@ -14,7 +14,6 @@ namespace AlumnoEjemplos.MiGrupo
     public class GameOver
     {
         TgcText2d textoFin;
-        private SoundManager sonido;
         TgcSprite spriteGameOver;
         Size screenSize = GuiController.Instance.Panel3d.Size;
         Indicadores indacadorGameOver;
@@ -23,8 +22,7 @@ namespace AlumnoEjemplos.MiGrupo
         public GameOver()
         {
             indacadorGameOver = new Indicadores();
-            sonido = new SoundManager();
-            
+                       
             textoFin = new TgcText2d();
             textoFin.Color = Color.Black;
             textoFin.Align = TgcText2d.TextAlign.CENTER;
@@ -40,7 +38,7 @@ namespace AlumnoEjemplos.MiGrupo
             Size textureSize = spriteGameOver.Texture.Size;
             spriteGameOver.Scaling = new Vector2(indacadorGameOver.ajustarTexturaAPantalla(screenSize.Width, textureSize.Width),indacadorGameOver.ajustarTexturaAPantalla(screenSize.Height, textureSize.Height));
             spriteGameOver.Position = new Vector2(0, 0);
-
+            //sonido.playSonidoFin();
         }
 
         
@@ -53,8 +51,6 @@ namespace AlumnoEjemplos.MiGrupo
             spriteGameOver.render();
             
             GuiController.Instance.Drawer2D.endDrawSprite();
-
-            sonido.playSonidoFin();
         }
 
         public void dispose()

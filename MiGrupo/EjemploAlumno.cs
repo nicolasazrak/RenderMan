@@ -178,9 +178,11 @@ namespace AlumnoEjemplos.MiGrupo
             else
             {
                 finalJuego.render();
+                soundManager.playSonidoFin();
                 TgcD3dInput d3dInput = GuiController.Instance.D3dInput;
                 if (d3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.Y))
                 {
+                    soundManager.stopSonidoFin();
                     this.reiniciarJuego();
                 }
 
@@ -210,7 +212,7 @@ namespace AlumnoEjemplos.MiGrupo
             enemigosManager.generarEnemigos(juego.totalEnemigos);
 
             juego.manejoEnemigos(enemigosManager);
-
+            
             contadorEnemigos = new ContadorEnemigos(10);
 
             armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);

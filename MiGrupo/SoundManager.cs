@@ -111,6 +111,10 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoFin.play();
         }
 
+        public void stopSonidoFin()
+        {
+            sonidoFin.dispose();
+        }
         public void dispose()
         {
             sonidoCaminandoIzq.dispose();
