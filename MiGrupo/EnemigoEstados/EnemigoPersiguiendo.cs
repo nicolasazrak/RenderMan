@@ -35,11 +35,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             TgcBoundingBox algo = enemigo.mesh.BoundingBox;
             Vector3 posAnterior = enemigo.mesh.Position;
 
-            List<TgcBoundingCylinder> cilindrosCercanos = enemigo.escenarioManager.colisionAdistancia(enemigo.enemigoEsfera);
-            if (cilindrosCercanos.Count != 0)
+            TgcBoundingCylinder cilindroMasCercano = enemigo.escenarioManager.colisionAdistancia(enemigo.enemigoEsfera);
+            if (cilindroMasCercano != null)
             {
-
-                TgcBoundingCylinder cilindroMasCercano = this.detectarMasCercano(cilindrosCercanos);
 
                 Vector3 puntoMasCercano = TgcCollisionUtils.closestPointCylinder(enemigo.enemigoEsfera.Center, cilindroMasCercano);
 

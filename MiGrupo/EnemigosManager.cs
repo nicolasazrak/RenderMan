@@ -84,14 +84,6 @@ namespace AlumnoEjemplos.MiGrupo
             }   
         }
 
-
-        internal void murio(Enemigo enemigoDisparado)
-        {
-
-        }
-
-
-
         public List<Enemigo> getEnemigos()
         {
             return enemigos;

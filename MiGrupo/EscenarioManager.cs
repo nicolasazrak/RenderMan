@@ -330,15 +330,15 @@ namespace AlumnoEjemplos.MiGrupo
 
 
         /* Usado para calcular el movimiento del enemigo (creo) */
-        public List<TgcBoundingCylinder> colisionAdistancia(TgcBoundingSphere esfera)
+        public TgcBoundingCylinder colisionAdistancia(TgcBoundingSphere esfera)
         {
-            return colisionables.Where(cilindro => TgcCollisionUtils.testSphereCylinder(esfera, cilindro)).ToList();
+            return colisionables.FirstOrDefault(cilindro => TgcCollisionUtils.testSphereCylinder(esfera, cilindro));
         }
 
 
         public Boolean verificarColision(TgcBoundingSphere personaje)
         {
-            return colisionAdistancia(personaje).Count != 0;
+            return colisionAdistancia(personaje) != null;
         }
 
 
