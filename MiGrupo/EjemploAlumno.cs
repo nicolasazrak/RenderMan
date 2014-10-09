@@ -178,15 +178,50 @@ namespace AlumnoEjemplos.MiGrupo
             else
             {
                 finalJuego.render();
-                if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.Y))
+                TgcD3dInput d3dInput = GuiController.Instance.D3dInput;
+                if (d3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.Y))
                 {
-                    gameOver = false;
-                    //FALTA QUE FUNCIONE EL VOLVER A EMPEZAR
-                    //this.init();
+                    this.reiniciarJuego();
                 }
 
             }
         }
+
+        private void reiniciarJuego()
+        {
+            juego = new Juego();
+            vida = new Vida();
+            vida.initialize(this);
+            ultimaPosicion = new Vector3(-200, 40, 0);
+            contadorBalas = new ContadorBalas(juego.cantidadBalas);
+            escenarioManager = new EscenarioManager(vida);
+            escenarioManager.generarPosiciones();
+            escenarioManager.generarBosque(500, 200, 20);
+            
+            camara = new TgcFpsMiCamara();
+            camara.Enable = true;
+            camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
+            camara.MovementSpeed = 150;
+            octree = new Octree();
+            octree.create(escenarioManager.getOptimizables(), escenarioManager.limites);
+            octree.createDebugOctreeMeshes();
+
+            enemigosManager = new EnemigosManager(escenarioManager, soundManager);
+            enemigosManager.generarEnemigos(juego.totalEnemigos);
+
+            juego.manejoEnemigos(enemigosManager);
+
+            contadorEnemigos = new ContadorEnemigos(10);
+
+            armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
+
+            indicadores = new Indicadores();
+
+            camara.setEscenarioManger(escenarioManager);
+
+            gameOver = false;
+
+       }
 
         public void murioPersonaje()
         {
