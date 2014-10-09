@@ -39,9 +39,9 @@ namespace AlumnoEjemplos.MiGrupo
             vida = vida - 10;
             textoVida.Text = "%" + vida.ToString();
             sonido.playSonidoJugadorAlcanzado();
-            if (vida == 0)
+            if (vida <= 0)
             {
-                EjemploAlumno.Instance.murioPersonaje();
+               Juego.Instance.murioPersonaje();
             }
         }
 

@@ -36,7 +36,6 @@ namespace AlumnoEjemplos.MiGrupo
         Juego juego;
         Indicadores indicadores;
         Octree octree;
-        Boolean gameOver;
         public static EjemploAlumno Instance;
         GameOver finalJuego;
 
@@ -90,7 +89,7 @@ namespace AlumnoEjemplos.MiGrupo
             ultimaPosicion = new Vector3(-200, 40, 0);
 
             soundManager = new SoundManager();
-            contadorBalas = new ContadorBalas(juego.cantidadBalas);
+            contadorBalas = new ContadorBalas(Juego.Instance.cantidadBalas);
 
             escenarioManager = new EscenarioManager(vida);
             escenarioManager.generarPosiciones();
@@ -101,9 +100,9 @@ namespace AlumnoEjemplos.MiGrupo
             octree.createDebugOctreeMeshes();
 
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
-            enemigosManager.generarEnemigos(juego.totalEnemigos);
+            enemigosManager.generarEnemigos(Juego.Instance.totalEnemigos);
 
-            juego.manejoEnemigos(enemigosManager);
+            Juego.Instance.manejoEnemigos(enemigosManager);
 
             contadorEnemigos = new ContadorEnemigos(10);
 
@@ -115,7 +114,6 @@ namespace AlumnoEjemplos.MiGrupo
 
             camara.setEscenarioManger(escenarioManager);
 
-            gameOver = false;
 
             EjemploAlumno.Instance = this;
 
@@ -125,7 +123,7 @@ namespace AlumnoEjemplos.MiGrupo
         
         public override void render(float elapsedTime)
         {
-            if (!gameOver)
+            if (!Juego.Instance.gameOver)
             {
 
                 Device d3dDevice = GuiController.Instance.D3dDevice;
@@ -191,11 +189,13 @@ namespace AlumnoEjemplos.MiGrupo
 
         private void reiniciarJuego()
         {
-            juego = new Juego();
+            //this.close();
+
+            //juego = new Juego();
             vida = new Vida();
             vida.initialize(this);
             ultimaPosicion = new Vector3(-200, 40, 0);
-            contadorBalas = new ContadorBalas(juego.cantidadBalas);
+            contadorBalas = new ContadorBalas(Juego.Instance.cantidadBalas);
             escenarioManager = new EscenarioManager(vida);
             escenarioManager.generarPosiciones();
             escenarioManager.generarBosque(500, 200, 20);
@@ -209,9 +209,9 @@ namespace AlumnoEjemplos.MiGrupo
             octree.createDebugOctreeMeshes();
 
             enemigosManager = new EnemigosManager(escenarioManager, soundManager);
-            enemigosManager.generarEnemigos(juego.totalEnemigos);
+            enemigosManager.generarEnemigos(Juego.Instance.totalEnemigos);
 
-            juego.manejoEnemigos(enemigosManager);
+            Juego.Instance.manejoEnemigos(enemigosManager);
             
             contadorEnemigos = new ContadorEnemigos(10);
 
@@ -221,14 +221,9 @@ namespace AlumnoEjemplos.MiGrupo
 
             camara.setEscenarioManger(escenarioManager);
 
-            gameOver = false;
+            Juego.Instance.reiniciar();
 
        }
-
-        public void murioPersonaje()
-        {
-            gameOver = true;
-        }
 
          public override void close()
         {

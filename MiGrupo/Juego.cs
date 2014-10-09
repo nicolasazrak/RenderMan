@@ -26,7 +26,7 @@ namespace AlumnoEjemplos
         public int cantidadDeCargadores = 3;
         public int radioExplosion = 400;
         public int recuperoVida = 5;
-        
+        public Boolean gameOver = false;
 
         public void enemigoAscesinado()
         {
@@ -81,6 +81,16 @@ namespace AlumnoEjemplos
             {
                 return (resultado.Seconds >= seg || resultado.Minutes > min);
             }
+        }
+
+        public void murioPersonaje()
+        {
+            gameOver = true;
+        }
+
+        public void reiniciar()
+        {
+            gameOver = false;
         }
 
         public void manejoEnemigos(EnemigosManager enemigo)

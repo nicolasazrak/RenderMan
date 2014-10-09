@@ -36,6 +36,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             sangre = new TgcCylinder(posicionInicial, 0, 20, 0);
             sangre.Color = Color.Red;
+            
             sangre.updateValues();
 
             enemigoEsfera = new TgcBoundingSphere(new Vector3(posicionInicial.X, 30, posicionInicial.Z), 10);
