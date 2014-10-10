@@ -27,15 +27,22 @@ namespace AlumnoEjemplos.MiGrupo
         private SoundManager soundManager;
         private TgcPickingRay pickingRay; //Encargado de chequear si los disparos dieron en el enemigo
 
-        private TgcSprite sprite;
+        private TgcSprite spriteArma;
+        private TgcSprite spriteMira;
+
+        //-----------variables para las animaciones de las armas---------
+        private Boolean empezoAnimacionDisparo;
+        private Boolean volviendoAnimacion;
+        private float posicionSpriteAnimacion;
+        //------------------------------------------------------
 
         private EnemigosManager enemigosManager;
         private EscenarioManager escenarioManager;
 
         private Boolean hayZoom = true;
         private TgcTexture miraZoom  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\zoom.png");
-        //private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\05.png");
-        private TgcTexture sniper = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteArma5.png");
+        private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteMiraSola.png");
+        private TgcTexture sniper = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteArmaSola.png");
 
         public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara, EscenarioManager escenarioManager)
         {
@@ -48,7 +55,12 @@ namespace AlumnoEjemplos.MiGrupo
             pickingRay = new TgcPickingRay();
 
             //Crear Sprite
-            sprite = new TgcSprite();
+            spriteArma = new TgcSprite();
+            spriteMira = new TgcSprite();
+
+            empezoAnimacionDisparo = false;
+            volviendoAnimacion = false;
+
             hacerZoom(0);
            
             tiempoDisparo = DateTime.Now.TimeOfDay;
@@ -77,6 +89,11 @@ namespace AlumnoEjemplos.MiGrupo
                 {
                     tiempoDisparo = DateTime.Now.TimeOfDay;
                     manejarDisparo();
+                    
+                    // propio de la animacion -----------------------
+                    empezoAnimacionDisparo = true;
+                    posicionSpriteAnimacion = 0;
+                    //---------------------------------------
                 }
             }
 
@@ -89,12 +106,46 @@ namespace AlumnoEjemplos.MiGrupo
                 }
             }
 
+            if (!(hayZoom)) 
+            { // solo te mueva el sprite cuando no tenes mira
+                this.playAnimacionDisparo(elapsedTime);
+            }
+        }
 
+        public void playAnimacionDisparo(float elapsedTime)
+        {
+            float limite = 150;
+            float pendienteDeLaRecta = 0.45f;
+
+            if (empezoAnimacionDisparo)
+            {
+                if (posicionSpriteAnimacion <= limite && !(volviendoAnimacion))
+                {
+                    spriteArma.Position = new Vector2(spriteArma.Position.X + (1000 * elapsedTime), spriteArma.Position.Y + (1000 * elapsedTime * pendienteDeLaRecta));
+
+                    posicionSpriteAnimacion = spriteArma.Position.X + (1000 * elapsedTime);
+                }
+                else
+                {
+                    volviendoAnimacion = true;
+                    spriteArma.Position = new Vector2(spriteArma.Position.X - (200 * elapsedTime), spriteArma.Position.Y - (200 * elapsedTime * pendienteDeLaRecta));
+
+                    posicionSpriteAnimacion = spriteArma.Position.X - (200 * elapsedTime);
+
+                    if (spriteArma.Position.X < 0)
+                    {
+                        spriteArma.Position = new Vector2(0, 0);
+                        empezoAnimacionDisparo = false;
+                        volviendoAnimacion = false;
+                    }
+                }
+            }
         }
 
         public void spriteRender()
         {
-            sprite.render();
+            spriteArma.render();
+            spriteMira.render();
         }
 
         public bool getHayZoom()
@@ -109,23 +160,25 @@ namespace AlumnoEjemplos.MiGrupo
             hayZoom = !hayZoom;
             if (hayZoom)
             {
-                sprite.Texture = miraZoom;
+                spriteArma.Texture = miraZoom;
             }
             else
             {
-                sprite.Texture = sniper;
-                //sprite.Texture = miraSimple;
+                spriteArma.Texture = sniper;
+                spriteMira.Texture = miraSimple;
             }
 
             this.camara.hacerZoom();
 
             //Ubicarlo centrado en la pantalla
             Size screenSize = GuiController.Instance.Panel3d.Size;
-            Size textureSize = sprite.Texture.Size;
+            Size textureSize = spriteArma.Texture.Size;
 
-            sprite.Scaling = new Vector2(ajustarTexturaAPantalla(screenSize.Width,textureSize.Width), ajustarTexturaAPantalla(screenSize.Height,textureSize.Height));
+            spriteMira.Scaling = new Vector2(ajustarTexturaAPantalla(screenSize.Width, textureSize.Width), ajustarTexturaAPantalla(screenSize.Height, textureSize.Height));
+            spriteArma.Scaling = new Vector2(ajustarTexturaAPantalla(screenSize.Width,textureSize.Width), ajustarTexturaAPantalla(screenSize.Height,textureSize.Height));
 
-            sprite.Position = new Vector2(0, 0);
+            spriteArma.Position = new Vector2(0, 0);
+            spriteMira.Position = new Vector2(0, 0);
         }
 
         public float ajustarTexturaAPantalla(int pantallaParametro, int texturaParametro)
@@ -181,7 +234,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void dispose()
         {
-            sprite.dispose();
+            spriteArma.dispose();
+            spriteMira.dispose();
         }
 
 
