@@ -98,5 +98,7 @@ namespace AlumnoEjemplos
             eManager = enemigo;
         }
 
+
+        public int cantidadTiposEnemgiosCreados { get; set; }
     }
 }

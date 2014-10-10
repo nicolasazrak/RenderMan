@@ -22,7 +22,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         private SoundManager soundManager;
         private EscenarioManager escenarioManager;
-        private TgcSkeletalMesh mesh;
+        
         public static EnemigosManager Instance;
 
         Boolean pasoNivel;
@@ -34,16 +34,6 @@ namespace AlumnoEjemplos.MiGrupo
             enemigos = new List<Enemigo>();
             this.soundManager = soundManager;
             this.escenarioManager = escenario;
-
-            mesh = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "CombineSoldier-TgcSkeletalMesh.xml",
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
-                    new string[] { 
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
-                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
-            });
-
             pasoNivel = false;
         }
 
@@ -54,7 +44,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             for (int t = 0; t < cantidad; ++t)
             {
-                enemigos.Add(new Enemigo(this.escenarioManager.divisionesPiso[this.escenarioManager.ultimaPosicionUtilizada + t] , this.escenarioManager, mesh.createMeshInstance("")));
+                enemigos.Add(new Enemigo(this.escenarioManager.divisionesPiso[this.escenarioManager.ultimaPosicionUtilizada + t] , this.escenarioManager));
             }
 
         }

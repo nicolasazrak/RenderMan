@@ -27,12 +27,73 @@ namespace AlumnoEjemplos.MiGrupo
 
         public TgcCylinder sangre;
 
-        public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager, TgcSkeletalMesh mesh)
+
+        private static List<TgcSkeletalMesh> staticMesh;
+
+        private static TgcSkeletalMesh getMesh()
+        {
+            if (staticMesh == null)
+            {
+                staticMesh = new List<TgcSkeletalMesh>();
+
+                TgcSkeletalMesh comineSoldier = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "CombineSoldier-TgcSkeletalMesh.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
+                    new string[] { 
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                });
+
+                staticMesh.Add(comineSoldier);
+
+                TgcSkeletalMesh BasicHuman = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "BasicHuman-TgcSkeletalMesh.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
+                    new string[] { 
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                });
+
+                staticMesh.Add(BasicHuman);
+
+                TgcSkeletalMesh Quake2Scout = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
+                   GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "Quake2Scout-TgcSkeletalMesh.xml",
+                   GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
+                   new string[] { 
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                });
+
+                staticMesh.Add(Quake2Scout);
+
+
+                TgcSkeletalMesh Cs_Arctic = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
+                   GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "Cs_Arctic-TgcSkeletalMesh.xml",
+                   GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\",
+                   new string[] { 
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                });
+
+                staticMesh.Add(Cs_Arctic);
+
+            }
+
+            Juego.Instance.cantidadTiposEnemgiosCreados += 1;
+            return staticMesh[Juego.Instance.cantidadTiposEnemgiosCreados % staticMesh.Count].createMeshInstance("enemigo");
+            
+        }
+
+        public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager)
         {
 
             this.escenarioManager = escenarioManager;
 
-            this.mesh = mesh;
+            this.mesh = Enemigo.getMesh();
 
             sangre = new TgcCylinder(posicionInicial, 0, 20, 0);
             sangre.Color = Color.Red;
