@@ -583,6 +583,18 @@ namespace TgcViewer.Utils.Input {
         /// Actualiza los valores de la camara
         /// </summary>
         public void updateCamera() {
+
+
+            if (!hayZoom)
+            {
+                zoom = 1 / (float)GuiController.Instance.Modifiers["zoom"];
+            }
+            else
+            {
+                zoom = 1;
+            }
+
+
             //Si la camara no está habilitada, no procesar el resto del input
             if(!enable) {
                 return;
