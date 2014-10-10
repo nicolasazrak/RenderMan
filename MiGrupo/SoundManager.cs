@@ -108,7 +108,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void playSonidoFin()
         {
-            sonidoFin.play();
+            //sonidoFin.play();
         }
 
         public void stopSonidoFin()
@@ -126,7 +126,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoEnemigoAlcanzaPersonaje.dispose();
             sonidoMunicion.dispose();
             sonidoAviso.dispose();
-            sonidoFin.dispose();
+            //sonidoFin.dispose();
         }
 
 

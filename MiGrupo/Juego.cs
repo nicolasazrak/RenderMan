@@ -100,5 +100,7 @@ namespace AlumnoEjemplos
 
 
         public int cantidadTiposEnemgiosCreados { get; set; }
+
+        public int animacionesDeEnemigos { get; set; }
     }
 }

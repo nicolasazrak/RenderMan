@@ -27,8 +27,9 @@ namespace AlumnoEjemplos.MiGrupo
 
         public TgcCylinder sangre;
 
-
+        public String enemigoAmigacion;
         private static List<TgcSkeletalMesh> staticMesh;
+
 
         private static TgcSkeletalMesh getMesh()
         {
@@ -43,6 +44,8 @@ namespace AlumnoEjemplos.MiGrupo
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "FlyingKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Push-TgcSkeletalAnim.xml",
                 });
 
                 staticMesh.Add(comineSoldier);
@@ -54,6 +57,8 @@ namespace AlumnoEjemplos.MiGrupo
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "FlyingKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Push-TgcSkeletalAnim.xml",
                 });
 
                 staticMesh.Add(BasicHuman);
@@ -65,10 +70,12 @@ namespace AlumnoEjemplos.MiGrupo
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "FlyingKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Push-TgcSkeletalAnim.xml",
                 });
 
                 staticMesh.Add(Quake2Scout);
-
+                
 
                 TgcSkeletalMesh Cs_Arctic = new TgcSkeletalLoader().loadMeshAndAnimationsFromFile(
                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\" + "Cs_Arctic-TgcSkeletalMesh.xml",
@@ -77,6 +84,8 @@ namespace AlumnoEjemplos.MiGrupo
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "StandBy-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "FlyingKick-TgcSkeletalAnim.xml",
+                    GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Push-TgcSkeletalAnim.xml",
                 });
 
                 staticMesh.Add(Cs_Arctic);
@@ -88,10 +97,19 @@ namespace AlumnoEjemplos.MiGrupo
             
         }
 
+        public static string getAnimacion()
+        {
+            Juego.Instance.animacionesDeEnemigos += 1;
+            String[] animaciones = new string[3] { "HighKick", "FlyingKick", "Push" };
+            return animaciones[Juego.Instance.animacionesDeEnemigos % 3];
+        }
+
         public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager)
         {
 
             this.escenarioManager = escenarioManager;
+
+            this.enemigoAmigacion = Enemigo.getAnimacion();
 
             this.mesh = Enemigo.getMesh();
 

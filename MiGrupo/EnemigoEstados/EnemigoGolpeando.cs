@@ -37,7 +37,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             TgcBoundingBox algo = enemigo.mesh.BoundingBox;
             Vector3 posAnterior = enemigo.mesh.Position;
 
-            enemigo.mesh.playAnimation("HighKick", true, 20);
+            enemigo.mesh.playAnimation(enemigo.enemigoAmigacion, true, 20);
 
             int milisegundosEspera = Juego.Instance.esperaDañoMilisegundos;
             if (Math.Abs(dist) < 100)
