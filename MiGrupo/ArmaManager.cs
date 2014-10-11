@@ -89,11 +89,7 @@ namespace AlumnoEjemplos.MiGrupo
                 {
                     tiempoDisparo = DateTime.Now.TimeOfDay;
                     manejarDisparo();
-                    
-                    // propio de la animacion -----------------------
-                    empezoAnimacionDisparo = true;
-                    posicionSpriteAnimacion = 0;
-                    //---------------------------------------
+
                 }
             }
 
@@ -223,6 +219,14 @@ namespace AlumnoEjemplos.MiGrupo
 
 
                 ContadorBalas.Instance.huboDisparo();
+
+                // propio de la animacion -----------------------
+                if (!hayZoom)
+                {
+                    empezoAnimacionDisparo = true;
+                    posicionSpriteAnimacion = 0;
+                }
+                //---------------------------------------
 
             }
             else
