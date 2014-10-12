@@ -10,7 +10,7 @@ namespace AlumnoEjemplos.MiGrupo
     class SoundManager
     {
         public TgcStaticSound sonidoMunicion;
-        public TgcStaticSound sonidoCaminandoIzq, sonidoCaminandoDer;
+        //public TgcStaticSound sonidoCaminandoIzq, sonidoCaminandoDer;
         public TgcStaticSound sonidoPasoEnemigo;
         public TgcStaticSound sonidoEnemMuerto;
         public TgcStaticSound sonidoDisparo;
@@ -18,15 +18,24 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcStaticSound sonidoEnemigoAlcanzaPersonaje;
         public TgcStaticSound sonidoAviso;
         public TgcStaticSound sonidoFin;
-        private Boolean esPasoDerecho;
+        private Boolean esPasoIzquierdo;
+
+        private TgcStaticSound pasoIzq;
+        private TgcStaticSound pasoDer;
+
+        private DateTime tiempoCordinacionCaminar;
 
 
         private TgcStaticSound sonidoBackground;
 
         public SoundManager()
         {
-            sonidoCaminandoIzq = new TgcStaticSound();
-            sonidoCaminandoDer = new TgcStaticSound();
+            pasoIzq = new TgcStaticSound();
+            pasoDer = new TgcStaticSound();
+            tiempoCordinacionCaminar = DateTime.Now;
+
+            //sonidoCaminandoIzq = new TgcStaticSound();
+            //sonidoCaminandoDer = new TgcStaticSound();
             sonidoDisparo = new TgcStaticSound();
             sonidoRecarga = new TgcStaticSound();
             sonidoPasoEnemigo = new TgcStaticSound();
@@ -37,8 +46,11 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoAviso = new TgcStaticSound();
             sonidoFin = new TgcStaticSound();
 
-            sonidoCaminandoIzq.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba izda.wav");
-            sonidoCaminandoDer.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
+            pasoIzq.loadSound (GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\pasoIzq.wav");
+            pasoDer.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\pasoDer.wav");
+                 
+            //sonidoCaminandoIzq.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba izda.wav");
+            //sonidoCaminandoDer.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
 
             sonidoPasoEnemigo.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
             sonidoEnemMuerto.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\golpe seco.wav");
@@ -55,19 +67,32 @@ namespace AlumnoEjemplos.MiGrupo
 
             sonidoFin.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\background-alternativo.wav");
 
-            esPasoDerecho = true;
+            esPasoIzquierdo = true;
         }
 
 
         public void sonidoCaminando()
         {
-            if (esPasoDerecho)
+            DateTime tiempoSonido = DateTime.Now;
+            
+            // se pone esto con el objetivo de que no se pisen los sonidos, sino que antes de ejecutarse espere a que el otro sonido(el del otro paso) termine
+            if ((tiempoSonido.Millisecond - tiempoCordinacionCaminar.Millisecond) > 500 || (tiempoSonido.Second != tiempoCordinacionCaminar.Second))
             {
-                sonidoCaminandoDer.play();
-            }
-            else
-            {
-                sonidoCaminandoIzq.play();
+                if (esPasoIzquierdo)
+                {
+                    //sonidoCaminandoDer.play();
+                    pasoIzq.play();
+                    esPasoIzquierdo = false;
+                   
+                }
+                else
+                {
+                    //sonidoCaminandoIzq.play();
+                    pasoDer.play();
+                    esPasoIzquierdo = true;
+                }
+
+                tiempoCordinacionCaminar = DateTime.Now;
             }
         }
 
@@ -117,8 +142,8 @@ namespace AlumnoEjemplos.MiGrupo
         }
         public void dispose()
         {
-            sonidoCaminandoIzq.dispose();
-            sonidoCaminandoDer.dispose();
+            //sonidoCaminandoIzq.dispose();
+            //sonidoCaminandoDer.dispose();
             sonidoPasoEnemigo.dispose();
             sonidoEnemMuerto.dispose();
             sonidoDisparo.dispose();
@@ -127,6 +152,10 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoMunicion.dispose();
             sonidoAviso.dispose();
             //sonidoFin.dispose();
+
+            pasoIzq.dispose();
+            pasoDer.dispose();
+
         }
 
 
