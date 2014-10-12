@@ -19,6 +19,7 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcStaticSound sonidoAviso;
         public TgcStaticSound sonidoFin;
         private Boolean esPasoIzquierdo;
+        private TgcStaticSound sinMunicion;
 
         private TgcStaticSound pasoIzq;
         private TgcStaticSound pasoDer;
@@ -45,6 +46,9 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoMunicion = new TgcStaticSound();
             sonidoAviso = new TgcStaticSound();
             sonidoFin = new TgcStaticSound();
+            sinMunicion = new TgcStaticSound();
+
+            sinMunicion.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\sinMunicion.wav");
 
             pasoIzq.loadSound (GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\pasoIzq.wav");
             pasoDer.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\pasoDer.wav");
@@ -94,6 +98,11 @@ namespace AlumnoEjemplos.MiGrupo
 
                 tiempoCordinacionCaminar = DateTime.Now;
             }
+        }
+
+        public void playSonidoSinMunicion()
+        {
+            sinMunicion.play();
         }
 
         public void sonidoCaminandoEnemigo()
@@ -151,6 +160,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoEnemigoAlcanzaPersonaje.dispose();
             sonidoMunicion.dispose();
             sonidoAviso.dispose();
+            sinMunicion.dispose();
             //sonidoFin.dispose();
 
             pasoIzq.dispose();

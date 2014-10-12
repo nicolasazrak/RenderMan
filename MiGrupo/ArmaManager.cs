@@ -93,11 +93,9 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                if (Juego.Instance.esperaCorrecta(tiempoDisparo, -1, 1, 1) && ContadorBalas.Instance.puedoDisparar())
+                if (Juego.Instance.esperaCorrecta(tiempoDisparo, -1, 1, 1))
                 {
-                    tiempoDisparo = DateTime.Now.TimeOfDay;
                     manejarDisparo();
-                    empezoAnimacionDisparo = true; //NO sacar, boleano que dice que empezo la animacion, se desactiva cuando halla terminado la animacion y se pone ya que la animacion para completarse necesita muchas iteraciones del update!!
                 }
             }
 
@@ -243,6 +241,10 @@ namespace AlumnoEjemplos.MiGrupo
             if (ContadorBalas.Instance.puedoDisparar())
             {
                 soundManager.playSonidoDisparo();
+                //----animacion------
+                empezoAnimacionDisparo = true; //NO sacar, boleano que dice que empezo la animacion, se desactiva cuando halla terminado la animacion y se pone ya que la animacion para completarse necesita muchas iteraciones del update!!
+                tiempoDisparo = DateTime.Now.TimeOfDay;
+                //----------------
                 pickingRay.updateRay();
 
                 Vector3 collisionPoint;
@@ -282,7 +284,8 @@ namespace AlumnoEjemplos.MiGrupo
             }
             else
             {
-                //Encontrar sonido que represente la falta de balas en el arma
+                //Encontrar sonido que represente la falta de balas en el arma(ENCONTRADO)
+                soundManager.playSonidoSinMunicion();
             }
 
         }
