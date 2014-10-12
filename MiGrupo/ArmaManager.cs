@@ -93,7 +93,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                if (Juego.Instance.esperaCorrecta(tiempoDisparo, -1, 1, 1))
+                if (Juego.Instance.esperaCorrecta(tiempoDisparo, -1, 1, 1) && ContadorBalas.Instance.puedoDisparar())
                 {
                     tiempoDisparo = DateTime.Now.TimeOfDay;
                     manejarDisparo();
