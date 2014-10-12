@@ -34,6 +34,11 @@ namespace AlumnoEjemplos.MiGrupo
         private Boolean empezoAnimacionDisparo;
         private Boolean volviendoAnimacion;
         private float posicionSpriteAnimacion;
+
+        private Boolean volviendoAnimacionRecarga;
+        private Boolean empezoAnimacionRecarga;
+        private float posicionSpriteAnimacionRecarga;
+        private TimeSpan tiempoInicioAnimacion; //variable que se utiliza para frenar la imagen cuando esta recargando, la baja la frena y despues la sube
         //------------------------------------------------------
 
         private EnemigosManager enemigosManager;
@@ -60,6 +65,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             empezoAnimacionDisparo = false;
             volviendoAnimacion = false;
+            volviendoAnimacionRecarga = false;
 
             hacerZoom(0);
            
@@ -80,6 +86,8 @@ namespace AlumnoEjemplos.MiGrupo
                     tiempoRecarga = DateTime.Now.TimeOfDay;
                     soundManager.playSonidoRecarga();
                     ContadorBalas.Instance.recargar();
+                    empezoAnimacionRecarga = true;
+                    tiempoInicioAnimacion = DateTime.Now.TimeOfDay;
                 }
             }
 
@@ -89,7 +97,7 @@ namespace AlumnoEjemplos.MiGrupo
                 {
                     tiempoDisparo = DateTime.Now.TimeOfDay;
                     manejarDisparo();
-
+                    empezoAnimacionDisparo = true; //NO sacar, boleano que dice que empezo la animacion, se desactiva cuando halla terminado la animacion y se pone ya que la animacion para completarse necesita muchas iteraciones del update!!
                 }
             }
 
@@ -104,10 +112,53 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (!(hayZoom)) 
             { // solo te mueva el sprite cuando no tenes mira
-                this.playAnimacionDisparo(elapsedTime);
+                if (empezoAnimacionDisparo && !(empezoAnimacionRecarga))// para que no se pisen las animaciones
+                {
+                    this.playAnimacionDisparo(elapsedTime);
+                }
+
+                if (empezoAnimacionRecarga && !(empezoAnimacionDisparo)) //para que no se pisen las animaciones
+                {
+                    this.playAnimacionRecarga(elapsedTime);
+                }
             }
         }
 
+        public void playAnimacionRecarga(float elapsedTime)
+        {
+            float limite = 1.45f;
+            int tiempoTranscurridoAnimacionSeg = DateTime.Now.Second - tiempoInicioAnimacion.Seconds;
+            int tiempoTranscurridoAnimacionMin = DateTime.Now.Minute - tiempoInicioAnimacion.Minutes;
+            float pendienteDeLaRecta = 150f;
+
+            if (empezoAnimacionRecarga)
+            {
+                if (posicionSpriteAnimacionRecarga <= limite && !(volviendoAnimacionRecarga))
+                {
+                    spriteArma.Position = new Vector2(spriteArma.Position.X + (5 * elapsedTime), spriteArma.Position.Y + (5 * elapsedTime * pendienteDeLaRecta));
+
+                    posicionSpriteAnimacionRecarga = spriteArma.Position.X + (5 * elapsedTime);
+                }
+                else
+                {
+                    if((tiempoTranscurridoAnimacionSeg > 2 && tiempoTranscurridoAnimacionMin == 0) || (tiempoTranscurridoAnimacionMin == -1)) //parte donde frena la secuencia para simular que esta cargando
+                    {
+                        volviendoAnimacionRecarga = true;
+                        spriteArma.Position = new Vector2(spriteArma.Position.X - (5 * elapsedTime), spriteArma.Position.Y - (5 * elapsedTime * pendienteDeLaRecta));
+
+                        posicionSpriteAnimacionRecarga = spriteArma.Position.X - (5 * elapsedTime);
+
+                        if (spriteArma.Position.X < 0)
+                        {
+                             spriteArma.Position = new Vector2(0, 0);
+                             empezoAnimacionRecarga = false;
+                             volviendoAnimacionRecarga = false;
+                        }
+                    }
+                }
+            }
+        }
+        
         public void playAnimacionDisparo(float elapsedTime)
         {
             float limite = 150;
