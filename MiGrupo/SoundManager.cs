@@ -25,12 +25,23 @@ namespace AlumnoEjemplos.MiGrupo
         private TgcStaticSound pasoDer;
 
         private DateTime tiempoCordinacionCaminar;
-
-
         private TgcStaticSound sonidoBackground;
 
-        public SoundManager()
+        public static SoundManager Instance;
+
+        public static SoundManager getInstance()
         {
+            if (Instance == null)
+            {
+                Instance = new SoundManager();
+            }
+            return Instance;
+        }
+
+        private SoundManager()
+        {
+
+
             pasoIzq = new TgcStaticSound();
             pasoDer = new TgcStaticSound();
             tiempoCordinacionCaminar = DateTime.Now;

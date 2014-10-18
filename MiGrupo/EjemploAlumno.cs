@@ -30,13 +30,11 @@ namespace AlumnoEjemplos.MiGrupo
         EscenarioManager escenarioManager;
         ArmaManager armaManager;
         Vida vida;
-        Vector3 ultimaPosicion;
         ContadorEnemigos contadorEnemigos;
         ContadorBalas contadorBalas;
         Juego juego;
         Indicadores indicadores;
         Octree octree;
-        public static EjemploAlumno Instance;
         GameOver finalJuego;
 
 
@@ -74,24 +72,25 @@ namespace AlumnoEjemplos.MiGrupo
         public override void init()
         {
 
+            GuiController.Instance.Modifiers.addFloat("zoom", 2f, 5f, 3f);
+
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            juego = new Juego();
+            juego = Juego.getInstance();
             //GuiController.Instance.UserVars.addVar("Ancho", tamañoPantalla.Width);
             //GuiController.Instance.UserVars.addVar("Alto", tamañoPantalla.Height);
-            vida = new Vida();
-            vida.initialize(this);
+            vida = Vida.getInstance();
+            vida.initialize();
 
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
             camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
             camara.MovementSpeed = 150;
-            ultimaPosicion = new Vector3(-200, 40, 0);
+            
+            soundManager = SoundManager.getInstance();
+            contadorBalas = ContadorBalas.getInstance();
+            escenarioManager = new EscenarioManager();
 
-            soundManager = new SoundManager();
-            contadorBalas = new ContadorBalas(Juego.Instance.cantidadBalas);
-
-            escenarioManager = new EscenarioManager(vida);
             escenarioManager.generarPosiciones();
             escenarioManager.generarBosque(500, 200, 20);
 
@@ -99,25 +98,22 @@ namespace AlumnoEjemplos.MiGrupo
             octree.create(escenarioManager.getOptimizables(), escenarioManager.limites);
             octree.createDebugOctreeMeshes();
 
-            enemigosManager = new EnemigosManager(escenarioManager, soundManager);
+
+            enemigosManager = new EnemigosManager(escenarioManager);
             enemigosManager.generarEnemigos(Juego.Instance.totalEnemigos);
 
             Juego.Instance.manejoEnemigos(enemigosManager);
 
-            contadorEnemigos = new ContadorEnemigos(10);
+            contadorEnemigos = new ContadorEnemigos();
 
-            armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
+            armaManager = ArmaManager.getInstance(enemigosManager, camara, escenarioManager);
 
             indicadores = new Indicadores();
 
-            GuiController.Instance.Modifiers.addFloat("zoom", 2f, 5f, 3f);
-
             camara.setEscenarioManger(escenarioManager);
 
-
-            EjemploAlumno.Instance = this;
-
             finalJuego = new GameOver();
+
        }
 
         
@@ -138,26 +134,25 @@ namespace AlumnoEjemplos.MiGrupo
                     || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
                 {
 
-                    Vector3 ultimaPos = camara.getPosition();
                     Vector3 ultimoLookAt = camara.getLookAt();
 
-                    TgcBoundingSphere arma = new TgcBoundingSphere(ultimaPos, 20f);
-
-                    Boolean choque = escenarioManager.verificarColision(arma);
+                    /* TODO, optimizar aca */
+                    Boolean choque = escenarioManager.verificarColision(new TgcBoundingSphere(camara.getPosition(), 20f));
                     if (!choque)
                     {
                         soundManager.sonidoCaminando();
-                        ultimaPosicion = ultimaPos;
                     }
 
                 }
 
-                enemigosManager.update(elapsedTime, escenarioManager, vida);
+                enemigosManager.update(elapsedTime, vida);
                 escenarioManager.update(elapsedTime);
                 armaManager.update(elapsedTime);
+
                 vida.render();
                 contadorEnemigos.render();
                 contadorBalas.render();
+
                 octree.render(GuiController.Instance.Frustum, false);
 
                 //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
@@ -170,7 +165,9 @@ namespace AlumnoEjemplos.MiGrupo
                     indicadores.spriteRender();
                 }
                 GuiController.Instance.Drawer2D.endDrawSprite();
+
                 //------------------------------------------------------------
+
 
             }
             else
@@ -181,51 +178,17 @@ namespace AlumnoEjemplos.MiGrupo
                 if (d3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.Y))
                 {
                     soundManager.stopSonidoFin();
-                    this.reiniciarJuego();
+                    Juego.Instance.reiniciar();
                 }
 
             }
         }
 
-        private void reiniciarJuego()
-        {
-            //this.close();
 
-            //juego = new Juego();
-            vida = new Vida();
-            vida.initialize(this);
-            ultimaPosicion = new Vector3(-200, 40, 0);
-            contadorBalas = new ContadorBalas(Juego.Instance.cantidadBalas);
-            escenarioManager = new EscenarioManager(vida);
-            escenarioManager.generarPosiciones();
-            escenarioManager.generarBosque(500, 200, 20);
-            
-            camara = new TgcFpsMiCamara();
-            camara.Enable = true;
-            camara.setCamera(new Vector3(-200, 40, 0), new Vector3(0, 10, 0));
-            camara.MovementSpeed = 150;
-            octree = new Octree();
-            octree.create(escenarioManager.getOptimizables(), escenarioManager.limites);
-            octree.createDebugOctreeMeshes();
 
-            enemigosManager = new EnemigosManager(escenarioManager, soundManager);
-            enemigosManager.generarEnemigos(Juego.Instance.totalEnemigos);
 
-            Juego.Instance.manejoEnemigos(enemigosManager);
-            
-            contadorEnemigos = new ContadorEnemigos(10);
 
-            armaManager = new ArmaManager(enemigosManager, soundManager, camara, escenarioManager);
-
-            indicadores = new Indicadores();
-
-            camara.setEscenarioManger(escenarioManager);
-
-            Juego.Instance.reiniciar();
-
-       }
-
-         public override void close()
+        public override void close()
         {
             enemigosManager.dispose();
             soundManager.dispose();

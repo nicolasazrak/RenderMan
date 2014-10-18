@@ -13,25 +13,40 @@ namespace AlumnoEjemplos.MiGrupo
         TgcText2d textoVida;
         private SoundManager sonido;
         int vida;
-        Indicadores indicadorVida;
-        EjemploAlumno menu;
 
-        public void initialize(EjemploAlumno unMenu)
+        public static Vida Instance;
+        public static Vida getInstance()
         {
-            menu = unMenu;
-            sonido = new SoundManager();
-            indicadorVida = new Indicadores();
+            if (Instance == null)
+            {
+                Instance = new Vida();
+            }
+            return Instance;
+        }
+
+        private Vida() { }
+
+        public void initialize()
+        {
+
+            sonido = SoundManager.getInstance();
 
             textoVida = new TgcText2d();
             textoVida.Color = Color.Red;
             textoVida.Align = TgcText2d.TextAlign.LEFT;
-            int tamañoTexturaX = (int)indicadorVida.getPosicionXSpriteVida();
+            int tamañoTexturaX = (int) new Indicadores().getPosicionXSpriteVida();
             textoVida.Position = new Point(tamañoTexturaX + 35, 25);
             textoVida.Size = new Size(350, 100);
             textoVida.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
+
+            setInitialValues();
+
+        }
+
+        public void setInitialValues()
+        {
             vida = 100;
             textoVida.Text = "%" + vida.ToString();
-
         }
 
         public void restaAtaqueEnemigo()

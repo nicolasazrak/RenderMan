@@ -15,9 +15,8 @@ namespace AlumnoEjemplos.MiGrupo
         public int enemigosAscecinados = 0;
         TgcText2d texto;
 
-        public ContadorEnemigos(int cantTotal)
+        public ContadorEnemigos()
         {
-            indicadorEnemigo = new Indicadores();
 
             ContadorEnemigos.Instance = this;
 
@@ -27,10 +26,18 @@ namespace AlumnoEjemplos.MiGrupo
             texto.Color = Color.Red;
             texto.Align = TgcText2d.TextAlign.LEFT;
             //texto.Position = new Point(screenSize.Width - 75, 35);
-            int tamañoTexturaX = (int)indicadorEnemigo.getPosicionXSpriteEnemigo();
+            int tamañoTexturaX = (int)new Indicadores().getPosicionXSpriteEnemigo();
             texto.Position = new Point(screenSize.Width - 105 + tamañoTexturaX, 35);
             texto.Size = new Size(350, 100);
             texto.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
+
+            setInitialValues();
+
+        }
+
+        public void setInitialValues()
+        {
+            enemigosAscecinados = 0;
             texto.Text = enemigosAscecinados.ToString() + " / " + Juego.Instance.totalEnemigos.ToString();
         }
 

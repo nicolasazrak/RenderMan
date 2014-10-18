@@ -101,7 +101,7 @@ namespace AlumnoEjemplos.MiGrupo
         {
             Juego.Instance.animacionesDeEnemigos += 1;
             String[] animaciones = new string[3] { "HighKick", "FlyingKick", "Push" };
-            return animaciones[Juego.Instance.animacionesDeEnemigos % 3];
+            return animaciones[Juego.getInstance().animacionesDeEnemigos % 3];
         }
 
         public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager)

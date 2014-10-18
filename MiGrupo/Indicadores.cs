@@ -57,6 +57,11 @@ namespace AlumnoEjemplos.MiGrupo
             spriteVida.Position = new Vector2(5, 15);
         }
 
+        public void init()
+        {
+
+        }
+
         public int divicionEntera(int dividendo, int divisor)
         {
             int resultado = dividendo / divisor;

@@ -35,10 +35,9 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             float dist = dir_escape.Length();
             dir_escape.Y = 0;
 
-            if (Math.Abs(dist) < Juego.Instance.distanciaParaPerseguir)
+            if (Math.Abs(dist) < Juego.getInstance().distanciaParaPerseguir)
             {
-                SoundManager sonido = new SoundManager();
-                sonido.playSonidoAviso();
+                SoundManager.getInstance().playSonidoAviso();
                 enemigo.setEstado(new EnemigoPersiguiendo(enemigo));
             }
             else

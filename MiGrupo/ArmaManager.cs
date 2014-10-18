@@ -49,10 +49,22 @@ namespace AlumnoEjemplos.MiGrupo
         private TgcTexture miraSimple  = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteMiraSola.png");
         private TgcTexture sniper = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + EjemploAlumno.nombreGrupo + "\\sprites\\SpriteArmaSola.png");
 
-        public ArmaManager(EnemigosManager enemigosManager, SoundManager soundManager, TgcFpsMiCamara camara, EscenarioManager escenarioManager)
+
+        public static ArmaManager Instance;
+        public static ArmaManager getInstance(EnemigosManager enemigosManager, TgcFpsMiCamara camara, EscenarioManager escenarioManager)
         {
+            if (Instance == null)
+            {
+                Instance = new ArmaManager(enemigosManager, camara, escenarioManager);
+            }
+            return Instance;
+        }
+
+        private ArmaManager(EnemigosManager enemigosManager, TgcFpsMiCamara camara, EscenarioManager escenarioManager)
+        {
+
             //this.enemigosManager = enemigosManager;
-            this.soundManager = soundManager;
+            this.soundManager = SoundManager.getInstance();
             this.camara = camara;
             this.escenarioManager = escenarioManager;
             this.enemigosManager = enemigosManager;
@@ -63,16 +75,21 @@ namespace AlumnoEjemplos.MiGrupo
             spriteArma = new TgcSprite();
             spriteMira = new TgcSprite();
 
+            setInitialValues();
+    
+        }
+
+        public void setInitialValues()
+        {
             empezoAnimacionDisparo = false;
             volviendoAnimacion = false;
             volviendoAnimacionRecarga = false;
 
             hacerZoom(0);
-           
+
             tiempoDisparo = DateTime.Now.TimeOfDay;
             tiempoRecarga = DateTime.Now.TimeOfDay;
             tiempoZoom = DateTime.Now.TimeOfDay;
-    
         }
 
 

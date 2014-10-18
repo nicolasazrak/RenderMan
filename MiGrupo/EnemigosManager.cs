@@ -27,12 +27,11 @@ namespace AlumnoEjemplos.MiGrupo
 
         Boolean pasoNivel;
 
-        public EnemigosManager(EscenarioManager escenario, SoundManager soundManager)
+        public EnemigosManager(EscenarioManager escenario)
         {
-
             EnemigosManager.Instance = this;
             enemigos = new List<Enemigo>();
-            this.soundManager = soundManager;
+            this.soundManager = SoundManager.getInstance();
             this.escenarioManager = escenario;
             pasoNivel = false;
         }
@@ -53,10 +52,11 @@ namespace AlumnoEjemplos.MiGrupo
         {
             pasoNivel = true;
         }
+
         //<summary>
         //Llama al metodo render de cada enemigo que haya
         //</summary>
-        public void update(float elapsedTime, EscenarioManager e, Vida vidaPersona)
+        public void update(float elapsedTime, Vida vidaPersona)
         {
             foreach (Enemigo enemigo in enemigos)
             {

@@ -22,36 +22,54 @@ namespace AlumnoEjemplos.MiGrupo
         Indicadores indicadorBala;
         Indicadores indicadorCargador;
 
-        public ContadorBalas(int cantTotal)
+        public static ContadorBalas getInstance()
         {
+            if (ContadorBalas.Instance == null)
+            {
+                ContadorBalas.Instance = new ContadorBalas();
+            }
+            return ContadorBalas.Instance;
+        }
+
+        private ContadorBalas()
+        {
+
             Size screenSize = GuiController.Instance.Panel3d.Size;
-            juego = new Juego();
+            juego = Juego.Instance;
 
             indicadorBala = new Indicadores();
             indicadorCargador = new Indicadores();
 
-            ContadorBalas.Instance = this;
-
             texto = new TgcText2d();
             texto.Color = Color.Red;
             texto.Align = TgcText2d.TextAlign.LEFT;
+
             int tamañoTexturaBala = (int)indicadorBala.getPosicionXSpriteBala();
             texto.Position = new Point(tamañoTexturaBala + 25, screenSize.Height - 32);
             texto.Size = new Size(350, 500);
             texto.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
-            balasRestantes = cantTotal;
-            texto.Text =  balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
-
+            
             textoCargador = new TgcText2d();
             textoCargador.Color = Color.Red;
             textoCargador.Align = TgcText2d.TextAlign.LEFT;
+
             int tamañoTexturaCargador = (int)indicadorBala.getPosicionXSpriteCargador();
             textoCargador.Position = new Point(tamañoTexturaCargador + 190, screenSize.Height - 32);
             textoCargador.Size = new Size(350, 100);
             textoCargador.changeFont(new System.Drawing.Font("Arial", 16f, FontStyle.Bold));
-            textoCargador.Text = Juego.Instance.cantidadDeCargadores.ToString();
+            
 
-            cargadoresRestantes = juego.cantidadDeCargadores;
+            setInitialValues();
+        }
+
+        public void setInitialValues()
+        {
+
+            balasRestantes = Juego.Instance.cantidadBalas;
+            cargadoresRestantes = Juego.Instance.cantidadDeCargadores;
+
+            textoCargador.Text = Juego.Instance.cantidadDeCargadores.ToString();
+            texto.Text = balasRestantes.ToString() + " / " + Juego.Instance.cantidadBalas.ToString();
         }
 
         public void render()
@@ -92,8 +110,13 @@ namespace AlumnoEjemplos.MiGrupo
             textoCargador.Text = cargadoresRestantes.ToString();
         }
 
+
         public void dispose()
         {
+
         }
+
+
+
     }
 }

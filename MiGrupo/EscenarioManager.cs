@@ -39,21 +39,18 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcSceneLoader loader;
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
         TgcSkyBox skyBox;
-        
-        
-        Vida vida;
+
 
         public TgcBoundingBox limites;
 
         public float tamanio = 5500, tamanioSkyBox = 5000;
 
-        public EscenarioManager(Vida unaVida)
+        public EscenarioManager()
         {
-            vida = unaVida;
             
             EscenarioManager.Instance = this;
 
-            sonido = new SoundManager();
+            sonido = SoundManager.getInstance();
             arboles = new List<TgcMesh>();
             pasto = new List<TgcMesh>();
             barriles = new List<Barril>();
@@ -294,7 +291,7 @@ namespace AlumnoEjemplos.MiGrupo
             Vector3 dir_escape = caja.Position - pos;
             float dist = dir_escape.Length();
             if (Math.Abs(dist) < 60) {
-                vida.subirVida();
+                Juego.Instance.agarroVida();
                 generarNuevaCajaVida();
             }
             caja.render();

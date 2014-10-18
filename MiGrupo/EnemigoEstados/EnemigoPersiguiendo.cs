@@ -70,8 +70,8 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
                 //soundManager.sonidoCaminandoEnemigo();
 
                 //Verificar que no lo golpee tan rapido
-                int milisegundosEspera = Juego.Instance.esperaDañoMilisegundos;
-                if (Math.Abs(dist) < 100 && Juego.Instance.esperaCorrecta(tiempoDaño, -1, 1, milisegundosEspera))
+                int milisegundosEspera = Juego.getInstance().esperaDañoMilisegundos;
+                if (Math.Abs(dist) < 100 && Juego.getInstance().esperaCorrecta(tiempoDaño, -1, 1, milisegundosEspera))
                 {
                     enemigo.setEstado(new EnemigoGolpeando(enemigo));
                     //Random rnd = new Random();
@@ -111,7 +111,7 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             Vector3 posNueva = new Vector3();
             Random rnd = new Random();
 
-            while (Math.Abs(distancia) < Juego.Instance.distanciaParaPerseguir)
+            while (Math.Abs(distancia) < Juego.getInstance().distanciaParaPerseguir)
             {
                 posNueva = new Vector3(-rnd.Next(0, 1000) - 250, 0, -rnd.Next(0, 1000) - 250);
             }
