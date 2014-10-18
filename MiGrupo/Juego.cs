@@ -21,7 +21,7 @@ namespace AlumnoEjemplos
         public int cantidadBalas = 10;
         public int esperaDañoMilisegundos = 500;
         public int cantidadDeCargadores = 3;
-        public int radioExplosion = 400;
+        public int radioExplosion = 200;
         public int recuperoVida = 5;
         public Boolean gameOver = false;
 

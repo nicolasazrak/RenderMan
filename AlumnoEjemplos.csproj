@@ -87,6 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MiGrupo\Efectos\Explosion.cs" />
+    <Compile Include="MiGrupo\Efectos\Humo.cs" />
     <Compile Include="MiGrupo\EnemigoEstados\EnemigoGolpeando.cs" />
     <Compile Include="MiGrupo\EnemigoEstados\EnemigoMuriendo.cs" />
     <Compile Include="MiGrupo\GameOver.cs" />

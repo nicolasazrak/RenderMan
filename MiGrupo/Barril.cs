@@ -1,4 +1,5 @@
-﻿using Microsoft.DirectX;
+﻿using AlumnoEjemplos.MiGrupo.Efectos;
+using Microsoft.DirectX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcBoundingBox BoundigBox;
 
         private static TgcMesh originalMesh;
+        
+        private Humo humo;
+        private Explosion explosion;
 
         public static TgcMesh getMesh()
         {
@@ -39,6 +43,10 @@ namespace AlumnoEjemplos.MiGrupo
             cilindro = new TgcBoundingCylinder(position, 10, 150);
             this.mesh.updateBoundingBox();
             BoundigBox = this.mesh.BoundingBox;
+
+            humo = new Humo(position);
+            explosion = new Explosion(position);
+
         }
 
 
@@ -49,8 +57,15 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void render()
         {
-            if (!explotado)
+            if (!explotado){
                 mesh.render();
+            } 
+            else
+            {
+                humo.render();
+                explosion.render();
+            }
+               
         }
 
 
