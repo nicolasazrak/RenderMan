@@ -98,7 +98,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.R))
             {
-                if (Juego.Instance.esperaCorrecta(tiempoRecarga, -1, 4, 1) && ContadorBalas.Instance.puedoRecargar())
+                if (Juego.Instance.esperaCorrecta(tiempoRecarga, -1, 4, 1) && ContadorBalas.Instance.puedoRecargar() && !(empezoAnimacionDisparo))
                 {
                     tiempoRecarga = DateTime.Now.TimeOfDay;
                     soundManager.playSonidoRecarga();
@@ -110,7 +110,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             if (GuiController.Instance.D3dInput.buttonDown(TgcViewer.Utils.Input.TgcD3dInput.MouseButtons.BUTTON_LEFT) == true)
             {
-                if (Juego.Instance.esperaCorrecta(tiempoDisparo, -1, 1, 1))
+                if (Juego.Instance.esperaCorrecta(tiempoDisparo, -1, 1, 1) && !(empezoAnimacionRecarga))
                 {
                     manejarDisparo();
                 }
