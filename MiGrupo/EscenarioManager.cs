@@ -66,7 +66,8 @@ namespace AlumnoEjemplos.MiGrupo
             piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize*2, 0, pisoSize*2));
             piso.updateValues();
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\moss_rock60_512.jpg"));
-            
+            //piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\nieve.png"));
+
             generarSkyBox();
 
             colisionables = new List<TgcBoundingCylinder>();
