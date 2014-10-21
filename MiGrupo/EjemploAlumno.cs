@@ -40,7 +40,7 @@ namespace AlumnoEjemplos.MiGrupo
         Huellas huella;
 
         TimeSpan tiempoEsperaHuella;
-        Boolean esIzq;
+        //Boolean esIzq;
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
@@ -119,10 +119,10 @@ namespace AlumnoEjemplos.MiGrupo
             finalJuego = new GameOver();
 
             huella = new Huellas();
-            huella.generarHuella(2);
-            huella.generarHuella(1);
+            huella.generarHuella();
+            huella.generarHuella();
             tiempoEsperaHuella = DateTime.Now.TimeOfDay;
-            esIzq = true;
+            //esIzq = true;
        }
 
         
@@ -158,7 +158,7 @@ namespace AlumnoEjemplos.MiGrupo
 
                      if((tiempo.Milliseconds - tiempoEsperaHuella.Milliseconds) > 300 ||(tiempo.Seconds != tiempoEsperaHuella.Seconds) || (tiempo.Minutes != tiempoEsperaHuella.Minutes))
                      {
-                         if (esIzq)
+                         /*if (esIzq)
                          {
                              huella.generarHuella(2);
                              esIzq = false;
@@ -167,7 +167,8 @@ namespace AlumnoEjemplos.MiGrupo
                          {
                              huella.generarHuella(1);
                              esIzq = true;
-                         }
+                         }*/
+                         huella.generarHuella();
                          tiempoEsperaHuella = DateTime.Now.TimeOfDay;
                      
                      }

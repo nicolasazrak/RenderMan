@@ -19,15 +19,17 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
         TgcBox huellaDer;
         TgcBox huella;
         Vector3 posicionAnterio;
+        int tipoDeHuella;
 
         public Huellas()
         {
             huellas = new List<TgcBox>();
             posicionAnterio = GuiController.Instance.CurrentCamera.getPosition();
+            tipoDeHuella = 1;
         }
 
         //si es 1 es huella Derecha si es 2 es huella izq
-        public void generarHuella(int tipoHuella)
+        public void generarHuella()
         {
             Vector3 posicion = GuiController.Instance.CurrentCamera.getPosition();
             
@@ -36,14 +38,15 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             huella.Size = new Vector3(20, 0, 20);
             huella.Position = new Vector3(posicion.X, 1, posicion.Z);
 
-            if (tipoHuella == 1)
+            if (tipoDeHuella == 1)
             {
                 huella.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\pisadaDer2.png"));
+                tipoDeHuella = 2;
             }
-
-            if (tipoHuella == 2)
+            else
             {
                 huella.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\pisadaIzq2.png"));
+                tipoDeHuella = 1;
             }
 
             Vector3 mirarHacia = posicion - posicionAnterio;
