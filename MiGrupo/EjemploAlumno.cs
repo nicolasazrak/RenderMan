@@ -14,6 +14,7 @@ using TgcViewer.Utils.Sound;
 using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer.Utils._2D;
 using Examples.Optimizacion.Octree;
+using AlumnoEjemplos.MiGrupo.Efectos;
 
 
 namespace AlumnoEjemplos.MiGrupo
@@ -36,7 +37,10 @@ namespace AlumnoEjemplos.MiGrupo
         Indicadores indicadores;
         Octree octree;
         GameOver finalJuego;
+        Huellas huella;
 
+        TimeSpan tiempoEsperaHuella;
+        Boolean esIzq;
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
@@ -114,6 +118,11 @@ namespace AlumnoEjemplos.MiGrupo
 
             finalJuego = new GameOver();
 
+            huella = new Huellas();
+            huella.generarHuella(2);
+            huella.generarHuella(1);
+            tiempoEsperaHuella = DateTime.Now.TimeOfDay;
+            esIzq = true;
        }
 
         
@@ -136,6 +145,7 @@ namespace AlumnoEjemplos.MiGrupo
 
                     Vector3 ultimoLookAt = camara.getLookAt();
 
+
                     /* TODO, optimizar aca */
                     Boolean choque = escenarioManager.verificarColision(new TgcBoundingSphere(camara.getPosition(), 20f));
                     if (!choque)
@@ -143,7 +153,28 @@ namespace AlumnoEjemplos.MiGrupo
                         soundManager.sonidoCaminando();
                     }
 
+                    //generar huella----------------------------
+                     TimeSpan tiempo = DateTime.Now.TimeOfDay;    
+
+                     if((tiempo.Milliseconds - tiempoEsperaHuella.Milliseconds) > 300 ||(tiempo.Seconds != tiempoEsperaHuella.Seconds) || (tiempo.Minutes != tiempoEsperaHuella.Minutes))
+                     {
+                         if (esIzq)
+                         {
+                             huella.generarHuella(2);
+                             esIzq = false;
+                         }
+                         else
+                         {
+                             huella.generarHuella(1);
+                             esIzq = true;
+                         }
+                         tiempoEsperaHuella = DateTime.Now.TimeOfDay;
+                     
+                     }
+                    //-----------------------------------------
                 }
+
+                huella.renderHuella();
 
                 enemigosManager.update(elapsedTime, vida);
                 escenarioManager.update(elapsedTime);
@@ -198,6 +229,7 @@ namespace AlumnoEjemplos.MiGrupo
             vida.dispose();
             indicadores.dispose();
             finalJuego.dispose();
+            huella.dispose();
         }
 
 
