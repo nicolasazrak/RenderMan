@@ -38,12 +38,12 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 
             if (tipoHuella == 1)
             {
-                huella.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\pisadaDer.png"));
+                huella.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\pisadaDer2.png"));
             }
 
             if (tipoHuella == 2)
             {
-                huella.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\pisadaIzq.png"));
+                huella.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\pisadaIzq2.png"));
             }
 
             Vector3 mirarHacia = posicion - posicionAnterio;
