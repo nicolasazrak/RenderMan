@@ -38,7 +38,7 @@ namespace AlumnoEjemplos.MiGrupo
         {
             this.mesh = Barril.getMesh();
             this.mesh.Position = position;
-            this.mesh.Scale = new Vector3(0.5f, 0.6f, 0.5f);
+            this.mesh.Scale = new Vector3(0.6f, 0.7f, 0.6f);
             this.mesh.AlphaBlendEnable = true;
             cilindro = new TgcBoundingCylinder(position, 10, 150);
             this.mesh.updateBoundingBox();
@@ -91,6 +91,7 @@ namespace AlumnoEjemplos.MiGrupo
                 }
             }
 
+            SoundManager.Instance.playSonidoExplosion();
             EscenarioManager.Instance.colisionables.Remove(cilindro);
 
         }

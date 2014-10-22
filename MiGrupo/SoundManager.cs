@@ -20,6 +20,7 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcStaticSound sonidoFin;
         private Boolean esPasoIzquierdo;
         private TgcStaticSound sinMunicion;
+        private TgcStaticSound explosion;
 
         private TgcStaticSound pasoIzq;
         private TgcStaticSound pasoDer;
@@ -58,6 +59,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoAviso = new TgcStaticSound();
             sonidoFin = new TgcStaticSound();
             sinMunicion = new TgcStaticSound();
+            explosion = new TgcStaticSound();
 
             sinMunicion.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\sinMunicion.wav");
 
@@ -74,13 +76,15 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoRecarga.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\armas\\Pump_Shotgun 2x-SoundBible.com-278688366.wav");
 
             sonidoBackground.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\background-alternativo.wav");
-            //sonidoBackground.play();
+            sonidoBackground.play();
 
             sonidoEnemigoAlcanzaPersonaje.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\puñetazo.wav");
             sonidoMunicion.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\tic.wav");
             sonidoAviso.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\sirena, continuo.wav");
 
             sonidoFin.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\background-alternativo.wav");
+
+            explosion.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\explosión, grande.wav");
 
             esPasoIzquierdo = true;
         }
@@ -154,6 +158,11 @@ namespace AlumnoEjemplos.MiGrupo
         public void playSonidoFin()
         {
             //sonidoFin.play();
+        }
+
+        public void playSonidoExplosion()
+        {
+            explosion.play();
         }
 
         public void stopSonidoFin()

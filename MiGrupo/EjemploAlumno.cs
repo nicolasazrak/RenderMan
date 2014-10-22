@@ -96,7 +96,7 @@ namespace AlumnoEjemplos.MiGrupo
             escenarioManager = new EscenarioManager();
 
             escenarioManager.generarPosiciones();
-            escenarioManager.generarBosque(500, 200, 20);
+            escenarioManager.generarBosque(500, 200, 40);
 
             octree = new Octree();
             octree.create(escenarioManager.getOptimizables(), escenarioManager.limites);
