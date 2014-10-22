@@ -37,10 +37,8 @@ namespace AlumnoEjemplos.MiGrupo
         Indicadores indicadores;
         Octree octree;
         GameOver finalJuego;
-        Huellas huella;
+        HuellasManager huellaManager;
 
-        TimeSpan tiempoEsperaHuella;
-        //Boolean esIzq;
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
@@ -118,11 +116,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             finalJuego = new GameOver();
 
-            huella = new Huellas();
-            huella.generarHuella();
-            huella.generarHuella();
-            tiempoEsperaHuella = DateTime.Now.TimeOfDay;
-            //esIzq = true;
+            huellaManager = new HuellasManager(25);
        }
 
         
@@ -153,29 +147,12 @@ namespace AlumnoEjemplos.MiGrupo
                         soundManager.sonidoCaminando();
                     }
 
-                    //generar huella----------------------------
-                     TimeSpan tiempo = DateTime.Now.TimeOfDay;    
+                    //generar huella
+                    huellaManager.generarHuella();
 
-                     if((tiempo.Milliseconds - tiempoEsperaHuella.Milliseconds) > 300 ||(tiempo.Seconds != tiempoEsperaHuella.Seconds) || (tiempo.Minutes != tiempoEsperaHuella.Minutes))
-                     {
-                         /*if (esIzq)
-                         {
-                             huella.generarHuella(2);
-                             esIzq = false;
-                         }
-                         else
-                         {
-                             huella.generarHuella(1);
-                             esIzq = true;
-                         }*/
-                         huella.generarHuella();
-                         tiempoEsperaHuella = DateTime.Now.TimeOfDay;
-                     
-                     }
-                    //-----------------------------------------
                 }
 
-                huella.renderHuella();
+                huellaManager.render();
 
                 enemigosManager.update(elapsedTime, vida);
                 escenarioManager.update(elapsedTime);
@@ -230,7 +207,7 @@ namespace AlumnoEjemplos.MiGrupo
             vida.dispose();
             indicadores.dispose();
             finalJuego.dispose();
-            huella.dispose();
+            huellaManager.dispose();
         }
 
 
