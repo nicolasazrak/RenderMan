@@ -1,9 +1,12 @@
 ﻿using Microsoft.DirectX;
+using Microsoft.DirectX.Direct3D;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TgcViewer;
+using TgcViewer.Utils.Shaders;
+using TgcViewer.Utils.Input;
 using TgcViewer.Utils.Terrain;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
@@ -39,6 +42,14 @@ namespace AlumnoEjemplos.MiGrupo
         public TgcSceneLoader loader;
         string[] tipoArboles = new string[3] { "Pino\\Pino", "Palmera2\\Palmera2", "Palmera3\\Palmera3" };
         TgcSkyBox skyBox;
+        /* SHADER DE VIENTO*/
+
+        float time = 0;
+        Effect efecto = TgcShaders.loadEffect(GuiController.Instance.AlumnoEjemplosDir + "MiGrupo\\Efectos\\Shaders\\VientoArboles.fx");
+        float vientoX = 0.05F;
+        float vientoZ = 0.01F;
+        float coefY = 0.01F;
+
 
 
         public TgcBoundingBox limites;
@@ -49,6 +60,8 @@ namespace AlumnoEjemplos.MiGrupo
         {
             
             EscenarioManager.Instance = this;
+
+
 
             sonido = SoundManager.getInstance();
             arboles = new List<TgcMesh>();
@@ -129,6 +142,9 @@ namespace AlumnoEjemplos.MiGrupo
                 instancia.Scale = new Vector3(3f, 3f, 3f);
                 instancia.Position = this.divisionesPiso[i];
                 instancia.AlphaBlendEnable = true;
+                //Agrego efecto y tecnica
+                instancia.Effect = efecto;
+                instancia.Technique = "VientoArbol";
                 arboles.Add(instancia);
                 colisionables.Add(instanciaCilindro);
             }
@@ -146,6 +162,9 @@ namespace AlumnoEjemplos.MiGrupo
                 instancia.Position = this.divisionesPiso[cantidadArboles + i];
                 instancia.Scale = new Vector3(2f, 2f, 2f);
                 instancia.AlphaBlendEnable = true;
+                //Agrego efecto y tecnica
+                instancia.Effect = efecto;
+                instancia.Technique = "VientoArbol";
                 pasto.Add(instancia);
             }
         }
@@ -232,12 +251,15 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void update(float elapsedTime)
         {
-
+            time += elapsedTime;
             /* Esto ahora lo hace el octree */
             /*foreach (TgcMesh arbol in arboles) arbol.render();
             foreach (TgcMesh pastito in pasto) pastito.render();
             */
-
+            efecto.SetValue("time", time);
+            efecto.SetValue("vientoX", vientoX);
+            efecto.SetValue("vientoZ", vientoZ);
+            efecto.SetValue("coefY", coefY);
             foreach (Barril barril in barriles) barril.render();
 
             //foreach (TgcBoundingCylinder s in colisionables) s.render();
