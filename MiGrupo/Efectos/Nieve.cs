@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using TgcViewer;
 
-//IMPORTANTE FIJARSE POR QUE SE MUEVE MAL LA NUBE
+//IMPORTANTE FIJARSE POR QUE SE MUEVE MAL LA NUBE(el metodo mover nube ya esta implementado implicitamente)
 
 
 namespace AlumnoEjemplos.MiGrupo.Efectos
@@ -46,13 +46,13 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
                 Random posicionZ = new Random(i);
                 int posZ = posicionX.Next((int)nubeMinZ, (int)nubeMaxZ);
 
-                listaCopos.Add(new CopoNieve(new Vector3(camaraPos.X + posX, 1000, camaraPos.Z + posZ), i % 3));
+                listaCopos.Add(new CopoNieve(new Vector3(camaraPos.X + posX, 1000, camaraPos.Z + posZ), i % 4));
             }
             
         }
         
         //mueve la nube
-        public void movete()
+        /*public void movete()
         {
             Vector3 camara = GuiController.Instance.CurrentCamera.getPosition();
 
@@ -60,7 +60,7 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             nubeMinX = camara.X - (anchoX / 2) - nubeMinX;
             nubeMaxZ = camara.Z + (anchoZ / 2) - nubeMaxZ;
             nubeMinZ = camara.Z - (anchoZ / 2) - nubeMinZ;
-        }
+        }*/
 
         public void renderNieve(float elapseTime)
         {

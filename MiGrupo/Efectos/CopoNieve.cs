@@ -12,13 +12,16 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
     class CopoNieve : TgcSphere
     {
         private float tamanio;
+        private float velocidadCaida;
 
         //al principio que el tamaño sea variable
         public CopoNieve(Vector3 posicion, int tipoTamanio)
         {
             this.setColor(Color.White);
 
-            this.tamanio = tipoTamanio * 10;
+            this.tamanio = tipoTamanio * 4;
+
+            this.velocidadCaida = tipoTamanio * 150;
             
             this.setPositionRadius(new Vector3(posicion.X,1000,posicion.Z),tamanio);
 
@@ -45,7 +48,9 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             }
             else
             {
-                this.Position = new Vector3(this.Position.X, this.Position.Y - (50 * elapseTime), this.Position.Z);
+                //la velocidad hay que verla (osea cual es el criterio que tomamos para las distintas velocidades(200?)
+
+                this.Position = new Vector3(this.Position.X, this.Position.Y - (velocidadCaida * elapseTime), this.Position.Z);
             }
 
             this.updateValues();
