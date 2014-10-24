@@ -21,6 +21,7 @@ namespace AlumnoEjemplos.MiGrupo
         private Boolean esPasoIzquierdo;
         private TgcStaticSound sinMunicion;
         private TgcStaticSound explosion;
+        private TgcStaticSound headshot;
 
         private TgcStaticSound pasoIzq;
         private TgcStaticSound pasoDer;
@@ -60,6 +61,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoFin = new TgcStaticSound();
             sinMunicion = new TgcStaticSound();
             explosion = new TgcStaticSound();
+            headshot = new TgcStaticSound();
 
             sinMunicion.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\sinMunicion.wav");
 
@@ -85,6 +87,7 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoFin.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\background-alternativo.wav");
 
             explosion.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\explosión, grande.wav");
+            headshot.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\headshot.wav");
 
             esPasoIzquierdo = true;
         }
@@ -163,6 +166,11 @@ namespace AlumnoEjemplos.MiGrupo
         public void playSonidoExplosion()
         {
             explosion.play();
+        }
+
+        public void playHeadShot()
+        {
+            headshot.play();
         }
 
         public void stopSonidoFin()

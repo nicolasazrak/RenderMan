@@ -29,6 +29,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public String enemigoAmigacion;
         private static List<TgcSkeletalMesh> staticMesh;
+        private TgcBoundingSphere cabezaBounding;
 
 
         private static TgcSkeletalMesh getMesh()
@@ -126,6 +127,8 @@ namespace AlumnoEjemplos.MiGrupo
             mesh.Scale = new Vector3(1f, 1f, 1f);
             mesh.AutoTransformEnable = true;
 
+            this.cabezaBounding = new TgcBoundingSphere(new Vector3(posicionInicial.X, posicionInicial.Y + 20, posicionInicial.Z), 20);
+
             this.setEstado(new EnemigoQuieto(this));
         }
 
@@ -133,10 +136,9 @@ namespace AlumnoEjemplos.MiGrupo
         public void render(float elapsedTime, Vida vidaPersona)
         {
             //Actualizar animacion
+            cabezaBounding = new TgcBoundingSphere(new Vector3(this.mesh.Position.X, this.mesh.Position.Y + 45, this.mesh.Position.Z), 4);
             estado.update(elapsedTime, vidaPersona);
             mesh.render();
-            
-            //mesh.BoundingBox.render();
         }
 
         public void setPosAnterior(Vector3 pos)
@@ -181,10 +183,26 @@ namespace AlumnoEjemplos.MiGrupo
         }
 
 
+
         public TgcBoundingBox getBoundingBox()
         {
             mesh.updateBoundingBox();
             return mesh.BoundingBox;
+        }
+
+        public TgcBoundingSphere getCabeza()
+        {
+            return cabezaBounding;
+        }
+
+        public void headShot()
+        {
+            estado.headShot();
+        }
+
+        public Boolean debeVerificarDispoaro()
+        {
+            return estado.debeVerificarDispoaro();
         }
 
 

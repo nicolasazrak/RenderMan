@@ -602,7 +602,10 @@ namespace TgcViewer.Utils.Input {
 
             if (this.mouseLock)
             {
-                System.Windows.Forms.Cursor.Position = new Point((int)GuiController.Instance.MainForm.Width / 2, (int)GuiController.Instance.MainForm.Height / 2);
+                int x = (int)GuiController.Instance.Panel3d.Width / 2 + GuiController.Instance.Panel3d.PointToScreen(Point.Empty).X;
+                int y = (int)GuiController.Instance.Panel3d.Height / 2 + GuiController.Instance.Panel3d.PointToScreen(Point.Empty).Y;
+                System.Windows.Forms.Cursor.Position = new Point(x, y);
+
             }
 
             float elapsedTimeSec = GuiController.Instance.ElapsedTime;

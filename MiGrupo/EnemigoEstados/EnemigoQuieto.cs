@@ -58,5 +58,19 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         {
             enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
+
+
+
+        public override void headShot()
+        {
+            Juego.Instance.headshot();
+            teDispararon();
+        }
+
+        public override bool debeVerificarDispoaro()
+        {
+            return true;
+        }
+
     }
 }

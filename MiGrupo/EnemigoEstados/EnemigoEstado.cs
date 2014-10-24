@@ -35,6 +35,12 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             enemigo.mesh.rotateY((float)Math.Atan2(dirMirar.X, dirMirar.Z) - enemigo.mesh.Rotation.Y);
         }
 
+
+        public abstract void headShot();
+
+        public abstract Boolean debeVerificarDispoaro();
+
+
     }
 
 }

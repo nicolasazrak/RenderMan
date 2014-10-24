@@ -155,6 +155,12 @@ namespace AlumnoEjemplos
         }
 
 
+        public void headshot()
+        {
+            SoundManager.Instance.playHeadShot();
+        }
+
+
 
 
 
