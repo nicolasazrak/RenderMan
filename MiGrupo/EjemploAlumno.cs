@@ -38,6 +38,7 @@ namespace AlumnoEjemplos.MiGrupo
         Octree octree;
         GameOver finalJuego;
         HuellasManager huellaManager;
+        Nieve nieve;
 
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
@@ -117,6 +118,8 @@ namespace AlumnoEjemplos.MiGrupo
             finalJuego = new GameOver();
 
             huellaManager = new HuellasManager(25);
+
+            nieve = new Nieve(1000, 1000, 30);
        }
 
         
@@ -136,10 +139,6 @@ namespace AlumnoEjemplos.MiGrupo
                 if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S)
                     || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
                 {
-
-                    Vector3 ultimoLookAt = camara.getLookAt();
-
-
                     /* TODO, optimizar aca */
                     Boolean choque = escenarioManager.verificarColision(new TgcBoundingSphere(camara.getPosition(), 20f));
                     if (!choque)
@@ -150,9 +149,12 @@ namespace AlumnoEjemplos.MiGrupo
                     //generar huella
                     huellaManager.generarHuella();
 
+                    nieve.movete();
                 }
 
                 huellaManager.render();
+
+                nieve.renderNieve(elapsedTime);
 
                 enemigosManager.update(elapsedTime, vida);
                 escenarioManager.update(elapsedTime);
@@ -208,6 +210,7 @@ namespace AlumnoEjemplos.MiGrupo
             indicadores.dispose();
             finalJuego.dispose();
             huellaManager.dispose();
+            nieve.disposeNieve();
         }
 
 
