@@ -130,5 +130,17 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
             enemigo.setEstado(new EnemigoMuriendo(enemigo));
         }
 
+
+        public override void headShot()
+        {
+            SoundManager.Instance.playHeadShot();
+            teDispararon();
+        }
+
+        public override bool debeVerificarDispoaro()
+        {
+            return true;
+        }
+
     }
 }

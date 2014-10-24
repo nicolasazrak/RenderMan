@@ -275,12 +275,23 @@ namespace AlumnoEjemplos.MiGrupo
                     }
                 }
 
+                //Testear Ray contra el AABB de todos los meshes
+                float t;
+                foreach (Enemigo enemigo in this.enemigosManager.getEnemigos())
+                {
+                    //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
+                    if ((enemigo.debeVerificarDispoaro() && TgcCollisionUtils.intersectRaySphere(pickingRay.Ray, enemigo.getCabeza(), out t, out collisionPoint)))
+                    {
+                        enemigo.headShot();
+                        break;
+                    }
+                }
 
                 //Testear Ray contra el AABB de todos los meshes
                 foreach (Enemigo enemigo in this.enemigosManager.getEnemigos())
                 {
                     //Ejecutar test, si devuelve true se carga el punto de colision collisionPoint
-                    if (TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.getBoundingBox(), out collisionPoint))
+                    if (enemigo.debeVerificarDispoaro() && TgcCollisionUtils.intersectRayAABB(pickingRay.Ray, enemigo.getBoundingBox(), out collisionPoint))
                     {
                         enemigo.teDispararon();
                         break;
