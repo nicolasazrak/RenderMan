@@ -15,14 +15,16 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
         private float velocidadCaida;
 
         //al principio que el tamaño sea variable
-        public CopoNieve(Vector3 posicion, int tipoTamanio)
+        public CopoNieve(Vector3 posicion, int tipoTamanio, int semilla)
         {
             this.setColor(Color.White);
 
-            this.tamanio = tipoTamanio * 4;
+            this.tamanio = tipoTamanio * 3;
 
-            this.velocidadCaida = tipoTamanio * 150;
-            
+            Random varVelocidad = new Random(semilla);
+            int variacionVel = varVelocidad.Next(60);
+            this.velocidadCaida = tipoTamanio * 150 + variacionVel;
+
             this.setPositionRadius(new Vector3(posicion.X,1000,posicion.Z),tamanio);
 
             this.updateValues();
@@ -39,18 +41,18 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             {
                 Vector3 camaraPos = GuiController.Instance.CurrentCamera.getPosition();
 
-                Random posicionX = new Random(semillaRandom);
+                Random posicionX = new Random(DateTime.Now.Millisecond);
                 int posX = posicionX.Next((int)nubeMinX, (int)nubeMaxX);
                 Random posicionZ = new Random(semillaRandom);
-                int posZ = posicionX.Next((int)nubeMinZ, (int)nubeMaxZ);
+                int posZ = posicionZ.Next((int)nubeMinZ, (int)nubeMaxZ);
 
                 this.Position = new Vector3(camaraPos.X + posX, 1000, camaraPos.Z + posZ);
             }
             else
             {
                 //la velocidad hay que verla (osea cual es el criterio que tomamos para las distintas velocidades(200?)
-
-                this.Position = new Vector3(this.Position.X, this.Position.Y - (velocidadCaida * elapseTime), this.Position.Z);
+                //se le suma 8 a la posicion de x cuando cae por que simula que el copo lo mueve el viento
+                this.Position = new Vector3(this.Position.X + 8, this.Position.Y - (velocidadCaida * elapseTime), this.Position.Z);
             }
 
             this.updateValues();

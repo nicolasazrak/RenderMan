@@ -119,7 +119,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             huellaManager = new HuellasManager(25);
 
-            nieve = new Nieve(4000, 4000, 150);
+            nieve = new Nieve(3000, 3000, 200);
        }
 
         
@@ -149,7 +149,6 @@ namespace AlumnoEjemplos.MiGrupo
                     //generar huella
                     huellaManager.generarHuella();
 
-                    //nieve.movete();
                 }
 
                 huellaManager.render();
