@@ -113,6 +113,9 @@
     <Compile Include="MiGrupo\Octree\Octree.cs" />
     <Compile Include="MiGrupo\Octree\OctreeBuilder.cs" />
     <Compile Include="MiGrupo\Octree\OctreeNode.cs" />
+    <Compile Include="MiGrupo\ParticleSystemManager\Particle.cs" />
+    <Compile Include="MiGrupo\ParticleSystemManager\ParticleSystem.cs" />
+    <Compile Include="MiGrupo\ParticleSystemManager\ParticleSystemManager.cs" />
     <Compile Include="MiGrupo\SoundManager.cs" />
     <Compile Include="MiGrupo\TgcMiFpsCamara.cs" />
     <Compile Include="MiGrupo\Vida.cs" />
