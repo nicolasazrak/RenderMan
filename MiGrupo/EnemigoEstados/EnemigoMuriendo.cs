@@ -16,16 +16,12 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         public EnemigoMuriendo(Enemigo enemigo) : base(enemigo)
         {
             //Juego.Instance.enemigoAscesinado();
-            enemigo.mesh.rotateX(3.1415f * 0.5f - enemigo.mesh.Rotation.X);
             //Subo un poco al muerto asi no queda cortado por el piso al acostarse
             Vector3 posicionMuerto = enemigo.mesh.Position;
-            posicionMuerto.Y = 8;
+            posicionMuerto.Y = 4;
             enemigo.mesh.Position = posicionMuerto;
             enemigo.mesh.playAnimation("StandBy", true);
-            enemigo.sangre.Center = new Vector3(enemigo.mesh.Position.X, enemigo.mesh.Position.Y - 7f, enemigo.mesh.Position.Z);
-            enemigo.sangre.Rotation = enemigo.mesh.Rotation;
-            enemigo.sangre.rotateX(-enemigo.mesh.Rotation.X);
-            enemigo.sangre.moveOrientedY(30f);
+ 
         }
 
         public override bool debeGirar()
@@ -37,14 +33,20 @@ namespace AlumnoEjemplos.MiGrupo.EnemigoEstados
         {
             tiempoMuerto += elapsedTime;
 
-            enemigo.sangre = new TgcCylinder(enemigo.sangre.Position, 0, 20 * tiempoMuerto / 3, 0);
-            enemigo.sangre.updateValues();
-            enemigo.sangre.render();
 
-            if (tiempoMuerto > 3)
+            if (tiempoMuerto <= 3.1415 / 3)
+            {
+                float angulo = elapsedTime * 1.5f;
+                enemigo.mesh.rotateX(angulo);
+            }
+            else
             {
                 enemigo.setEstado(new EnemigoMuerto(enemigo));
             }
+            /*if (tiempoMuerto > 3)
+            {
+                enemigo.setEstado(new EnemigoMuerto(enemigo));
+            }*/
 
         }
 
