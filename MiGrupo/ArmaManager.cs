@@ -324,8 +324,5 @@ namespace AlumnoEjemplos.MiGrupo
             spriteMira.dispose();
         }
 
-
-
-
     }
 }

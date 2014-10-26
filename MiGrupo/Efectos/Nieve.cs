@@ -20,6 +20,10 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 
         public Nieve(int largoX, int largoZ, int cantidadCopos)
         {
+            //Modifiers para variar los parametros de la tormenta
+            GuiController.Instance.Modifiers.addInt("Viento", 0, 800, 150);
+            GuiController.Instance.Modifiers.addInt("Velocidad caida Nieve",0,400, 145);
+            
             listaCopos = new List<CopoNieve>();
 
             Vector3 camaraPos = GuiController.Instance.CurrentCamera.getPosition();
@@ -43,8 +47,18 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
                 Random posicionZ = new Random(i);
                 int posZ = posicionX.Next((int)nubeMinZ, (int)nubeMaxZ);
 
-                listaCopos.Add(new CopoNieve(new Vector3(camaraPos.X + posX, 1000, camaraPos.Z + posZ), i % 4, i));
+                listaCopos.Add(new CopoNieve(new Vector3(camaraPos.X + posX, 1000, camaraPos.Z + posZ), i % 4, i,this));
             }          
+        }
+
+        public int obtenerVelCaidaMod()
+        {
+            return (int)GuiController.Instance.Modifiers["Velocidad caida Nieve"];
+        }
+
+        public int obtenerVelViento()
+        {
+            return (int)GuiController.Instance.Modifiers["Viento"];
         }
 
         public void renderNieve(float elapseTime)
