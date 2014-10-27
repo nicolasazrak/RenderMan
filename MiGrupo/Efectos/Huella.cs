@@ -1,6 +1,7 @@
 ﻿using Microsoft.DirectX;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using TgcViewer;
@@ -11,9 +12,13 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 {
     class Huella : TgcBox
     {
+
+        //private TimeSpan esperaDesvanecerse;
         //si es 0 es huella Derecha si es 1 o otro es huella izq
         public Huella(int tipoDeHuella)
         {
+            //this.esperaDesvanecerse = DateTime.Now.TimeOfDay;
+            
             Vector3 posicion = GuiController.Instance.CurrentCamera.getPosition();
             
             this.AlphaBlendEnable = true;
@@ -34,6 +39,11 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 
         public void cambiaDeLugar(Vector3 vecPosicion, Vector3 vecRotacion)
         {
+            /*Color colorNuevo = new Color();
+            colorNuevo = Color.FromArgb(255, this.Color.R, this.Color.G, this.Color.B);
+            this.Color = colorNuevo; ESTO HAY QUE ARREGLARLO PARA QUE LA HUELLA DESAPAREZCA*/
+            
+            
             //roto la huella
             this.rotateY((float)Math.Atan2(vecRotacion.X, vecRotacion.Z) - this.Rotation.Y);
             
@@ -45,6 +55,18 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 
         public void renderHuella()
         {
+            /*TimeSpan tiempoActual = DateTime.Now.TimeOfDay;
+            if((tiempoActual.Seconds - esperaDesvanecerse.Seconds) > 1 || (tiempoActual.Minutes != esperaDesvanecerse.Minutes))
+            {
+                if ((this.Color.A - 20) > 0) 
+                {
+                    Color colorNuevo = new Color();
+                    colorNuevo = Color.FromArgb(this.Color.A - 20, this.Color.R, this.Color.G, this.Color.B);
+                    this.Color = colorNuevo;
+                }
+                this.esperaDesvanecerse = DateTime.Now.TimeOfDay;
+            }ESTO HAY QUE ARREGLARLO PARA QUE LA HUELLA DESAPAREZCA*/
+           
             this.render();
         }
 

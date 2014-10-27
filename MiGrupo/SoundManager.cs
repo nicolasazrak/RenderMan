@@ -22,6 +22,8 @@ namespace AlumnoEjemplos.MiGrupo
         private TgcStaticSound sinMunicion;
         private TgcStaticSound explosion;
         private TgcStaticSound headshot;
+        private TgcStaticSound vientoLigero;
+        private TgcStaticSound vientoFuerte;
 
         private TgcStaticSound pasoIzq;
         private TgcStaticSound pasoDer;
@@ -62,6 +64,8 @@ namespace AlumnoEjemplos.MiGrupo
             sinMunicion = new TgcStaticSound();
             explosion = new TgcStaticSound();
             headshot = new TgcStaticSound();
+            vientoLigero = new TgcStaticSound();
+            vientoFuerte = new TgcStaticSound();
 
             sinMunicion.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\sinMunicion.wav");
 
@@ -79,6 +83,11 @@ namespace AlumnoEjemplos.MiGrupo
 
             sonidoBackground.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\background-alternativo.wav");
             sonidoBackground.play();
+
+            vientoLigero.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\Pure Arctic Wind Corto.wav");
+            vientoLigero.play();
+
+            vientoFuerte.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\Ventizca Fuerte.wav");
 
             sonidoEnemigoAlcanzaPersonaje.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\puñetazo.wav");
             sonidoMunicion.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\tic.wav");
@@ -116,6 +125,18 @@ namespace AlumnoEjemplos.MiGrupo
 
                 tiempoCordinacionCaminar = DateTime.Now;
             }
+        }
+
+        public void playVentizcaFuerte()
+        {
+            this.vientoLigero.stop();
+            this.vientoFuerte.play();
+        }
+
+        public void playVentizcaLigera()
+        {
+            this.vientoFuerte.stop();
+            this.vientoLigero.play();
         }
 
         public void playSonidoSinMunicion()
@@ -190,6 +211,9 @@ namespace AlumnoEjemplos.MiGrupo
             sonidoAviso.dispose();
             sinMunicion.dispose();
             //sonidoFin.dispose();
+            vientoLigero.dispose();
+            vientoFuerte.dispose();
+            sonidoBackground.dispose();
 
             pasoIzq.dispose();
             pasoDer.dispose();

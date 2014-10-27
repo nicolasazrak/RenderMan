@@ -18,12 +18,19 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
         private float anchoX;
         private float anchoZ;
 
+        private int variacionVelCaida;
+        private int variacionViento;
+
         public Nieve(int largoX, int largoZ, int cantidadCopos)
         {
             //Modifiers para variar los parametros de la tormenta
             GuiController.Instance.Modifiers.addInt("Viento", 0, 800, 150);
             GuiController.Instance.Modifiers.addInt("Velocidad caida Nieve",0,400, 145);
             
+            //parametros que los maneja la clase clima para variar la tormenta
+            variacionVelCaida = 0;
+            variacionViento = 0;
+
             listaCopos = new List<CopoNieve>();
 
             Vector3 camaraPos = GuiController.Instance.CurrentCamera.getPosition();
@@ -51,6 +58,19 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             }          
         }
 
+        public void cambiarParametrosClima(int velocidaCaida, int viento)
+        {
+            this.variacionVelCaida = velocidaCaida;
+            this.variacionViento = viento;
+        }
+
+        //metodo que sirve para compensar el movimiento de los copos por el viento en la tormenta y no se vallan muy lejos del jugador
+        public void moverNube(int corrimiento)
+        {
+            this.nubeMinX = nubeMinX + corrimiento;
+            this.nubeMaxX = nubeMaxX + corrimiento;
+        }
+
         public int obtenerVelCaidaMod()
         {
             return (int)GuiController.Instance.Modifiers["Velocidad caida Nieve"];
@@ -66,7 +86,7 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             int i = 1;
             foreach (CopoNieve bola in listaCopos)
             {
-                bola.cae(elapseTime,nubeMinX,nubeMaxX,nubeMinZ,nubeMaxZ,i);
+                bola.cae(elapseTime,nubeMinX,nubeMaxX,nubeMinZ,nubeMaxZ,i,variacionViento,variacionVelCaida);
                 bola.renderBola();
                 i++;
             }

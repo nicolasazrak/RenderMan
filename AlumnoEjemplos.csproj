@@ -87,6 +87,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MiGrupo\Efectos\Clima.cs" />
     <Compile Include="MiGrupo\Efectos\CopoNieve.cs" />
     <Compile Include="MiGrupo\Efectos\Explosion.cs" />
     <Compile Include="MiGrupo\Efectos\Huella.cs" />

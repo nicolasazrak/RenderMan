@@ -39,6 +39,7 @@ namespace AlumnoEjemplos.MiGrupo
         GameOver finalJuego;
         HuellasManager huellaManager;
         Nieve nieve;
+        Clima clima;
 
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
@@ -120,6 +121,7 @@ namespace AlumnoEjemplos.MiGrupo
             huellaManager = new HuellasManager(25);
 
             nieve = new Nieve(3000, 3000, 200);
+            clima = new Clima(nieve, soundManager);
        }
 
         
@@ -154,6 +156,7 @@ namespace AlumnoEjemplos.MiGrupo
                 huellaManager.render();
 
                 nieve.renderNieve(elapsedTime);
+                clima.alternarClima();
 
                 enemigosManager.update(elapsedTime, vida);
                 escenarioManager.update(elapsedTime);

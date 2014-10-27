@@ -40,7 +40,7 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             this.setPosicion(posicionNueva);
         }
 
-        public void cae(float elapseTime,float nubeMinX,float nubeMaxX,float nubeMinZ,float nubeMaxZ,int semillaRandom)
+        public void cae(float elapseTime,float nubeMinX,float nubeMaxX,float nubeMinZ,float nubeMaxZ,int semillaRandom, int varViento, int varCaida)
         {
             if (this.Position.Y < 0)
             {
@@ -55,11 +55,11 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             }
             else
             {
-                this.velocidadCaida = velocidadCaidaPorDefecto + tormenta.obtenerVelCaidaMod() - 145; //le resto 145 para que baje la velocidad mas de lo estandart para que pueda ser modificado
+                this.velocidadCaida = velocidadCaidaPorDefecto + varCaida + tormenta.obtenerVelCaidaMod() - 145; //le resto 145 para que baje la velocidad mas de lo estandart para que pueda ser modificado
                 int viento = tormenta.obtenerVelViento();
                 //la velocidad hay que verla (osea cual es el criterio que tomamos para las distintas velocidades(200?)
                 //se le suma 150 a la posicion de x cuando cae por que simula que el copo lo mueve el viento
-                this.Position = new Vector3(this.Position.X + (viento * elapseTime), this.Position.Y - (velocidadCaida * elapseTime), this.Position.Z);
+                this.Position = new Vector3(this.Position.X + ((viento + varViento) * elapseTime), this.Position.Y - (velocidadCaida * elapseTime), this.Position.Z);
             }
 
             this.updateValues();
