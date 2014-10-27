@@ -147,7 +147,7 @@ namespace AlumnoEjemplos.MiGrupo
                     }
 
                     //generar huella
-                    huellaManager.generarHuella();
+                    huellaManager.generarHuella(GuiController.Instance.CurrentCamera.getPosition());
 
                 }
 

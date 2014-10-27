@@ -1,4 +1,5 @@
-﻿using AlumnoEjemplos.MiGrupo.EnemigoEstados;
+﻿using AlumnoEjemplos.MiGrupo.Efectos;
+using AlumnoEjemplos.MiGrupo.EnemigoEstados;
 using Microsoft.DirectX;
 using System;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ namespace AlumnoEjemplos.MiGrupo
         private static List<TgcSkeletalMesh> staticMesh;
         private TgcBoundingSphere cabezaBounding;
 
+        private HuellasManager huellas;
+        private Boolean teMataron;
 
         private static TgcSkeletalMesh getMesh()
         {
@@ -107,6 +110,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager)
         {
+            this.huellas = new HuellasManager(10);
+            this.teMataron = false;
 
             this.escenarioManager = escenarioManager;
 
@@ -135,6 +140,12 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void render(float elapsedTime, Vida vidaPersona)
         {
+            //renderizar las huellas
+            if (!this.teMataron)
+            {
+                huellas.generarHuella(mesh.Position);
+            }
+            huellas.render();
             //Actualizar animacion
             cabezaBounding = new TgcBoundingSphere(new Vector3(this.mesh.Position.X, this.mesh.Position.Y + 45, this.mesh.Position.Z), 4);
             estado.update(elapsedTime, vidaPersona);
@@ -158,6 +169,8 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void dispose()
         {
+            huellas.dispose();
+            
             //La malla también hace dispose del attachment
             if (mesh != null)
             {
@@ -174,6 +187,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void teDispararon()
         {
+            teMataron = true; //variable que se utiliza para no segir generando huellas cuando se muere
             estado.teDispararon();
         }
 

@@ -32,7 +32,7 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
         }
 
 
-        public void generarHuella()
+        public void generarHuella(Vector3 posicion)
         {
             TimeSpan tiempo = DateTime.Now.TimeOfDay;  
             
@@ -41,7 +41,7 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
             {
             
                 //calculo la rotacion de la nueva huella en base a la nueva posicion
-                Vector3 posicionActual = GuiController.Instance.CurrentCamera.getPosition();
+                Vector3 posicionActual = posicion;
 
                 Vector3 vectorRotacion = posicionActual - posicionAnterio;
                 vectorRotacion.Y = 0;
