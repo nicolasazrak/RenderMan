@@ -258,10 +258,14 @@ namespace AlumnoEjemplos.MiGrupo
             if (ContadorBalas.Instance.puedoDisparar())
             {
                 soundManager.playSonidoDisparo();
-                //----animacion------
-                empezoAnimacionDisparo = true; //NO sacar, boleano que dice que empezo la animacion, se desactiva cuando halla terminado la animacion y se pone ya que la animacion para completarse necesita muchas iteraciones del update!!
-                tiempoDisparo = DateTime.Now.TimeOfDay;
-                //----------------
+                if (!hayZoom)
+                {
+                    //----animacion------
+                    empezoAnimacionDisparo = true; //NO sacar, boleano que dice que empezo la animacion, se desactiva cuando halla terminado la animacion y se pone ya que la animacion para completarse necesita muchas iteraciones del update!!
+                    tiempoDisparo = DateTime.Now.TimeOfDay;
+                    //----------------
+                }
+
                 pickingRay.updateRay();
 
                 Vector3 collisionPoint;
