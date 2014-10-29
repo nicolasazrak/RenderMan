@@ -41,6 +41,7 @@ namespace AlumnoEjemplos.MiGrupo
         Nieve nieve;
         Clima clima;
 
+        PostProcesadoManager ppManager;
 
         //Size tamañoPantalla = GuiController.Instance.Panel3d.Size;
         #region datosTP
@@ -85,6 +86,8 @@ namespace AlumnoEjemplos.MiGrupo
             //GuiController.Instance.UserVars.addVar("Alto", tamañoPantalla.Height);
             vida = Vida.getInstance();
             vida.initialize();
+
+            ppManager = new PostProcesadoManager(this);
 
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
@@ -153,20 +156,17 @@ namespace AlumnoEjemplos.MiGrupo
 
                 }
 
-                huellaManager.render();
 
-                nieve.renderNieve(elapsedTime);
-                clima.alternarClima();
+                if (vida.vida < 40)
+                {
+                    ppManager.update(elapsedTime);
+                }
+                else
+                {
+                    update(elapsedTime);
+                }
 
-                enemigosManager.update(elapsedTime, vida);
-                escenarioManager.update(elapsedTime);
-                armaManager.update(elapsedTime);
 
-                vida.render();
-                contadorEnemigos.render();
-                contadorBalas.render();
-
-                octree.render(GuiController.Instance.Frustum, false);
 
                 //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
                 GuiController.Instance.Drawer2D.beginDrawSprite();
@@ -213,6 +213,25 @@ namespace AlumnoEjemplos.MiGrupo
             finalJuego.dispose();
             huellaManager.dispose();
             nieve.disposeNieve();
+        }
+
+        public void update(float elapsedTime)
+        {
+
+            huellaManager.render();
+
+            nieve.renderNieve(elapsedTime);
+            clima.alternarClima();
+
+            enemigosManager.update(elapsedTime, vida);
+            escenarioManager.update(elapsedTime);
+            armaManager.update(elapsedTime);
+
+            vida.render();
+            contadorEnemigos.render();
+            contadorBalas.render();
+
+            octree.render(GuiController.Instance.Frustum, false);
         }
 
 

@@ -117,6 +117,7 @@
     <Compile Include="MiGrupo\ParticleSystemManager\Particle.cs" />
     <Compile Include="MiGrupo\ParticleSystemManager\ParticleSystem.cs" />
     <Compile Include="MiGrupo\ParticleSystemManager\ParticleSystemManager.cs" />
+    <Compile Include="MiGrupo\PostProcesadoManager.cs" />
     <Compile Include="MiGrupo\SoundManager.cs" />
     <Compile Include="MiGrupo\TgcMiFpsCamara.cs" />
     <Compile Include="MiGrupo\Vida.cs" />
@@ -146,8 +147,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MiGrupo\Efectos\PostProcesado\PocaVidaRestante.fx" />
     <None Include="MiGrupo\Efectos\Shaders\VientoArboles.fx" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

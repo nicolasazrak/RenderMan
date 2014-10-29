@@ -12,7 +12,7 @@ namespace AlumnoEjemplos.MiGrupo
     {
         TgcText2d textoVida;
         private SoundManager sonido;
-        int vida;
+        public int vida;
 
         public static Vida Instance;
         public static Vida getInstance()
