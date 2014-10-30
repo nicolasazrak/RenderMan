@@ -12,7 +12,7 @@ namespace AlumnoEjemplos.MiGrupo
 {
     public class Barril
     {
-
+        
         public bool explotado = false;
         public TgcMesh mesh;
         public TgcBoundingCylinder cilindro;
@@ -44,8 +44,9 @@ namespace AlumnoEjemplos.MiGrupo
             this.mesh.updateBoundingBox();
             BoundigBox = this.mesh.BoundingBox;
 
-            humo = new Humo(position);
+            
             explosion = new Explosion(position);
+            humo = new Humo(this.mesh.Position);
 
         }
 
@@ -62,8 +63,9 @@ namespace AlumnoEjemplos.MiGrupo
             } 
             else
             {
-                humo.render();
                 explosion.render();
+                humo.render();
+
             }
                
         }

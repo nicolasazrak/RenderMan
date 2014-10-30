@@ -87,6 +87,8 @@ namespace AlumnoEjemplos.MiGrupo
             vida = Vida.getInstance();
             vida.initialize();
 
+
+
             ppManager = new PostProcesadoManager(this);
 
             camara = new TgcFpsMiCamara();
@@ -217,7 +219,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public void update(float elapsedTime)
         {
-
+            
             huellaManager.render();
 
             nieve.renderNieve(elapsedTime);
