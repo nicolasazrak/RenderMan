@@ -1,17 +1,6 @@
-//Textura del Render target 2D
-texture texSceneRT;
-sampler SceneRT = sampler_state
-{
-	Texture = (texSceneRT);
-	MipFilter = NONE;
-	MinFilter = NONE;
-	MagFilter = NONE;
-};
-
-//Offsets y weights de Gaussian Blur
-static const int MAX_SAMPLES = 15;
-float2 gauss_offsets[MAX_SAMPLES];
-float gauss_weights[MAX_SAMPLES];
+/*
+* Shaders para efectos de Post Procesadosss
+*/
 
 
 /**************************************************************************************/
@@ -23,14 +12,14 @@ float gauss_weights[MAX_SAMPLES];
 struct VS_INPUT_DEFAULT
 {
 	float4 Position : POSITION0;
-	float2 ScreenPos : TEXCOORD0;
+	float2 Texcoord : TEXCOORD0;
 };
 
 //Output del Vertex Shader
 struct VS_OUTPUT_DEFAULT
 {
 	float4 Position : POSITION0;
-	float2 ScreenPos : TEXCOORD0;
+	float2 Texcoord : TEXCOORD0;
 };
 
 
@@ -43,27 +32,34 @@ VS_OUTPUT_DEFAULT vs_default(VS_INPUT_DEFAULT Input)
 	Output.Position = float4(Input.Position.xy, 0, 1);
 
 	//Las Texcoord quedan igual
-	Output.ScreenPos = Input.ScreenPos;
+	Output.Texcoord = Input.Texcoord;
 
 	return(Output);
 }
 
 
 
-
+//Textura del Render target 2D
+texture render_target2D;
+sampler RenderTarget = sampler_state
+{
+	Texture = (render_target2D);
+	MipFilter = NONE;
+	MinFilter = NONE;
+	MagFilter = NONE;
+};
 
 
 //Input del Pixel Shader
 struct PS_INPUT_DEFAULT
 {
-	float2 ScreenPos : TEXCOORD0;
-
+	float2 Texcoord : TEXCOORD0;
 };
 
 //Pixel Shader
 float4 ps_default(PS_INPUT_DEFAULT Input) : COLOR0
 {
-	float4 color = tex2D(SceneRT, Input.ScreenPos);
+	float4 color = tex2D(RenderTarget, Input.Texcoord);
 	return color;
 }
 
@@ -77,6 +73,7 @@ technique DefaultTechnique
 		PixelShader = compile ps_2_0 ps_default();
 	}
 }
+
 
 
 
@@ -97,10 +94,10 @@ sampler sampler_alarma = sampler_state
 float4 ps_alarma(PS_INPUT_DEFAULT Input) : COLOR0
 {
 	//Obtener color segun textura
-	float4 color = tex2D(SceneRT, Input.ScreenPos);
+	float4 color = tex2D(RenderTarget, Input.Texcoord);
 
 	//Obtener color de textura de alarma, escalado por un factor
-	float4 color2 = tex2D(sampler_alarma, Input.ScreenPos) * alarmaScaleFactor;
+	float4 color2 = tex2D(sampler_alarma, Input.Texcoord) * alarmaScaleFactor;
 
 	//Mezclar ambos texels
 	return color + color2;
@@ -117,52 +114,39 @@ technique AlarmaTechnique
 
 
 
+
+
 /**************************************************************************************/
-/* GaussianBlurPass */
+/* BLUR */
 /**************************************************************************************/
 
-//Pasada de GaussianBlur horizontal o vertical
-float4 ps_gaussian_blur_pass(PS_INPUT_DEFAULT Input) : COLOR0
+float blur_intensity;
+
+//Pixel Shader de Blur
+float4 ps_blur(PS_INPUT_DEFAULT Input) : COLOR0
 {
-	float4 vSample = 0.0f;
-	float4 vColor = 0.0f;
+	//Obtener color de textura
+	float4 color = tex2D(RenderTarget, Input.Texcoord);
 
-	float2 vSamplePosition;
+	//Tomar samples adicionales de texels vecinos y sumarlos (formamos una cruz)
+	color += tex2D(RenderTarget, float2(Input.Texcoord.x + blur_intensity, Input.Texcoord.y));
+	color += tex2D(RenderTarget, float2(Input.Texcoord.x - blur_intensity, Input.Texcoord.y));
+	color += tex2D(RenderTarget, float2(Input.Texcoord.x, Input.Texcoord.y + blur_intensity));
+	color += tex2D(RenderTarget, float2(Input.Texcoord.x, Input.Texcoord.y - blur_intensity));
 
-	// Perform a one-directional gaussian blur
-	for (int iSample = 0; iSample < MAX_SAMPLES; iSample++)
-	{
-		vSamplePosition = Input.ScreenPos + gauss_offsets[iSample];
-		vColor = tex2D(SceneRT, vSamplePosition);
-		vSample += gauss_weights[iSample] * vColor;
-	}
-
-	return vSample;
+	//Promediar todos
+	color = color / 5;
+	return color;
 }
 
 
-technique GaussianBlurPass
+
+
+technique BlurTechnique
 {
 	pass Pass_0
 	{
 		VertexShader = compile vs_2_0 vs_default();
-		PixelShader = compile ps_2_0 ps_gaussian_blur_pass();
+		PixelShader = compile ps_2_0 ps_blur();
 	}
 }
-
-
-technique GaussianYalarma
-{
-	pass Pass_0
-	{
-		VertexShader = compile vs_2_0 vs_default();
-		PixelShader = compile ps_2_0 ps_gaussian_blur_pass();
-	}
-	pass Pass_1
-	{
-		VertexShader = compile vs_2_0 vs_default();
-		PixelShader = compile ps_2_0 ps_alarma();
-	}
-}
-
-

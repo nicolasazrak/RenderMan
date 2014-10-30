@@ -15,42 +15,28 @@ namespace AlumnoEjemplos.MiGrupo
     class PostProcesadoManager
     {
         EjemploAlumno ejemploAlumno;
-        Effect effect;
         VertexBuffer screenQuadVB;
+        Texture renderTarget2D;
+        Surface pOldRT;
+        Effect effect;
         TgcTexture alarmTexture;
         InterpoladorVaiven intVaivenAlarm;
-
-        TgcScreenQuad screenQuad;
-        Texture texSceneRT;
-        Texture blurTempRT;
-
-        Surface pOldRT;
         Surface g_pDepthStencil;
         public PostProcesadoManager(EjemploAlumno ejemAlumno)
         {
             ejemploAlumno = ejemAlumno;
             GuiController.Instance.CustomRenderEnabled = true;
+            Device d3dDevice = GuiController.Instance.D3dDevice;
 
-            screenQuad = new TgcScreenQuad();
+            //Activamos el renderizado customizado. De esta forma el framework nos delega control total sobre como dibujar en pantalla
+            //La responsabilidad cae toda de nuestro lado
+            GuiController.Instance.CustomRenderEnabled = true;
 
-            int backBufferWidth = GuiController.Instance.D3dDevice.PresentationParameters.BackBufferWidth;
-            int backBufferHeight = GuiController.Instance.D3dDevice.PresentationParameters.BackBufferHeight;
-            texSceneRT = new Texture(GuiController.Instance.D3dDevice, backBufferWidth, backBufferHeight, 1, Usage.RenderTarget, Format.X8R8G8B8, Pool.Default);
 
-            int cropWidth = (backBufferWidth - backBufferWidth % 8) / 4;
-            int cropHeight = (backBufferHeight - backBufferHeight % 8) / 4;
-
-            g_pDepthStencil = GuiController.Instance.D3dDevice.CreateDepthStencilSurface(GuiController.Instance.D3dDevice.PresentationParameters.BackBufferWidth,
-                                                             GuiController.Instance.D3dDevice.PresentationParameters.BackBufferHeight,
-                                                             DepthFormat.D24S8,
-                                                             MultiSampleType.None,
-                                                             0,
-                                                             true);
-            blurTempRT = new Texture(GuiController.Instance.D3dDevice, cropWidth, cropHeight, 1, Usage.RenderTarget, Format.X8R8G8B8, Pool.Default);
-
-            effect = TgcShaders.loadEffect(GuiController.Instance.AlumnoEjemplosDir + "MiGrupo\\Efectos\\PostProcesado\\PocaVidaRestante.fx");
-            effect.Technique = "GaussianYalarma";
-            //Alarma
+            //Se crean 2 triangulos (o Quad) con las dimensiones de la pantalla con sus posiciones ya transformadas
+            // x = -1 es el extremo izquiedo de la pantalla, x = 1 es el extremo derecho
+            // Lo mismo para la Y con arriba y abajo
+            // la Z en 1 simpre
             CustomVertex.PositionTextured[] screenQuadVertices = new CustomVertex.PositionTextured[]
 		    {
     			new CustomVertex.PositionTextured( -1, 1, 1, 0,0), 
@@ -60,10 +46,27 @@ namespace AlumnoEjemplos.MiGrupo
     		};
             //vertex buffer de los triangulos
             screenQuadVB = new VertexBuffer(typeof(CustomVertex.PositionTextured),
-                    4, GuiController.Instance.D3dDevice, Usage.Dynamic | Usage.WriteOnly,
+                    4, d3dDevice, Usage.Dynamic | Usage.WriteOnly,
                         CustomVertex.PositionTextured.Format, Pool.Default);
             screenQuadVB.SetData(screenQuadVertices, 0, LockFlags.None);
 
+            // stencil
+            g_pDepthStencil = d3dDevice.CreateDepthStencilSurface(d3dDevice.PresentationParameters.BackBufferWidth,
+                                                                         d3dDevice.PresentationParameters.BackBufferHeight,
+                                                                         DepthFormat.D24S8,
+                                                                         MultiSampleType.None,
+                                                                         0,
+                                                                         true);
+
+            //Creamos un Render Targer sobre el cual se va a dibujar la pantalla
+            renderTarget2D = new Texture(d3dDevice, d3dDevice.PresentationParameters.BackBufferWidth
+                    , d3dDevice.PresentationParameters.BackBufferHeight, 1, Usage.RenderTarget,
+                        Format.X8R8G8B8, Pool.Default);
+
+            effect = TgcShaders.loadEffect(GuiController.Instance.AlumnoEjemplosDir + "MiGrupo\\Efectos\\PostProcesado\\PocaVidaRestante.fx");
+
+
+            
             //Cargar textura que se va a dibujar arriba de la escena del Render Target
             alarmTexture = TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "Textures\\efecto_alarma.png");
 
@@ -84,13 +87,16 @@ namespace AlumnoEjemplos.MiGrupo
             //Cargamos el Render Targer al cual se va a dibujar la escena 3D. Antes nos guardamos el surface original
             //En vez de dibujar a la pantalla, dibujamos a un buffer auxiliar, nuestro Render Target.
             pOldRT = d3dDevice.GetRenderTarget(0);
-            Surface pSurf = texSceneRT.GetSurfaceLevel(0);
+            Surface pSurf = renderTarget2D.GetSurfaceLevel(0);
             d3dDevice.SetRenderTarget(0, pSurf);
 
+            // hago lo mismo con el depthbuffer, necesito el que no tiene multisampling
             Surface pOldDS = d3dDevice.DepthStencilSurface;
             d3dDevice.DepthStencilSurface = g_pDepthStencil;
 
+
             d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+
 
 
             //Dibujamos la escena comun, pero en vez de a la pantalla al Render Target
@@ -101,6 +107,10 @@ namespace AlumnoEjemplos.MiGrupo
 
             //Si quisieramos ver que se dibujo, podemos guardar el resultado a una textura en un archivo para debugear su resultado (ojo, es lento)
             //TextureLoader.Save(GuiController.Instance.ExamplesMediaDir + "Shaders\\render_target.bmp", ImageFileFormat.Bmp, renderTarget2D);
+
+
+            //Ahora volvemos a restaurar el Render Target original (osea dibujar a la pantalla)
+            d3dDevice.SetRenderTarget(0, pOldRT);
 
 
             //Luego tomamos lo dibujado antes y lo combinamos con una textura con efecto de alarma
@@ -132,33 +142,15 @@ namespace AlumnoEjemplos.MiGrupo
             //Arrancamos la escena
             d3dDevice.BeginScene();
 
-
-            Surface blurTempS = blurTempRT.GetSurfaceLevel(0);
-
-            //Gaussian blur horizontal
-            Vector2[] texCoordOffsets;
-            float[] colorWeights;
-            TgcPostProcessingUtils.computeGaussianBlurSampleOffsets15(blurTempS.Description.Width, 1.2f, 1, true, out texCoordOffsets, out colorWeights);
-            effect.SetValue("texSceneRT", texSceneRT);
-            effect.SetValue("gauss_offsets", TgcParserUtils.vector2ArrayToFloat2Array(texCoordOffsets));
-            effect.SetValue("gauss_weights", colorWeights);
-            d3dDevice.SetRenderTarget(0, blurTempS);
-            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-            screenQuad.render(effect);
-
-            //Gaussian blur vertical
-            TgcPostProcessingUtils.computeGaussianBlurSampleOffsets15(blurTempS.Description.Height, 1.2f, 1, false, out texCoordOffsets, out colorWeights);
-            effect.SetValue("texSceneRT", blurTempRT);
-            effect.SetValue("gauss_offsets", TgcParserUtils.vector2ArrayToFloat2Array(texCoordOffsets));
-            effect.SetValue("gauss_weights", colorWeights);
-            d3dDevice.SetRenderTarget(0, pOldRT);
-            d3dDevice.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-            screenQuad.render(effect);
+            //Cargamos para renderizar el unico modelo que tenemos, un Quad que ocupa toda la pantalla, con la textura de todo lo dibujado antes
+            d3dDevice.VertexFormat = CustomVertex.PositionTextured.Format;
+            d3dDevice.SetStreamSource(0, screenQuadVB, 0);
 
             effect.Technique = "AlarmaTechnique";
 
+
             //Cargamos parametros en el shader de Post-Procesado
-            effect.SetValue("texSceneRT", texSceneRT);
+            effect.SetValue("render_target2D", renderTarget2D);
             effect.SetValue("textura_alarma", alarmTexture.D3dTexture);
             effect.SetValue("alarmaScaleFactor", intVaivenAlarm.update());
 
@@ -169,14 +161,6 @@ namespace AlumnoEjemplos.MiGrupo
             d3dDevice.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 2);
             effect.EndPass();
             effect.End();
-
-            blurTempS.Dispose();
-
-
-
-            //Tambien hay que dibujar el indicador de los ejes cartesianos
-            GuiController.Instance.AxisLines.render();
-
 
             //Terminamos el renderizado de la escena
             d3dDevice.EndScene();
