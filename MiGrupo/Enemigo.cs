@@ -110,6 +110,7 @@ namespace AlumnoEjemplos.MiGrupo
 
         public Enemigo(Vector3 posicionInicial, EscenarioManager escenarioManager)
         {
+            
             this.huellas = new HuellasManager(10);
             this.teMataron = false;
 

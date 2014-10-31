@@ -63,9 +63,11 @@ namespace AlumnoEjemplos.MiGrupo
             } 
             else
             {
-                explosion.render();
-                humo.render();
 
+                    explosion.render();
+                    humo.render();
+
+                
             }
                
         }
