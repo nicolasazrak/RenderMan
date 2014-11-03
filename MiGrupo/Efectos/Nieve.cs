@@ -83,6 +83,11 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 
         public void renderNieve(float elapseTime)
         {
+            if (!(Boolean)GuiController.Instance.Modifiers.getValue("nieve"))
+            {
+                return;
+            }
+
             int i = 1;
             foreach (CopoNieve bola in listaCopos)
             {

@@ -68,6 +68,12 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 
         public void render()
         {
+
+            if (!(Boolean)GuiController.Instance.Modifiers.getValue("huellas"))
+            {
+                return;
+            }
+
             foreach (Huella huella in listaHuellas)
             {
                 huella.renderHuella();

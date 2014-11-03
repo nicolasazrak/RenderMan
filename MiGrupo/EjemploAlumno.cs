@@ -78,6 +78,8 @@ namespace AlumnoEjemplos.MiGrupo
         {
 
             GuiController.Instance.Modifiers.addFloat("zoom", 2f, 5f, 3f);
+            GuiController.Instance.Modifiers.addBoolean("huellas", "Mostrar huellas", true);
+            GuiController.Instance.Modifiers.addBoolean("nieve", "Mostrar nieve", true);
 
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
@@ -89,7 +91,7 @@ namespace AlumnoEjemplos.MiGrupo
 
 
 
-            ppManager = new PostProcesadoManager(this);
+            //ppManager = new PostProcesadoManager(this);
 
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
@@ -157,19 +159,9 @@ namespace AlumnoEjemplos.MiGrupo
                     huellaManager.generarHuella(GuiController.Instance.CurrentCamera.getPosition());
 
                 }
-
-
-                if (vida.vida < 40)
-                {
-                    ppManager.update(elapsedTime);
-                }
-                else
-                {
-                    update(elapsedTime);
-                }
-
-
-
+ 
+                update(elapsedTime);
+               
                 //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
                 GuiController.Instance.Drawer2D.beginDrawSprite();
 
