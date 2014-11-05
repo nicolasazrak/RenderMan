@@ -78,7 +78,7 @@ namespace AlumnoEjemplos.MiGrupo
             pisoSize = (int) tamanio;
             piso.setPositionSize(new Vector3(0, 0, 0), new Vector3(pisoSize*2, 0, pisoSize*2));
             piso.updateValues();
-            //piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Textures\\Vegetacion\\moss_rock60_512.jpg"));
+         
             piso.setTexture(TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\nieve.png"));
 
             generarSkyBox();
@@ -193,7 +193,7 @@ namespace AlumnoEjemplos.MiGrupo
             float z = random.Next(2000);
             
            //Genera la caja nueva
-            TgcScene cajaLoad = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "meshCruzRoja-TgcScene.xml");
+            TgcScene cajaLoad = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "RenderMan\\meshCruzRoja-TgcScene.xml");
             TgcMesh cajaMesh = cajaLoad.Meshes[0];
             caja = cajaMesh.createMeshInstance("");
             caja.Position = new Vector3(x, 5, z);
@@ -204,7 +204,7 @@ namespace AlumnoEjemplos.MiGrupo
         
         private void iniciarMunicion(float x, float y, float z)
         {
-            TgcScene sceneMuniciones = loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Armas\\CajaMuniciones\\CajaMuniciones-TgcScene.xml");
+            TgcScene sceneMuniciones = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "RenderMan\\modelos\\CajaMuniciones\\CajaMuniciones-TgcScene.xml");
             TgcMesh municionMesh = sceneMuniciones.Meshes[0];
             municion = municionMesh.createMeshInstance("");
             municion.Scale = new Vector3(1,1,1);
@@ -238,9 +238,8 @@ namespace AlumnoEjemplos.MiGrupo
             var random = this._random;
             for (int i = divisionesPiso.Length; i > 1; i--)
             {
-                // Pick random element to swap.
-                int j = random.Next(i); // 0 <= j <= i-1
-                // Swap.
+
+                int j = random.Next(i); 
                 Vector3 tmp = divisionesPiso[j];
                 divisionesPiso[j] = divisionesPiso[i - 1];
                 divisionesPiso[i - 1] = tmp;
@@ -252,17 +251,14 @@ namespace AlumnoEjemplos.MiGrupo
         public void update(float elapsedTime)
         {
             time += elapsedTime;
-            /* Esto ahora lo hace el octree */
-            /*foreach (TgcMesh arbol in arboles) arbol.render();
-            foreach (TgcMesh pastito in pasto) pastito.render();
-            */
+
             efecto.SetValue("time", time);
             efecto.SetValue("vientoX", vientoX);
             efecto.SetValue("vientoZ", vientoZ);
             efecto.SetValue("coefY", coefY);
             foreach (Barril barril in barriles) barril.render();
 
-            //foreach (TgcBoundingCylinder s in colisionables) s.render();
+
 
             skyBox.render();
             piso.render();

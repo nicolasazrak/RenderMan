@@ -1,6 +1,6 @@
 <tgcScene>
   <name>meshCruzRoja</name>
-  <texturesExport enabled="True" dir="Textures" />
+  <texturesExport enabled="True" dir="texturas" />
   <lightmapExport enabled="False" dir="LightMaps" />
   <sceneBoundingBox min="[-5.5291,8.944,-5.6048]" max="[5.5292,19.056,5.6048]" />
   <materials count="1">

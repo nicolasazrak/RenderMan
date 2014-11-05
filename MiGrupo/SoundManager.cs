@@ -50,8 +50,6 @@ namespace AlumnoEjemplos.MiGrupo
             pasoDer = new TgcStaticSound();
             tiempoCordinacionCaminar = DateTime.Now;
 
-            //sonidoCaminandoIzq = new TgcStaticSound();
-            //sonidoCaminandoDer = new TgcStaticSound();
             sonidoDisparo = new TgcStaticSound();
             sonidoRecarga = new TgcStaticSound();
             sonidoPasoEnemigo = new TgcStaticSound();
@@ -71,14 +69,10 @@ namespace AlumnoEjemplos.MiGrupo
 
             pasoIzq.loadSound (GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\pasoIzq.wav");
             pasoDer.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\sonidos\\pasoDer.wav");
-                 
-            //sonidoCaminandoIzq.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba izda.wav");
-            //sonidoCaminandoDer.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
 
             sonidoPasoEnemigo.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\pisada hierba dcha.wav");
             sonidoEnemMuerto.loadSound(GuiController.Instance.ExamplesMediaDir + "\\Sound\\golpe seco.wav");
 
-            //sonidoDisparo.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\armas\\50_sniper_shot-Liam-2028603980.wav");
             sonidoDisparo.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\armas\\sonidoDisparo.wav");
 
             sonidoRecarga.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "\\" + EjemploAlumno.nombreGrupo + "\\sonidos\\armas\\Pump_Shotgun 2x-SoundBible.com-278688366.wav");
@@ -113,14 +107,12 @@ namespace AlumnoEjemplos.MiGrupo
             {
                 if (esPasoIzquierdo)
                 {
-                    //sonidoCaminandoDer.play();
                     pasoIzq.play();
                     esPasoIzquierdo = false;
                    
                 }
                 else
                 {
-                    //sonidoCaminandoIzq.play();
                     pasoDer.play();
                     esPasoIzquierdo = true;
                 }
@@ -202,8 +194,6 @@ namespace AlumnoEjemplos.MiGrupo
         }
         public void dispose()
         {
-            //sonidoCaminandoIzq.dispose();
-            //sonidoCaminandoDer.dispose();
             sonidoPasoEnemigo.dispose();
             sonidoEnemMuerto.dispose();
             sonidoDisparo.dispose();

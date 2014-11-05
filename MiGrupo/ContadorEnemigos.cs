@@ -25,7 +25,6 @@ namespace AlumnoEjemplos.MiGrupo
             texto = new TgcText2d();
             texto.Color = Color.Red;
             texto.Align = TgcText2d.TextAlign.LEFT;
-            //texto.Position = new Point(screenSize.Width - 75, 35);
             int tamañoTexturaX = (int)new Indicadores().getPosicionXSpriteEnemigo();
             texto.Position = new Point(screenSize.Width - 105 + tamañoTexturaX, 35);
             texto.Size = new Size(350, 100);

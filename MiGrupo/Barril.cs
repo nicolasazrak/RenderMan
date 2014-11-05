@@ -27,7 +27,7 @@ namespace AlumnoEjemplos.MiGrupo
         {
             if (originalMesh == null)
             {
-                TgcScene sceneBarril = EscenarioManager.Instance.loader.loadSceneFromFile(GuiController.Instance.ExamplesMediaDir + "MeshCreator\\Meshes\\Objetos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
+                TgcScene sceneBarril = EscenarioManager.Instance.loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "RenderMan\\modelos\\BarrilPolvora\\BarrilPolvora-TgcScene.xml");
                 TgcMesh barrilMesh = sceneBarril.Meshes[0];
                 originalMesh = barrilMesh;
             }
@@ -63,11 +63,8 @@ namespace AlumnoEjemplos.MiGrupo
             } 
             else
             {
-
-                    explosion.render();
-                    humo.render();
-
-                
+                explosion.render();
+                humo.render();
             }
                
         }

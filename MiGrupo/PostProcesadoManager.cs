@@ -68,7 +68,7 @@ namespace AlumnoEjemplos.MiGrupo
 
             
             //Cargar textura que se va a dibujar arriba de la escena del Render Target
-            alarmTexture = TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "Textures\\efecto_alarma.png");
+            alarmTexture = TgcTexture.createTexture(GuiController.Instance.D3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "\\RenderMan\\texturas\\efecto_alarma.png");
 
             //Interpolador para efecto de variar la intensidad de la textura de alarma
             intVaivenAlarm = new InterpoladorVaiven();

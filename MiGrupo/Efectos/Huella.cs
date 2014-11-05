@@ -17,7 +17,6 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
         //si es 0 es huella Derecha si es 1 o otro es huella izq
         public Huella(int tipoDeHuella)
         {
-            //this.esperaDesvanecerse = DateTime.Now.TimeOfDay;
             
             Vector3 posicion = GuiController.Instance.CurrentCamera.getPosition();
             
@@ -39,11 +38,7 @@ namespace AlumnoEjemplos.MiGrupo.Efectos
 
         public void cambiaDeLugar(Vector3 vecPosicion, Vector3 vecRotacion)
         {
-            /*Color colorNuevo = new Color();
-            colorNuevo = Color.FromArgb(255, this.Color.R, this.Color.G, this.Color.B);
-            this.Color = colorNuevo; ESTO HAY QUE ARREGLARLO PARA QUE LA HUELLA DESAPAREZCA*/
-            
-            
+
             //roto la huella
             this.rotateY((float)Math.Atan2(vecRotacion.X, vecRotacion.Z) - this.Rotation.Y);
             

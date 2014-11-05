@@ -84,14 +84,12 @@ namespace AlumnoEjemplos.MiGrupo
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             juego = Juego.getInstance();
-            //GuiController.Instance.UserVars.addVar("Ancho", tamañoPantalla.Width);
-            //GuiController.Instance.UserVars.addVar("Alto", tamañoPantalla.Height);
             vida = Vida.getInstance();
             vida.initialize();
 
 
 
-            //ppManager = new PostProcesadoManager(this);
+            ppManager = new PostProcesadoManager(this);
 
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
@@ -148,7 +146,6 @@ namespace AlumnoEjemplos.MiGrupo
                 if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.W) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.S)
                     || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.D) || GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.A))
                 {
-                    /* TODO, optimizar aca */
                     Boolean choque = escenarioManager.verificarColision(new TgcBoundingSphere(camara.getPosition(), 20f));
                     if (!choque)
                     {
@@ -159,10 +156,19 @@ namespace AlumnoEjemplos.MiGrupo
                     huellaManager.generarHuella(GuiController.Instance.CurrentCamera.getPosition());
 
                 }
- 
-                update(elapsedTime);
+
+                if (vida.vida < 40)
+                {
+                    ppManager.update(elapsedTime);
+
+                }
+                else
+                {
+                    update(elapsedTime);
+                }
+                
                
-                //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom ---------------------
+                //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom 
                 GuiController.Instance.Drawer2D.beginDrawSprite();
 
                 armaManager.spriteRender();
@@ -172,9 +178,6 @@ namespace AlumnoEjemplos.MiGrupo
                     indicadores.spriteRender();
                 }
                 GuiController.Instance.Drawer2D.endDrawSprite();
-
-                //------------------------------------------------------------
-
 
             }
             else
