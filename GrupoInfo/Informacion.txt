@@ -6,6 +6,6 @@ Apellido, nombre		Legajo Nro.	Mail
 
 Azrak, Nicolas			146.656-2	azrak.nicolas@gmail.com	
 Esquenazi, Brian		
-Martinez Fornaso, Ignacio	
+Martinez Fornaso, Ignacio	146.802-9       nachoemf@hotmail.com
 Mazzeo, Gaston Ezequiel		146.865-0	g.mazzeo@hotmail.com.ar
 Sierra, Emiliano 		
