@@ -87,41 +87,44 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MiGrupo\Efectos\Clima.cs" />
-    <Compile Include="MiGrupo\Efectos\CopoNieve.cs" />
-    <Compile Include="MiGrupo\Efectos\Explosion.cs" />
-    <Compile Include="MiGrupo\Efectos\Huella.cs" />
-    <Compile Include="MiGrupo\Efectos\HuellasManager.cs" />
-    <Compile Include="MiGrupo\Efectos\Humo.cs" />
-    <Compile Include="MiGrupo\Efectos\Nieve.cs" />
-    <Compile Include="MiGrupo\EnemigoEstados\EnemigoGolpeando.cs" />
-    <Compile Include="MiGrupo\EnemigoEstados\EnemigoMuriendo.cs" />
-    <Compile Include="MiGrupo\GameOver.cs" />
-    <Compile Include="MiGrupo\Juego.cs" />
-    <Compile Include="MiGrupo\Barril.cs" />
-    <Compile Include="MiGrupo\ContadorBalas.cs" />
-    <Compile Include="MiGrupo\ContadorEnemigos.cs" />
-    <Compile Include="MiGrupo\EnemigoEstados\EnemigoEstado.cs" />
-    <Compile Include="MiGrupo\EnemigoEstados\EnemigoMuerto.cs" />
-    <Compile Include="MiGrupo\EnemigoEstados\EnemigoPersiguiendo.cs" />
-    <Compile Include="MiGrupo\EnemigoEstados\EnemigoQuieto.cs" />
-    <Compile Include="MiGrupo\EscenarioManager.cs" />
-    <Compile Include="MiGrupo\ArmaManager.cs" />
-    <Compile Include="MiGrupo\EjemploAlumno.cs" />
-    <Compile Include="MiGrupo\Enemigo.cs" />
-    <Compile Include="MiGrupo\EnemigosManager.cs" />
-    <Compile Include="MiGrupo\Indicadores.cs" />
-    <Compile Include="MiGrupo\Octree\Octree.cs" />
-    <Compile Include="MiGrupo\Octree\OctreeBuilder.cs" />
-    <Compile Include="MiGrupo\Octree\OctreeNode.cs" />
-    <Compile Include="MiGrupo\ParticleSystemManager\Particle.cs" />
-    <Compile Include="MiGrupo\ParticleSystemManager\ParticleSystem.cs" />
-    <Compile Include="MiGrupo\ParticleSystemManager\ParticleSystemManager.cs" />
-    <Compile Include="MiGrupo\PostProcesadoManager.cs" />
-    <Compile Include="MiGrupo\SoundManager.cs" />
-    <Compile Include="MiGrupo\TgcMiFpsCamara.cs" />
-    <Compile Include="MiGrupo\Vida.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SRC\Renderman\ArmaManager.cs" />
+    <Compile Include="SRC\Renderman\Barril.cs" />
+    <Compile Include="SRC\Renderman\ContadorBalas.cs" />
+    <Compile Include="SRC\Renderman\ContadorEnemigos.cs" />
+    <Compile Include="SRC\Renderman\Drawable.cs" />
+    <Compile Include="SRC\Renderman\Efectos\Clima.cs" />
+    <Compile Include="SRC\Renderman\Efectos\CopoNieve.cs" />
+    <Compile Include="SRC\Renderman\Efectos\Explosion.cs" />
+    <Compile Include="SRC\Renderman\Efectos\Huella.cs" />
+    <Compile Include="SRC\Renderman\Efectos\HuellasManager.cs" />
+    <Compile Include="SRC\Renderman\Efectos\Humo.cs" />
+    <Compile Include="SRC\Renderman\Efectos\Nieve.cs" />
+    <Compile Include="SRC\Renderman\EjemploAlumno.cs" />
+    <Compile Include="SRC\Renderman\Enemigo.cs" />
+    <Compile Include="SRC\Renderman\EnemigoEstados\EnemigoEstado.cs" />
+    <Compile Include="SRC\Renderman\EnemigoEstados\EnemigoGolpeando.cs" />
+    <Compile Include="SRC\Renderman\EnemigoEstados\EnemigoMuerto.cs" />
+    <Compile Include="SRC\Renderman\EnemigoEstados\EnemigoMuriendo.cs" />
+    <Compile Include="SRC\Renderman\EnemigoEstados\EnemigoPersiguiendo.cs" />
+    <Compile Include="SRC\Renderman\EnemigoEstados\EnemigoQuieto.cs" />
+    <Compile Include="SRC\Renderman\EnemigosManager.cs" />
+    <Compile Include="SRC\Renderman\EscenarioManager.cs" />
+    <Compile Include="SRC\Renderman\GameOver.cs" />
+    <Compile Include="SRC\Renderman\Indicadores.cs" />
+    <Compile Include="SRC\Renderman\Juego.cs" />
+    <Compile Include="SRC\Renderman\Math.cs" />
+    <Compile Include="SRC\Renderman\Octree\Octree.cs" />
+    <Compile Include="SRC\Renderman\Octree\OctreeBuilder.cs" />
+    <Compile Include="SRC\Renderman\Octree\OctreeNode.cs" />
+    <Compile Include="SRC\Renderman\ParticleSystemManager\Particle.cs" />
+    <Compile Include="SRC\Renderman\ParticleSystemManager\ParticleSystem.cs" />
+    <Compile Include="SRC\Renderman\ParticleSystemManager\ParticleSystemManager.cs" />
+    <Compile Include="SRC\Renderman\PostProcesadoManager.cs" />
+    <Compile Include="SRC\Renderman\SoundManager.cs" />
+    <Compile Include="SRC\Renderman\TgcMiFpsCamara.cs" />
+    <Compile Include="SRC\Renderman\Tiempo.cs" />
+    <Compile Include="SRC\Renderman\Vida.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TgcViewer\TgcViewer.csproj">
@@ -147,10 +150,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MiGrupo\Efectos\PostProcesado\PocaVidaRestante.fx" />
-    <None Include="MiGrupo\Efectos\Shaders\VientoArboles.fx" />
+    <None Include="SRC\Renderman\Efectos\PostProcesado\PocaVidaRestante.fx" />
+    <None Include="SRC\Renderman\Efectos\Shaders\VientoArboles.fx" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
