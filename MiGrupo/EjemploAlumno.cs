@@ -156,16 +156,9 @@ namespace AlumnoEjemplos.MiGrupo
                     huellaManager.generarHuella(GuiController.Instance.CurrentCamera.getPosition());
 
                 }
+                
+                update(elapsedTime);
 
-                if (vida.vida < 40)
-                {
-                    ppManager.update(elapsedTime);
-
-                }
-                else
-                {
-                    update(elapsedTime);
-                }
                 
                
                 //Dibujo todos los sprites de la pantalla pero los indicadores solo cuando no hay zoom 
@@ -193,9 +186,6 @@ namespace AlumnoEjemplos.MiGrupo
 
             }
         }
-
-
-
 
 
         public override void close()
