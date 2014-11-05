@@ -204,12 +204,13 @@ namespace AlumnoEjemplos.SRC.Renderman
 
         public void update(float elapsedTime)
         {
-            
+
+            escenarioManager.efecto.SetValue("variacionViento", nieve.obtenerVelViento());
             huellaManager.render();
 
             nieve.renderNieve(elapsedTime);
             clima.alternarClima();
-
+            
             enemigosManager.update(elapsedTime, vida);
             escenarioManager.update(elapsedTime);
             armaManager.update(elapsedTime);

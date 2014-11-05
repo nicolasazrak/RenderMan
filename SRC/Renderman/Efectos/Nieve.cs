@@ -24,7 +24,7 @@ namespace AlumnoEjemplos.SRC.Renderman.Efectos
         public Nieve(int largoX, int largoZ, int cantidadCopos)
         {
             //Modifiers para variar los parametros de la tormenta
-            GuiController.Instance.Modifiers.addInt("Viento", 0, 800, 150);
+            GuiController.Instance.Modifiers.addInt("Viento", 0, 400, 150);
             GuiController.Instance.Modifiers.addInt("Velocidad caida Nieve",0,400, 145);
             
             //parametros que los maneja la clase clima para variar la tormenta
