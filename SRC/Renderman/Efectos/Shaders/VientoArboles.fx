@@ -28,6 +28,7 @@ float time = 0;
 float vientoX = 0;
 float vientoZ = 0;
 float coefY = 0;
+int variacionViento = 0;
 
 /**************************************************************************************/
 /* RenderScene */
@@ -79,9 +80,9 @@ VS_OUTPUT vs_main2( VS_INPUT Input )
    float Z = Input.Position.z;
    float X = Input.Position.x;
 	
-   float seno = sin(time);
-   if (seno < 0){
-	   seno = sin(time + 3.141592);
+   float seno = sin(time* 0.01*variacionViento);
+   if (seno <= 0){
+	   seno = sin((time* 0.01*variacionViento) + 3.141592);
    }
 
    Input.Position.x = X + (seno * Y * vientoX);

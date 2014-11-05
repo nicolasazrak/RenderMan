@@ -45,7 +45,7 @@ namespace AlumnoEjemplos.SRC.Renderman
         /* SHADER DE VIENTO*/
 
         float time = 0;
-        Effect efecto = TgcShaders.loadEffect(GuiController.Instance.AlumnoEjemplosDir + "SRC\\Renderman\\Efectos\\Shaders\\VientoArboles.fx");
+        public Effect efecto = TgcShaders.loadEffect(GuiController.Instance.AlumnoEjemplosDir + "SRC\\Renderman\\Efectos\\Shaders\\VientoArboles.fx");
         float vientoX = 0.05F;
         float vientoZ = 0.01F;
         float coefY = 0.01F;
@@ -252,6 +252,7 @@ namespace AlumnoEjemplos.SRC.Renderman
         {
             time += elapsedTime;
 
+            
             efecto.SetValue("time", time);
             efecto.SetValue("vientoX", vientoX);
             efecto.SetValue("vientoZ", vientoZ);
