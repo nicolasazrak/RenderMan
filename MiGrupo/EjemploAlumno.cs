@@ -89,7 +89,7 @@ namespace AlumnoEjemplos.MiGrupo
 
 
 
-            ppManager = new PostProcesadoManager(this);
+            //ppManager = new PostProcesadoManager(this);
 
             camara = new TgcFpsMiCamara();
             camara.Enable = true;
