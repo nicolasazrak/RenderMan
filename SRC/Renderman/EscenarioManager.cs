@@ -50,8 +50,6 @@ namespace AlumnoEjemplos.SRC.Renderman
         float vientoZ = 0.01F;
         float coefY = 0.01F;
 
-
-
         public TgcBoundingBox limites;
 
         public float tamanio = 5500, tamanioSkyBox = 5000;
@@ -87,6 +85,8 @@ namespace AlumnoEjemplos.SRC.Renderman
 
             limites = new TgcBoundingBox(new Vector3(-tamanio, 0, -tamanio), new Vector3(tamanio, 5000, tamanio));
 
+            GuiController.Instance.Modifiers.addInt("Viento en X", 0, 30, 5);
+            GuiController.Instance.Modifiers.addInt("Viento en Z", 0, 30, 5);
 
         }
 
@@ -254,6 +254,8 @@ namespace AlumnoEjemplos.SRC.Renderman
 
             
             efecto.SetValue("time", time);
+            vientoX = (float) ((int) GuiController.Instance.Modifiers["Viento en X"]) * 0.01f;
+            vientoZ = (float) ((int) GuiController.Instance.Modifiers["Viento en Z"]) * 0.01f;
             efecto.SetValue("vientoX", vientoX);
             efecto.SetValue("vientoZ", vientoZ);
             efecto.SetValue("coefY", coefY);

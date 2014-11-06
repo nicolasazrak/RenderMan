@@ -81,6 +81,7 @@ namespace AlumnoEjemplos.SRC.Renderman
             GuiController.Instance.Modifiers.addBoolean("huellas", "Mostrar huellas", true);
             GuiController.Instance.Modifiers.addBoolean("nieve", "Mostrar nieve", true);
 
+
             Device d3dDevice = GuiController.Instance.D3dDevice;
 
             juego = Juego.getInstance();
